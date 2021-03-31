@@ -1,0 +1,1 @@
+# Yeti is an app that empowers people to share ideas, opinions, and thoughts with others in their community
