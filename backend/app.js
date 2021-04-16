@@ -2,7 +2,7 @@
 
 const express = require("express");
 const cors = require("cors");
-
+const GeoLocator = require('./locater');
 const { NotFoundError } = require("./expressError");
 
 // const { authenticateJWT } = require("./middleware/auth");
@@ -25,6 +25,17 @@ app.use(morgan("tiny"));
 // app.use("/users", usersRoutes);
 // app.use("/jobs", jobsRoutes);
 
+app.get('/', (req, res, next) => {
+  async function getLocation() {
+    // const location = await GeoLocator.getLocation();
+    // return res.send(location);
+    let loc1 = '46.7352,-117.1729';
+    let loc2 = '50,-109';
+    const distance = GeoLocator.calculateDistance(loc1, loc2);
+    return res.send(`${distance} miles`);
+  }
+  getLocation();
+});
 
 /** Handle 404 errors -- this matches everything */
 app.use(function (req, res, next) {
