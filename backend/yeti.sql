@@ -1,41 +1,31 @@
-DROP DATABASE IF EXISTS yeti;
+\echo 'Delete and recreate yeti db?'
+\prompt 'Return for yes or control-C to cancel > ' foo
 
+DROP DATABASE IF EXISTS yeti;
 CREATE DATABASE yeti;
 
-CREATE TABLE Users (
-  id SERIAL PRIMARY KEY,
-  email TEXT NOT NULL,
-  username TEXT NOT NULL,
-  rating INT DEFAULT 0
-);
+\c yeti
+\i yeti-schema.sql;
 
-CREATE TABLE Posts (
-  id SERIAL PRIMARY KEY,
-  title TEXT NOT NULL,
-  body TEXT NOT NULL,
-  rating INT DEFAULT 0
-  location TEXT NOT NULL,
-  user_id INT REFERENCES Users ON DELETE CASCADE,
-);
+\echo 'Delete and recreate yeti_test db?'
+\prompt 'Return for yes or control-C to cancel > ' foo
 
-CREATE TABLE Comments (
-  id SERIAL PRIMARY KEY,
-  comment TEXT NOT NULL,
-  rating INT DEFAULT 0
-  user_id INT REFERENCES Users ON DELETE CASCADE,
-  post_id INT REFERENCES Posts ON DELETE CASCADE
-);
+DROP DATABASE IF EXISTS yeti_test;
+CREATE DATABASE yeti_test;
 
-CREATE TABLE Posts_Ratings (
-  id SERIAL PRIMARY KEY,
-  rating INT NOT NULL,
-  user_id INT REFERENCES Users ON DELETE CASCADE,
-  post_id INT REFERENCES Posts ON DELETE CASCADE
-);
+\c yeti_test
+\i yeti-schema.sql;
 
-CREATE TABLE Comments_Ratings (
-  id SERIAL PRIMARY KEY,
-  rating INT NOT NULL,
-  user_id INT REFERENCES Users ON DELETE CASCADE,
-  comment_id INT REFERENCES Comments ON DELETE CASCADE
-);
+INSERT INTO Users
+(email, username)
+VALUES
+('first@first.com', 'firstuser'),
+('second@test.com', 'secondguy');
+
+INSERT INTO Posts
+(title, body, latitude, longitude, user_id)
+VALUES 
+('First', 'First Post', 46.7352, -117.1729, 1),
+('Second', 'Second Post', 44.7352, -115.1729, 1),
+('Third', 'Third Post', 22.7352, -118.1729, 2),
+('Fourth', 'Fourth Post', 20.7352, -118.1729, 2);

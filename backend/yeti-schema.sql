@@ -1,0 +1,38 @@
+CREATE TABLE Users (
+  id SERIAL PRIMARY KEY,
+  email TEXT NOT NULL,
+  username TEXT NOT NULL,
+  rating INT DEFAULT 0
+);
+
+CREATE TABLE Posts (
+  id SERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  body TEXT NOT NULL,
+  rating INT DEFAULT 0,
+  latitude FLOAT NOT NULL,
+  longitude FLOAT NOT NULL,
+  user_id INT REFERENCES Users ON DELETE CASCADE
+);
+
+CREATE TABLE Comments (
+  id SERIAL PRIMARY KEY,
+  comment TEXT NOT NULL,
+  rating INT DEFAULT 0,
+  user_id INT REFERENCES Users ON DELETE CASCADE,
+  post_id INT REFERENCES Posts ON DELETE CASCADE
+);
+
+CREATE TABLE Posts_Ratings (
+  id SERIAL PRIMARY KEY,
+  rating INT NOT NULL,
+  user_id INT REFERENCES Users ON DELETE CASCADE,
+  post_id INT REFERENCES Posts ON DELETE CASCADE
+);
+
+CREATE TABLE Comments_Ratings (
+  id SERIAL PRIMARY KEY,
+  rating INT NOT NULL,
+  user_id INT REFERENCES Users ON DELETE CASCADE,
+  comment_id INT REFERENCES Comments ON DELETE CASCADE
+);
