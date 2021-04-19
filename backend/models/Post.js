@@ -2,7 +2,7 @@
 
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../expressError");
-const GeoLocator = require('../helpers/locater');
+const { calculateDistance } = require('../helpers/locater');
 
 class Post {
   /**
@@ -47,7 +47,7 @@ class Post {
     if (distance > 250) distance = 250;
 
     const posts = result.rows.filter((row) => {
-      const postDistance = GeoLocator.calculateDistance([latitude, longitude], [row.latitude, row.longitude]);
+      const postDistance = calculateDistance([latitude, longitude], [row.latitude, row.longitude]);
       if (postDistance < distance) return true;
       return false;
     });

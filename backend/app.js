@@ -1,14 +1,14 @@
 "use strict";
-
+// External Dependencies
 const express = require("express");
 const cors = require("cors");
+const morgan = require("morgan");
+// Internal Dependencies
 const { NotFoundError } = require("./expressError");
-
 const { authenticateJWT } = require("./middleware/auth");
+// Routes
 const authRoutes = require('./routes/auth');
 const postRoutes = require('./routes/posts');
-
-const morgan = require("morgan");
 
 const app = express();
 
