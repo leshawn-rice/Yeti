@@ -5,20 +5,21 @@ import '../styles/App.css';
 function App() {
   const [location, setLocation] = useState({});
   const [loading, setLoading] = useState(true);
+  const [errorThrown, setErrorThrown]
 
   useEffect(() => {
     const locate = async () => {
       try {
         // Serving over HTTPS, use window GeoLocation API
-        const location = await GeoLocator.getLocation();
-        setLocation(location);
+        const domLocation = await GeoLocator.getLocationDOM();
+        setLocation(domLocation);
         setLoading(false);
       }
       catch (err) {
         try {
           // Serving over HTTP, or disallow location, use less accurate ipinfo API
-          const newLocation = await GeoLocator.getLocationApi();
-          setLocation(newLocation);
+          const apiLocation = await GeoLocator.getLocationAPI();
+          setLocation(apiLocation);
           setLoading(false);
         }
         catch (e) {
