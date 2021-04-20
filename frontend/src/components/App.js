@@ -3,41 +3,47 @@ import GeoLocator from '../GeoLocater';
 import '../styles/App.css';
 
 function App() {
-  const [adError, setAdError] = useState(null);
-
+  const [location, setLocation] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const locate = async () => {
       try {
+        // Serving over HTTPS, use window GeoLocation API
         const location = await GeoLocator.getLocation();
-        console.log(location);
+        setLocation(location);
+        setLoading(false);
       }
       catch (err) {
-        setAdError(
-          <p>
-            Your adblocker is preventing Yeti from accessing your location!
-            <br />
-            Add Yeti to your whitelist or disable it on our site to use Yeti!
-          </p>
-        )
+        try {
+          // Serving over HTTP, or disallow location, use less accurate ipinfo API
+          const newLocation = await GeoLocator.getLocationApi();
+          setLocation(newLocation);
+          setLoading(false);
+        }
+        catch (e) {
+          console.warn('Error getting location data!')
+        }
       }
     }
     locate();
   }, [])
 
-  if (!adError) {
+  if (loading) {
     return (
       <div className="App">
-        <h1>Hello World</h1>
+        <h1>Loading...</h1>
       </div>
     );
   }
+
   else {
     return (
       <div className="App">
-        <h1>{adError}</h1>
+        <h1>Hello!</h1>
+        <p>Your latitude is: {location.latitude} and your longitude is: {location.longitude}</p>
       </div>
-    )
+    );
   }
 }
 
