@@ -2,4 +2,4 @@
 
 ## Issues:
 
-1. uBlock blocks users from having their IP accessed via the ipinfo API
+1. None ATM
