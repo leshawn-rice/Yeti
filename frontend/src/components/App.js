@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import Navbar from './Nav/Navbar';
 import Router from './Routes/Router';
@@ -6,10 +6,6 @@ import Router from './Routes/Router';
 import '../styles/App.css';
 
 function App() {
-  // const [location, setLocation] = useState({});
-  // const [loading, setLoading] = useState(true);
-  // const [errorThrown, setErrorThrown]
-
   // useEffect(() => {
   //   const locate = async () => {
   //     try {
@@ -33,15 +29,6 @@ function App() {
   //   locate();
   // }, [])
 
-  // if (loading) {
-  //   return (
-  //     <div className="App">
-  //       <h1>Loading...</h1>
-  //     </div>
-  //   );
-  // }
-
-  // else {
   return (
     <BrowserRouter>
       <Navbar />
@@ -50,7 +37,6 @@ function App() {
       </div>
     </BrowserRouter>
   );
-  // }
 }
 
 export default App;
