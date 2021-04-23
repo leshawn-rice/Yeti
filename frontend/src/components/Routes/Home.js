@@ -13,7 +13,11 @@ const Home = () => {
         : setMobileView(false);
     };
     setResponsiveness();
-    window.addEventListener("resize", () => setResponsiveness());
+    window.addEventListener('resize', setResponsiveness);
+    // cleanup function
+    return () => {
+      window.removeEventListener('resize', setResponsiveness);
+    }
   }, []);
 
   const displayMobile = () => {
