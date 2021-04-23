@@ -1,0 +1,24 @@
+.Navbar {
+  display: flex;
+  width: 100vw;
+  height: 5rem;
+  background-color: rgb(58, 58, 58);
+  color: white;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.Navbar a {
+  margin: 0 3rem;
+}
+
+.Navbar-Hamburger {
+  font-size: 3rem;
+}
+
+.Navbar-Mobile-Logo {
+  /* margin-left: auto; */
+  font-size: 3rem;
+  text-decoration: none;
+  color: white;
+}
