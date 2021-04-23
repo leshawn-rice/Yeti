@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - 15
+script:
+    - cd frontend
+    - npm run test
+    - npm run build
+    - cd ../backend
+    - npm run test
