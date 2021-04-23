@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faUser, faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import { NavLink } from 'react-router-dom';
 import Drawer from './Drawer';
 import '../../styles/Navbar.css';
 
+// TODO: check if logged in, and add necessary link to links
+
 const Navbar = () => {
   const [mobileView, setMobileView] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
   const links = [
     { name: 'Profile', url: '/profile' },
-    { name: 'Posts', url: '/posts' },
-    { name: 'Settings', url: '/settings' }
+    { name: 'Settings', url: '/settings' },
+    { name: 'Logout', url: '/sign-out' },
   ];
 
   useEffect(() => {
@@ -48,21 +51,43 @@ const Navbar = () => {
           className="Navbar-Hamburger"
           onClick={openDrawer}
         />
-        <NavLink className="Navbar-Mobile-Logo" exact to="/">Yeti</NavLink>
+        <NavLink className="Navbar-Logo" exact to="/">Yeti</NavLink>
       </>
     )
   }
 
   const displayDesktop = () => {
     return (
-      <h1>Thank you for desktop</h1>
+      <>
+        <NavLink className="Navbar-Logo" exact to="/">Yeti</NavLink>
+        <div className="Navbar-Links">
+          <NavLink exact to="/profile">
+            <FontAwesomeIcon
+              icon={faUser}
+              className="Navbar-Link"
+            />
+          </NavLink>
+          <NavLink exact to="/settings">
+            <FontAwesomeIcon
+              icon={faCog}
+              className="Navbar-Link"
+            />
+          </NavLink>
+          <NavLink exact to="/sign-out">
+            <FontAwesomeIcon
+              icon={faSignOutAlt}
+              className="Navbar-Link"
+            />
+          </NavLink>
+        </div>
+      </>
     )
   }
 
   return (
-    <div className="Navbar">
+    <nav className="Navbar">
       {mobileView ? displayMobile() : displayDesktop()}
-    </div>
+    </nav>
   )
 }
 

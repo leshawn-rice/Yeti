@@ -19,8 +19,8 @@ const Home = () => {
   const displayMobile = () => {
     return (
       <div className="Downloads">
-        <img className="Home-Download-Image" src={ios} />
-        <img className="Home-Download-Image" src={android} />
+        <img className="Home-Download-Image" src={ios} alt="Download on Apple App Store" />
+        <img className="Home-Download-Image" src={android} alt="Download on Google Play Store" />
       </div>
     )
   }
