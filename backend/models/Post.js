@@ -70,7 +70,7 @@ class Post {
       [id]
     );
 
-    if (result.rows.length === 0) throw new BadRequestError('No post found!');
+    if (result.rows.length === 0) throw new NotFoundError('Post Not Found');
     return result.rows[0];
   }
 
@@ -91,7 +91,7 @@ class Post {
       [id]
     );
 
-    if (userResult.rows.length === 0) throw BadRequestError('No user found!');
+    if (userResult.rows.length === 0) throw NotFoundError('User Not Found');
 
     const result = await db.query(
       `SELECT id, title, body, rating, latitude, longitude, user_id
@@ -100,7 +100,6 @@ class Post {
       [id]
     );
 
-    if (result.rows.length === 0) throw new BadRequestError('User has no posts!');
     return result.rows;
   }
 }

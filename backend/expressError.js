@@ -44,6 +44,14 @@ class ForbiddenError extends ExpressError {
   }
 }
 
+/** 500 INTERNAL SERVER error */
+
+class InternalServerError extends ExpressError {
+  constructor(message = "Internal Server Error") {
+    super(message, 500);
+  }
+}
+
 module.exports = {
   ExpressError,
   NotFoundError,

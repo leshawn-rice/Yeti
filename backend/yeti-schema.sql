@@ -2,7 +2,8 @@ CREATE TABLE Users (
   id SERIAL PRIMARY KEY,
   email TEXT NOT NULL,
   username TEXT NOT NULL,
-  rating INT DEFAULT 0
+  password NOT NULL,
+  rating INT NOT NULL DEFAULT 0
 );
 
 CREATE TABLE Posts (
