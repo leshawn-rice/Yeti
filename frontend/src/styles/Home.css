@@ -1,0 +1,9 @@
+.Home-Download-Image {
+  width: 20rem;
+  height: 10rem;
+}
+
+.Downloads {
+  display: flex;
+  justify-content: center;
+}

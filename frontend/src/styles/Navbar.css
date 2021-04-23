@@ -1,11 +1,12 @@
 .Navbar {
+  margin: 0;
   display: flex;
   width: 100vw;
   height: 5rem;
   background-color: rgb(58, 58, 58);
   color: white;
   align-items: center;
-  padding: 0 1rem;
+  padding: 0;
 }
 
 .Navbar a {
@@ -13,12 +14,12 @@
 }
 
 .Navbar-Hamburger {
-  font-size: 3rem;
+  margin-left: 1rem;
+  font-size: 2.5rem;
 }
 
 .Navbar-Mobile-Logo {
-  /* margin-left: auto; */
-  font-size: 3rem;
+  font-size: 2.5rem;
   text-decoration: none;
   color: white;
 }

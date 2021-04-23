@@ -16,13 +16,13 @@
   text-decoration: none;
   color: white;
   font-size: 2.5rem;
+  margin-top: 1rem !important;
 }
 
 .Drawer-Links {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 25%;
+  height: 40%;
 }
 
 .Drawer-Content {
@@ -34,7 +34,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content:center;
 }
 
 .Drawer-Page {
