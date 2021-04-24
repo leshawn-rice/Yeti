@@ -3,8 +3,6 @@ import Input from "./Input";
 import MessageArea from "./MessageArea";
 
 const Form = ({ inputs = [], messageAreas = [], INITIAL_DATA = {}, buttonLabel = null }) => {
-
-  console.log(inputs);
   const [formData, setFormData] = useState(INITIAL_DATA);
 
   const handleChange = (evt) => {
