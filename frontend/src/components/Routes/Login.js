@@ -1,9 +1,43 @@
+// External Dependencies
 import React from 'react';
-// import Form from '../Forms/Form';
+// Components
+import Form from '../Forms/Form';
+// Styles
+import '../../styles/Login.css';
 
 const Login = () => {
+  const INITIAL_DATA = {
+    email: '',
+    password: ''
+  }
+
+  const inputs = [
+    {
+      name: 'email',
+      label: 'Email',
+      placeholder: 'email@email.com',
+      type: 'email',
+      id: 'email',
+      required: true
+    },
+    {
+      name: 'password',
+      label: 'Password',
+      placeholder: 'password',
+      type: 'password',
+      id: 'password',
+      required: true
+    }
+  ];
+
   return (
-    <h1>Login</h1>
+    <div className="Login-Form">
+      <Form
+        inputs={inputs}
+        INITIAL_DATA={INITIAL_DATA}
+        buttonLabel={'Log In'}
+      />
+    </div>
   )
 }
 

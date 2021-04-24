@@ -1,8 +1,12 @@
+// External Dependencies
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faUser, faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faUser, faCog, faSignOutAlt, faSignInAlt, faUserPlus } from '@fortawesome/free-solid-svg-icons'
 import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+// Components
 import Drawer from './Drawer';
+// Styles
 import '../../styles/Navbar.css';
 
 // TODO: check if logged in, and add necessary link to links
@@ -10,12 +14,20 @@ import '../../styles/Navbar.css';
 const Navbar = () => {
   const [mobileView, setMobileView] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const user = useSelector(state => state.user);
 
   const links = [
-    { name: 'Profile', url: '/profile' },
-    { name: 'Settings', url: '/settings' },
-    { name: 'Logout', url: '/sign-out' },
+    { name: 'Profile', url: '/profile', icon: faUser },
+    { name: 'Settings', url: '/settings', icon: faCog }
   ];
+
+  if (user.username) {
+    links.push({ name: 'Logout', url: '/logout', icon: faSignOutAlt });
+  }
+  else {
+    links.push({ name: 'Sign Up', url: '/sign-up', icon: faUserPlus });
+    links.push({ name: 'Login', url: '/login', icon: faSignInAlt });
+  }
 
   useEffect(() => {
     const setResponsiveness = () => {
@@ -57,28 +69,21 @@ const Navbar = () => {
   }
 
   const displayDesktop = () => {
+    links.reverse()
     return (
       <>
         <NavLink className="Navbar-Logo" exact to="/">Yeti</NavLink>
         <div className="Navbar-Links">
-          <NavLink exact to="/profile">
-            <FontAwesomeIcon
-              icon={faUser}
-              className="Navbar-Link"
-            />
-          </NavLink>
-          <NavLink exact to="/settings">
-            <FontAwesomeIcon
-              icon={faCog}
-              className="Navbar-Link"
-            />
-          </NavLink>
-          <NavLink exact to="/sign-out">
-            <FontAwesomeIcon
-              icon={faSignOutAlt}
-              className="Navbar-Link"
-            />
-          </NavLink>
+          {links.map(link => (
+            <NavLink key={link.name} exact to={link.url} className="Navbar-Link">
+              {link.name === 'Login' || link.name === 'Sign Up' ? link.name : (
+                <FontAwesomeIcon
+                  icon={link.icon}
+                />
+              )}
+              {/* <span className="Navbar-Tooltip">{link.name}</span> */}
+            </NavLink>
+          ))}
         </div>
       </>
     )

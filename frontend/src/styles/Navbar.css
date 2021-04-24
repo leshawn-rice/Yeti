@@ -16,6 +16,7 @@
 
 .Navbar-Links {
   margin-left: auto;
+  margin-right: 1rem;
 }
 
 .Navbar-Link {
@@ -30,4 +31,19 @@
   font-size: 2.5rem;
   text-decoration: none;
   color: white;
+}
+
+.Navbar-Tooltip {
+  visibility: hidden;
+  width: 10rem;
+  color: white;
+  text-align: center;
+  font-size: 1.25rem;
+  position:inherit;
+  margin-left: 0.5rem;
+  font-weight: 500;
+}
+
+.Navbar-Link:hover .Navbar-Tooltip {
+  visibility: visible;
 }

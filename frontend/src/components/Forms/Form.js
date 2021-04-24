@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import Input from "./Input";
 import MessageArea from "./MessageArea";
 
-const Form = (inputs, messageAreas, INITIAL_DATA) => {
+const Form = ({ inputs = [], messageAreas = [], INITIAL_DATA = {}, buttonLabel = null }) => {
+
+  console.log(inputs);
   const [formData, setFormData] = useState(INITIAL_DATA);
 
   const handleChange = (evt) => {
@@ -29,6 +31,7 @@ const Form = (inputs, messageAreas, INITIAL_DATA) => {
           name={input.name}
           label={input.label}
           placeholder={input.placeholder}
+          required={input.required}
           value={formData[input.name]}
           handleChange={handleChange}
         />
@@ -44,6 +47,7 @@ const Form = (inputs, messageAreas, INITIAL_DATA) => {
           value={formData[messageArea.name]}
           handleChange={handleChange} />
       ))}
+      <button className="Form-Button">{buttonLabel}</button>
     </form>
   );
 

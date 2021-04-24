@@ -1,33 +1,21 @@
-import React from 'react';
+// External dependencies
+import React, { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+// Internal Dependencies
+import { checkLocalStorage } from '../redux/actionCreators';
+// Components
 import Navbar from './Nav/Navbar';
 import Router from './Routes/Router';
-// import GeoLocator from '../GeoLocater';
+// Styles
 import '../styles/App.css';
 
 function App() {
-  // useEffect(() => {
-  //   const locate = async () => {
-  //     try {
-  //       // Serving over HTTPS, use window GeoLocation API
-  //       const domLocation = await GeoLocator.getLocationDOM();
-  //       setLocation(domLocation);
-  //       setLoading(false);
-  //     }
-  //     catch (err) {
-  //       try {
-  //         // Serving over HTTP, or disallow location, use less accurate ipinfo API
-  //         const apiLocation = await GeoLocator.getLocationAPI();
-  //         setLocation(apiLocation);
-  //         setLoading(false);
-  //       }
-  //       catch (e) {
-  //         console.warn('Error getting location data!')
-  //       }
-  //     }
-  //   }
-  //   locate();
-  // }, [])
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkLocalStorage())
+  }, [dispatch]);
 
   return (
     <BrowserRouter>

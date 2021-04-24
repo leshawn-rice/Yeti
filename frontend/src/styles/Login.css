@@ -1,0 +1,68 @@
+.Login-Form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 80vh;
+  margin: 0;
+}
+
+.Login-Form .Form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+}
+
+.Login-Form .Input {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.Login-Form .Input-Label {
+  font-size: 2.5rem;
+  font-weight: 500;
+  color: rgb(58,58,58);
+  margin-bottom: 0.5rem;
+}
+
+.Login-Form .Input-Field {
+  height: 2.5rem;
+  font-size: 1.75rem;
+  border-radius: 0.5rem;
+  outline: none;
+  border: 0.1rem solid rgb(58,58,58);
+}
+
+.Login-Form .Form-Button {
+  width: 10rem;
+  padding: 1rem;
+  color: whitesmoke;
+  font-size: 1.75rem;
+  font-weight: 700;
+  border: none;
+  outline: none;
+  border-radius: 1rem;
+  background-color: rgb(58,58,58);
+}
+
+.Login-Form .Form-Button:active {
+  background: whitesmoke;
+  color: rgb(58,58,58);
+  -webkit-box-shadow: inset 0px 0px 5px rgb(58,58,58);
+     -moz-box-shadow: inset 0px 0px 5px rgb(58,58,58);
+          box-shadow: inset 0px 0px 5px rgb(58,58,58);
+   outline: none;
+}
+
+.Login-Form .Form-Button:focus {
+  background: whitesmoke;
+  color: rgb(58,58,58);
+  -webkit-box-shadow: inset 0px 0px 5px rgb(58,58,58);
+     -moz-box-shadow: inset 0px 0px 5px rgb(58,58,58);
+          box-shadow: inset 0px 0px 5px rgb(58,58,58);
+   outline: none;
+}
