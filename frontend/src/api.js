@@ -23,9 +23,21 @@ class YetiApi {
     try {
       return (await axios({ url, method, data, params, headers })).data;
     } catch (err) {
-      console.error("API Error:", err.response);
-      let message = err.response.data.error.message;
-      throw Array.isArray(message) ? message : [message];
+      let message;
+      let status;
+      let errorToThrow;
+      if (err.message === 'Network Error') {
+        message = err.message;
+        status = 500;
+        errorToThrow = [{ message, status }]
+      }
+      else {
+        message = err.response.data.error.message;
+        status = err.response.data.error.status;
+        errorToThrow = Array.isArray(message) ? message.map(msg => { return { message: msg, status } }) : [{ message, status }];
+      }
+      console.error("API Error:", message);
+      throw errorToThrow;
     }
   }
 

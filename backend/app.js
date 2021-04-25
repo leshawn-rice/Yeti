@@ -20,17 +20,6 @@ app.use(morgan("tiny"));
 app.use('/auth', authRoutes);
 app.use('/posts', postRoutes);
 
-// app.get('/', (req, res, next) => {
-//   async function getLocation() {
-//     let loc1 = '46.7352,-117.1729';
-//     let loc2 = '50,-109';
-//     // about 476 miles away
-//     const distance = GeoLocator.calculateDistance(loc1, loc2);
-//     return res.send(`${distance} miles`);
-//   }
-//   getLocation();
-// });
-
 /** Handle 404 errors -- this matches everything */
 app.use(function (req, res, next) {
   return next(new NotFoundError());

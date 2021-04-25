@@ -1,7 +1,7 @@
 CREATE TABLE Users (
   id SERIAL PRIMARY KEY,
-  email TEXT NOT NULL,
-  username TEXT NOT NULL,
+  email TEXT NOT NULL UNIQUE,
+  username TEXT NOT NULL UNIQUE,
   password TEXT NOT NULL,
   rating INT NOT NULL DEFAULT 0
 );

@@ -27,6 +27,15 @@ class User {
   }
 
   static async register(email, password) {
+
+    const emailExists = await db.query(
+      `SELECT email FROM Users
+      WHERE email=$1`,
+      [email]
+    );
+
+    if (emailExists.rows.length > 0) throw new BadRequestError('Email Taken')
+
     const takenUsernames = await db.query(
       `SELECT username FROM Users`
     );

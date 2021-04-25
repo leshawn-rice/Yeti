@@ -29,7 +29,7 @@ const Form = ({ inputs = [], messageAreas = [], INITIAL_DATA = {}, buttonLabel =
   return (
     <>
       {errorThrown ? (
-        errors.map(err => <Alert message={err.message} status={err.status} />)
+        errors.map(err => <Alert key={err.message} message={err.message} status={err.status} />)
       ) : null
       }
       <form className="Form" onSubmit={handleSubmit}>

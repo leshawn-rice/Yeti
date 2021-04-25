@@ -1,0 +1,45 @@
+.Alert {
+  position: relative;
+  display: flex;
+  justify-self: center;
+  text-align: center;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  width: 50%;
+  height: 4rem;
+  margin: 2rem 0;
+  border-radius: 1rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+  transition: opacity 1s;
+  padding: 1rem;
+}
+
+.Alert-Exit {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+}
+
+.Alert-Error {
+  background-color: tomato;
+  color: rgb(194, 0, 0);
+}
+
+.Alert-Warning {
+  background-color: rgb(253, 253, 99);
+  color: rgb(126, 126, 23);
+}
+
+.Alert-Success {
+  background-color: rgb(80, 233, 80);
+  color: green;
+}
+
+@media only screen and (max-width: 600px) {
+  .Alert {
+    width: 100%;
+  }
+}

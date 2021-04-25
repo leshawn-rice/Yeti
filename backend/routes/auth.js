@@ -5,7 +5,7 @@ const router = express.Router();
 router.post('/register', async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const user = User.register(email, password);
+    const user = await User.register(email, password);
     return res.json({ user });
   }
   catch (err) {

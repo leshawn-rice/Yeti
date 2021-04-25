@@ -46,9 +46,8 @@ const registerUserApi = (userData) => {
       // addUserToLocalStorage();
       dispatch(loginUser(user))
     }
-    catch (err) {
-      console.log(err);
-      dispatch(showErrors([err]))
+    catch (errs) {
+      dispatch(showErrors(errs))
     }
   }
 }
