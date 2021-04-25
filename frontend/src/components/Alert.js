@@ -17,7 +17,7 @@ const Alert = ({ message = '', status = 200 }) => {
 
   const closeAlert = (evt) => {
     setTimeout(() => {
-      evt.target.parentElement.remove(); // Removes the alert from the page
+      evt.target.parentElement.style.display = 'none'; // Pushes any following alerts into the current spot
     }, 1000);
     evt.target.parentElement.style.opacity = '0%'; // Begins the fade Animation
   }
