@@ -5,7 +5,7 @@ import Form from '../../Forms/Form';
 // Styles
 import '../../../styles/Auth.css';
 
-const Auth = ({ inputs = [], INITIAL_DATA = {}, buttonLabel = '', extraButton = {} }) => {
+const Auth = ({ inputs = [], INITIAL_DATA = {}, buttonLabel = '', extraButton = {}, handleSubmit }) => {
   return (
     <div className="Auth-Form">
       <Form
@@ -13,6 +13,7 @@ const Auth = ({ inputs = [], INITIAL_DATA = {}, buttonLabel = '', extraButton = 
         INITIAL_DATA={INITIAL_DATA}
         buttonLabel={buttonLabel}
         extraButton={extraButton}
+        submit={handleSubmit}
       />
     </div>
   )

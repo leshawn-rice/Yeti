@@ -1,4 +1,4 @@
-import { LOGIN_USER, SHOW_ERRORS } from './actionTypes';
+import { LOGIN_USER, SHOW_ERRORS, CLEAR_ERRORS } from './actionTypes';
 import YetiApi from '../api';
 // import GeoLocator from '../GeoLocater';
 // useEffect(() => {
@@ -73,4 +73,4 @@ const clearErrors = () => {
   }
 }
 
-export { checkLocalStorage, registerUserApi }
+export { checkLocalStorage, registerUserApi, showErrors }

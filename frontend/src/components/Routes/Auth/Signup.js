@@ -1,12 +1,18 @@
 // External Dependencies
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { registerUserApi, showErrors } from '../../../redux/actionCreators';
 // Components
 import Auth from './Auth';
 
 const Signup = () => {
+
+  const dispatch = useDispatch();
+
   const INITIAL_DATA = {
     email: '',
-    password: ''
+    password: '',
+    confirmPassword: ''
   }
 
   const inputs = [
@@ -27,7 +33,7 @@ const Signup = () => {
       required: true
     },
     {
-      name: 'confirm-password',
+      name: 'confirmPassword',
       label: 'Confirm Password',
       placeholder: 'confirm password',
       type: 'password',
@@ -35,11 +41,23 @@ const Signup = () => {
       required: true
     }
   ];
+
+  const handleSubmit = (formData) => {
+    if (formData.password === formData.confirmPassword) {
+      dispatch(registerUserApi(formData));
+    }
+    else {
+      dispatch(showErrors([{ message: 'Passwords must match', status: 400 }]))
+    }
+  }
+
+
   return (
     <Auth
       inputs={inputs}
       INITIAL_DATA={INITIAL_DATA}
       buttonLabel='Sign Up'
+      handleSubmit={handleSubmit}
     />
   )
 }

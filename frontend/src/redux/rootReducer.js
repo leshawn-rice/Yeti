@@ -1,4 +1,4 @@
-import { LOGIN_USER, SHOW_ERRORS } from './actionTypes';
+import { LOGIN_USER, SHOW_ERRORS, CLEAR_ERRORS } from './actionTypes';
 
 const INITIAL_STATE = {
   location: {},
@@ -24,6 +24,12 @@ const rootReducer = (state = INITIAL_STATE, action) => {
         ...state,
         errorThrown: true,
         errors: action.payload
+      }
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        errorThrown: false,
+        errors: []
       }
     default:
       return state
