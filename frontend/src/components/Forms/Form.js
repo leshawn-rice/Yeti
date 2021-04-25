@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Input from "./Input";
 import MessageArea from "./MessageArea";
+import { Link } from 'react-router-dom';
 
-const Form = ({ inputs = [], messageAreas = [], INITIAL_DATA = {}, buttonLabel = null }) => {
+const Form = ({ inputs = [], messageAreas = [], INITIAL_DATA = {}, buttonLabel = null, extraButton = {} }) => {
   const [formData, setFormData] = useState(INITIAL_DATA);
 
   const handleChange = (evt) => {
@@ -45,7 +46,12 @@ const Form = ({ inputs = [], messageAreas = [], INITIAL_DATA = {}, buttonLabel =
           value={formData[messageArea.name]}
           handleChange={handleChange} />
       ))}
-      <button className="Form-Button">{buttonLabel}</button>
+      <div className="Form-SubmitArea">
+        {extraButton.name ?
+          <Link className="Form-Button-Extra" to={extraButton.url}>{extraButton.name}</Link>
+          : null}
+        <button className="Form-Button">{buttonLabel}</button>
+      </div>
     </form>
   );
 

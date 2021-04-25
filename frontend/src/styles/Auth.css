@@ -1,4 +1,4 @@
-.Login-Form {
+.Auth-Form {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -7,39 +7,56 @@
   margin: 0;
 }
 
-.Login-Form .Form {
+.Auth-Form .Form {
+  background-color: white;
   display: flex;
+  width: 30%;
+  border-radius: 1rem;
   flex-direction: column;
   align-items: center;
   padding: 0;
+  box-shadow: 0 0 6px rgb(99, 96, 96);
 }
 
-.Login-Form .Input {
+.Auth-Form .Input {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 90%;
   text-align: center;
   margin: 1rem 0;
 }
 
-.Login-Form .Input-Label {
+.Auth-Form .Input-Label {
   font-size: 2.5rem;
   font-weight: 500;
   color: rgb(58,58,58);
   margin-bottom: 0.5rem;
 }
 
-.Login-Form .Input-Field {
+.Auth-Form .Input-Field {
   height: 2.5rem;
   font-size: 1.75rem;
   border-radius: 0.5rem;
   outline: none;
-  border: 0.1rem solid rgb(58,58,58);
+  border: none;
+  box-shadow: 0 0 3px black;
 }
 
-.Login-Form .Form-Button {
+.Auth-Form .Form-SubmitArea {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  height: 8rem;
+  background-color: rgba(211, 211, 211, 0.384);
+  border-radius: 0.25rem;
+}
+
+.Auth-Form .Form-Button {
   width: 10rem;
-  padding: 1rem;
+  height: 4rem;
+  margin: 1rem;
   color: whitesmoke;
   font-size: 1.75rem;
   font-weight: 700;
@@ -47,9 +64,31 @@
   outline: none;
   border-radius: 1rem;
   background-color: rgb(58,58,58);
+  cursor: pointer;
 }
 
-.Login-Form .Form-Button:active {
+.Auth-Form .Form-Button:only-child {
+  margin: 0 auto;
+}
+
+.Auth-Form .Form-Button-Extra {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10rem;
+  height: 4rem;
+  margin: 1rem;
+  background-color: white;
+  font-size: 1.75rem;
+  font-weight: 700;
+  border-radius: 1rem;
+  color: rgb(58,58,58);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+
+.Auth-Form .Form-Button:active {
   background: whitesmoke;
   color: rgb(58,58,58);
   -webkit-box-shadow: inset 0px 0px 5px rgb(58,58,58);
@@ -58,11 +97,17 @@
    outline: none;
 }
 
-.Login-Form .Form-Button:focus {
+.Auth-Form .Form-Button:focus {
   background: whitesmoke;
   color: rgb(58,58,58);
   -webkit-box-shadow: inset 0px 0px 5px rgb(58,58,58);
      -moz-box-shadow: inset 0px 0px 5px rgb(58,58,58);
           box-shadow: inset 0px 0px 5px rgb(58,58,58);
    outline: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .Auth-Form .Form {
+    width: 100%;
+  }
 }

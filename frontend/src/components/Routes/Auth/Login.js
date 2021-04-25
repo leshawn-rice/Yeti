@@ -1,9 +1,7 @@
 // External Dependencies
 import React from 'react';
 // Components
-import Form from '../Forms/Form';
-// Styles
-import '../../styles/Login.css';
+import Auth from './Auth';
 
 const Login = () => {
   const INITIAL_DATA = {
@@ -31,13 +29,12 @@ const Login = () => {
   ];
 
   return (
-    <div className="Login-Form">
-      <Form
-        inputs={inputs}
-        INITIAL_DATA={INITIAL_DATA}
-        buttonLabel={'Log In'}
-      />
-    </div>
+    <Auth
+      inputs={inputs}
+      INITIAL_DATA={INITIAL_DATA}
+      buttonLabel='Log In'
+      extraButton={{ name: 'Sign Up', url: 'sign-up' }}
+    />
   )
 }
 
