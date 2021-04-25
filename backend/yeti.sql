@@ -17,10 +17,10 @@ CREATE DATABASE yeti_test;
 \i yeti-schema.sql;
 
 INSERT INTO Users
-(email, username)
+(email, username, password)
 VALUES
-('first@first.com', 'firstuser'),
-('second@test.com', 'secondguy');
+('first@first.com', 'firstuser', 'testpassword'),
+('second@test.com', 'secondguy', 'testpassword');
 
 INSERT INTO Posts
 (title, body, latitude, longitude, user_id)

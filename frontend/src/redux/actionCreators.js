@@ -1,4 +1,5 @@
 import { LOGIN_USER, SHOW_ERRORS } from './actionTypes';
+import YetiApi from '../api';
 // import GeoLocator from '../GeoLocater';
 // useEffect(() => {
 //   const locate = async () => {
@@ -26,10 +27,27 @@ import { LOGIN_USER, SHOW_ERRORS } from './actionTypes';
 const checkLocalStorage = () => {
   return function (dispatch) {
     try {
+      dispatch(clearErrors())
       const user = localStorage.getItem('yeti-user-object');
       loginUser(user);
     }
     catch (err) {
+      dispatch(showErrors([err]))
+    }
+  }
+}
+
+const registerUserApi = (userData) => {
+  return async function (dispatch) {
+    try {
+      dispatch(clearErrors())
+      const user = await YetiApi.register(userData);
+      console.log(user);
+      // addUserToLocalStorage();
+      dispatch(loginUser(user))
+    }
+    catch (err) {
+      console.log(err);
       dispatch(showErrors([err]))
     }
   }
@@ -49,4 +67,10 @@ const showErrors = (errors) => {
   }
 }
 
-export { checkLocalStorage }
+const clearErrors = () => {
+  return {
+    type: CLEAR_ERRORS
+  }
+}
+
+export { checkLocalStorage, registerUserApi }

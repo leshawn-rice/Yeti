@@ -32,11 +32,13 @@ class User {
     );
 
     const username = generateUsername(takenUsernames.rows);
-    const hashedPassword = bcrypt.hash(password, BCRYPT_WORK_FACTOR);
+    const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
+
+    console.log(hashedPassword);
 
     const user = await db.query(
       `INSERT INTO Users
-      (email, username, passsword)
+      (email, username, password)
       VALUES
       ($1, $2, $3)
       RETURNING 

@@ -2,7 +2,7 @@ CREATE TABLE Users (
   id SERIAL PRIMARY KEY,
   email TEXT NOT NULL,
   username TEXT NOT NULL,
-  password NOT NULL,
+  password TEXT NOT NULL,
   rating INT NOT NULL DEFAULT 0
 );
 
