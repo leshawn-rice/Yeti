@@ -14,7 +14,8 @@ import '../../styles/Navbar.css';
 const Navbar = () => {
   const [mobileView, setMobileView] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const user = useSelector(state => state.user);
+  const user = useSelector(state => state.authReducer.user);
+
 
   const links = [
     { name: 'Profile', url: '/profile', icon: faUser },

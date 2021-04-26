@@ -6,7 +6,6 @@ import { registerUserApi, showErrors } from '../../../redux/actionCreators';
 import Auth from './Auth';
 
 const Signup = () => {
-
   const dispatch = useDispatch();
 
   const INITIAL_DATA = {

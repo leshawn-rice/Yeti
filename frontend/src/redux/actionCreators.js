@@ -29,11 +29,27 @@ const checkLocalStorage = () => {
     try {
       dispatch(clearErrors())
       const user = localStorage.getItem('yeti-user-object');
-      loginUser(user);
+      const token = localStorage.getItem('yeti-user-token');
+      if (!user || !token) return;
+      const parsedUser = JSON.parse(user);
+      const parsedToken = JSON.parse(token);
+      loginUser({ token: parsedToken, user: parsedUser });
     }
     catch (err) {
-      dispatch(showErrors([err]))
+      dispatch(showErrors([err]));
     }
+  }
+}
+
+const addToLocalStorage = ({ token, user }) => {
+  try {
+    const userJSON = JSON.stringify(user);
+    const tokenJSON = JSON.stringify(token);
+    localStorage.setItem('yeti-user-object', userJSON);
+    localStorage.setItem('yeti-user-token', tokenJSON);
+  }
+  catch (err) {
+    return err;
   }
 }
 
@@ -41,10 +57,9 @@ const registerUserApi = (userData) => {
   return async function (dispatch) {
     try {
       dispatch(clearErrors())
-      const user = await YetiApi.register(userData);
-      console.log(user);
-      // addUserToLocalStorage();
-      dispatch(loginUser(user))
+      const { token, user } = await YetiApi.register(userData);
+      dispatch(loginUser({ token, user }));
+      addToLocalStorage({ token, user })
     }
     catch (errs) {
       dispatch(showErrors(errs))
@@ -52,10 +67,10 @@ const registerUserApi = (userData) => {
   }
 }
 
-const loginUser = (user) => {
+const loginUser = (userData) => {
   return {
     type: LOGIN_USER,
-    payload: user
+    payload: userData
   }
 }
 
@@ -72,4 +87,4 @@ const clearErrors = () => {
   }
 }
 
-export { checkLocalStorage, registerUserApi, showErrors }
+export { checkLocalStorage, registerUserApi, showErrors, clearErrors }

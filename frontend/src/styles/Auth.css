@@ -55,41 +55,37 @@
 }
 
 .Auth-Form .Form-Button {
-  width: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 15rem;
   height: 4rem;
   margin: 1rem;
-  color: whitesmoke;
   font-size: 1.75rem;
   font-weight: 700;
   border: none;
   outline: none;
   border-radius: 1rem;
-  background-color: rgb(58,58,58);
   cursor: pointer;
+}
+
+.Auth-Form .Main-Button {
+  background-color: rgb(58,58,58);
+  color: whitesmoke;
 }
 
 .Auth-Form .Form-Button:only-child {
   margin: 0 auto;
 }
 
-.Auth-Form .Form-Button-Extra {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 10rem;
-  height: 4rem;
-  margin: 1rem;
+.Auth-Form .Extra-Button {
   background-color: white;
-  font-size: 1.75rem;
-  font-weight: 700;
-  border-radius: 1rem;
   color: rgb(58,58,58);
-  cursor: pointer;
   text-decoration: none;
 }
 
 
-.Auth-Form .Form-Button:active {
+.Auth-Form .Main-Button:active {
   background: whitesmoke;
   color: rgb(58,58,58);
   -webkit-box-shadow: inset 0px 0px 5px rgb(58,58,58);
@@ -98,7 +94,7 @@
    outline: none;
 }
 
-.Auth-Form .Form-Button:focus {
+.Auth-Form .Main-Button:focus {
   background: whitesmoke;
   color: rgb(58,58,58);
   -webkit-box-shadow: inset 0px 0px 5px rgb(58,58,58);

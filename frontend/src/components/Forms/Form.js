@@ -1,7 +1,9 @@
 // External Dependencies
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+// Internal Dependencies
+import { clearErrors } from "../../redux/actionCreators";
 // Components
 import Input from "./Input";
 import MessageArea from "./MessageArea";
@@ -9,8 +11,13 @@ import Alert from '../Alert';
 
 const Form = ({ inputs = [], messageAreas = [], INITIAL_DATA = {}, buttonLabel = null, extraButton = {}, submit }) => {
   const [formData, setFormData] = useState(INITIAL_DATA);
-  const errorThrown = useSelector(state => state.errorThrown);
-  const errors = useSelector(state => state.errors);
+  const errorThrown = useSelector(state => state.errorReducer.errorThrown);
+  const errors = useSelector(state => state.errorReducer.errors);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(clearErrors())
+  }, [dispatch])
 
   const handleChange = (evt) => {
     const { name, value } = evt.target;
@@ -59,9 +66,9 @@ const Form = ({ inputs = [], messageAreas = [], INITIAL_DATA = {}, buttonLabel =
         ))}
         <div className="Form-SubmitArea">
           {extraButton.name ?
-            <Link className="Form-Button-Extra" to={extraButton.url}>{extraButton.name}</Link>
+            <Link className="Form-Button Extra-Button" to={extraButton.url}>{extraButton.name}</Link>
             : null}
-          <button className="Form-Button">{buttonLabel}</button>
+          <button className="Form-Button Main-Button">{buttonLabel}</button>
         </div>
       </form>
     </>

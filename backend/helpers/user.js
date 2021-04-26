@@ -54,8 +54,8 @@ function checkIfUsernameTaken(username, usernames) {
 
 function generateUsername(usernames) {
   // file path is from root directory (dir that server.js is in)
-  const animals = readFile('./helpers/animals.txt').split('\n');
-  const mythicals = readFile('./helpers/mythical.txt').split('\n');
+  const animals = readFile('./helpers/text/animals.txt').split('\n');
+  const mythicals = readFile('./helpers/text/mythical.txt').split('\n');
 
   let usernameChosen = false;
   let username;
