@@ -1,7 +1,6 @@
 .Alert {
   position: relative;
   display: flex;
-  /* text-align: center; */
   justify-content: center;
   flex-direction: row;
   align-items: center;

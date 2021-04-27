@@ -1,0 +1,28 @@
+.Settings-Sidebar {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  left: 0;
+  top: 0;
+  left: -6%;
+  width: 40%;
+  height: 100vh;
+  background-color: rgb(58,58,58);
+  color: white;
+}
+
+.Settings-Sidebar-Header {
+  align-self: center;
+}
+
+.Settings-Sidebar-Content {
+  align-self: flex-start;
+  margin-left: 6%;
+  color: rgb(92, 92, 92);
+}
+
+.Settings-Sidebar-Content .active {
+  color: whitesmoke;
+  border-left: 5px solid blue;
+}
