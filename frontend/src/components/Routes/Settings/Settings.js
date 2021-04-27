@@ -1,14 +1,19 @@
 // External Dependencies
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
+// Internal Dependencies
+import { stopLoading } from '../../../redux/actionCreators';
 // Components
 import SettingsContent from './SettingsContent';
+import Loading from '../../Loading';
 // Styles
 import '../../../styles/Settings.css'
 
 const Settings = () => {
   const user = useSelector(state => state.authReducer.user);
+  const loading = useSelector(state => state.loadingReducer.isLoading);
+  const dispatch = useDispatch();
   const [active, setActive] = useState(null);
 
   useEffect(() => {
@@ -16,9 +21,14 @@ const Settings = () => {
       const activeElement = document.querySelector('.Settings-Sidebar-Option.active');
       setActive(activeElement);
     }
-  }, [active]);
+    dispatch(stopLoading());
+  }, [active, dispatch]);
 
   if (user.username === undefined) return <Redirect to="/" />
+
+  if (loading) {
+    return <Loading />
+  }
 
   const setActiveSetting = (evt) => {
     const target = evt.target

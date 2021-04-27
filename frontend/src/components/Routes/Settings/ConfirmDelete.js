@@ -1,11 +1,17 @@
 // External Dependencies
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+// Internal Dependencies
+import { deleteUserApi } from '../../../redux/actionCreators';
 // Components
 import Form from '../../Forms/Form';
 // Styles
 import '../../../styles/ConfirmDelete.css';
 
 const ConfirmDelete = () => {
+  const user = useSelector(state => state.authReducer.user);
+  const token = useSelector(state => state.authReducer.token);
+  const dispatch = useDispatch();
   const INITIAL_DATA = {
     reason: ''
   }
@@ -13,7 +19,7 @@ const ConfirmDelete = () => {
   const messages = [{ id: 'reason', name: 'reason', label: 'Reason For Deletion', placeholder: 'I don\'t like the app anymore' }]
 
   const handleSubmit = () => {
-    console.log('Submitted!')
+    dispatch(deleteUserApi(token, user.id));
   }
 
   return (

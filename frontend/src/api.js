@@ -43,8 +43,8 @@ class YetiApi {
 
   // Individual API routes
 
-  static async patchUser(token, username, userData) {
-    let res = await this.request(`users/${username}`, token, userData, 'patch');
+  static async patchUser(token, id, userData) {
+    let res = await this.request(`users/${id}`, token, userData, 'patch');
     return res.user;
   }
 
@@ -61,6 +61,11 @@ class YetiApi {
   static async confirmEmail(token) {
     let res = await this.request('auth/confirm-email', undefined, { emailToken: token }, 'post');
     return { token: res.token, user: res.user };
+  }
+
+  static async deleteUser(token, username) {
+    let res = await this.request(`users/${username}`, token, {}, 'delete');
+    return { message: res.message }
   }
 }
 

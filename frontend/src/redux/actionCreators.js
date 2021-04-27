@@ -2,12 +2,14 @@ import YetiApi from '../api';
 import GeoLocator from '../GeoLocater';
 import {
   LOGIN_USER,
+  LOGOUT_USER,
+  DELETE_USER,
   SHOW_ERRORS,
   CLEAR_ERRORS,
-  LOGOUT_USER,
   START_LOADING,
   STOP_LOADING,
-  SET_LOCATION
+  SET_LOCATION,
+  CLEAR_LOCATION
 } from './actionTypes';
 
 const getLocationApi = () => {
@@ -53,6 +55,22 @@ const loginUserApi = (userData) => {
       dispatch(clearErrors());
       const { token, user } = await YetiApi.login(userData);
       dispatch(loginUser({ token, user }));
+      dispatch(stopLoading());
+    }
+    catch (errs) {
+      dispatch(stopLoading());
+      dispatch(showErrors(errs));
+    }
+  }
+}
+
+const deleteUserApi = (token, id) => {
+  return async function (dispatch) {
+    try {
+      dispatch(startLoading());
+      dispatch(clearErrors());
+      const { message } = await YetiApi.deleteUser(token, id);
+      dispatch(logoutUser());
       dispatch(stopLoading());
     }
     catch (errs) {
@@ -110,6 +128,7 @@ const clearErrors = () => {
 export {
   getLocationApi,
   registerUserApi,
+  deleteUserApi,
   loginUserApi,
   showErrors,
   clearErrors,

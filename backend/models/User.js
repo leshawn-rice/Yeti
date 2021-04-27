@@ -10,7 +10,7 @@ const { NotFoundError, BadRequestError } = require('../expressError');
 class User {
   static async authenticate(email, password) {
     const user = await db.query(
-      `SELECT email, username, password, rating, confirmed 
+      `SELECT id, email, username, password, rating, confirmed 
       FROM Users 
       WHERE email=$1`,
       [email]
@@ -55,7 +55,7 @@ class User {
       VALUES
       ($1, $2, $3)
       RETURNING 
-      email, username, rating, confirmed`,
+      id, email, username, rating, confirmed`,
       [email, username, hashedPassword]
     );
 
@@ -69,7 +69,7 @@ class User {
       `UPDATE Users
       SET confirmed=TRUE
       WHERE email=$1
-      RETURNING email, username, rating, confirmed`,
+      RETURNING id, email, username, rating, confirmed`,
       [payload.email]
     );
 
@@ -78,7 +78,15 @@ class User {
     return user.rows[0];
   }
 
+  static async delete(username) {
+    await db.query(
+      `DELETE FROM Users
+      WHERE username=$1`,
+      [username]
+    );
 
+    return { message: 'User Deleted' }
+  }
 
 }
 
