@@ -107,4 +107,4 @@ const clearErrors = () => {
   }
 }
 
-export { getLocationApi, registerUserApi, loginUserApi, showErrors, clearErrors, logoutUser, stopLoading }
+export { getLocationApi, registerUserApi, loginUserApi, showErrors, clearErrors, logoutUser, stopLoading, loginUser }

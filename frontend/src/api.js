@@ -59,8 +59,6 @@ class YetiApi {
   }
 
   static async confirmEmail(token) {
-    console.log(token);
-    console.log({ token });
     let res = await this.request('auth/confirm-email', undefined, { emailToken: token }, 'post');
     return { token: res.token, user: res.user };
   }
