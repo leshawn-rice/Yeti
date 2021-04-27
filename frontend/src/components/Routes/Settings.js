@@ -30,7 +30,7 @@ const Settings = () => {
           ) : null}
           <h2 className="Settings-Sidebar-Option">Contact</h2>
           <h2 className="Settings-Sidebar-Option">About</h2>
-          <h2 className="Settings-Sidebar-Option">Delete Account</h2>
+          <h2 className="Settings-Sidebar-Option" id="settings-delete-option">Delete Account</h2>
         </div>
       </div>
       <div className="Settings-Content">
