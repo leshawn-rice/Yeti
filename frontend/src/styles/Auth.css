@@ -109,4 +109,7 @@
   .Auth-Form .Form {
     width: 100%;
   }
+  .Auth-Form .Input-Field {
+    border: solid 1px black;
+  }
 }
