@@ -40,8 +40,9 @@
   border-radius: 0.5rem;
   outline: none;
   border: none;
-  box-shadow: 0 0 3px black;
   -webkit-box-shadow: 0 0 3px black;
+    -moz-box-shadow: 0 0 3px black;
+      box-shadow: 0 0 3px black;
 }
 
 .Auth-Form .Form-SubmitArea {
@@ -108,9 +109,4 @@
   .Auth-Form .Form {
     width: 100%;
   }
-
-  /* .Auth-Form .Input-Field {
-    
-    -webkit-box-shadow: 0 0 3px black;
-  } */
 }
