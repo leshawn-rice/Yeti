@@ -4,6 +4,10 @@
   margin-right: 5%;
   width: 90%;
   color: rgb(58,58,58);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .Loading-Icon {
@@ -17,4 +21,13 @@
   .Loading-Icon {
     left: 45%;
   }
+}
+
+.Email-Confirmation-Link {
+  text-decoration: none;
+  color: rgb(58,58,58);
+}
+
+.Email-Confirmation-Link:hover {
+  color: white;
 }

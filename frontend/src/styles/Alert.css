@@ -1,8 +1,7 @@
 .Alert {
   position: relative;
   display: flex;
-  justify-self: center;
-  text-align: center;
+  /* text-align: center; */
   justify-content: center;
   flex-direction: row;
   align-items: center;
@@ -21,6 +20,10 @@
   top: 1rem;
   right: 1rem;
   cursor: pointer;
+}
+
+.Alert-Exit:hover {
+  color: black;
 }
 
 .Alert-Error {

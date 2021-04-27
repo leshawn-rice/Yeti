@@ -36,9 +36,9 @@ const Home = () => {
   }
 
   return (
-    <>
+    <div className="Home">
       { mobileView ? displayMobile() : displayDesktop()}
-    </>
+    </div>
   )
 }
 
