@@ -3,7 +3,7 @@ import Home from './Home';
 import Login from './Auth/Login';
 import Signup from './Auth/Signup';
 import Logout from './Auth/Logout';
-import Settings from './Settings';
+import Settings from './Settings/Settings';
 import ConfirmEmail from './ConfirmEmail';
 
 const Router = () => {

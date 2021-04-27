@@ -1,0 +1,40 @@
+.Delete-Confirmation .Form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  left: 6%;
+  right: 6%;
+  width: 88%;
+}
+
+.Delete-Confirmation .MessageArea-Label {
+  width: 100%;
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.Delete-Confirmation .MessageArea-Field {
+  width: 100%;
+  height: 10rem;
+}
+
+.Delete-Confirmation .Form-Button {
+  background-color: whitesmoke;
+  width: 15rem;
+  height: 4rem;
+  border-radius: 1rem;
+  color: rgb(255, 82, 82);
+  border: none;
+  outline: none;
+  box-shadow: 0 0 3px red;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin: 1rem 0;
+}
+
+.Delete-Confirmation .Form-Button:hover {
+  background-color: rgb(255, 82, 82);
+  color: whitesmoke;
+}

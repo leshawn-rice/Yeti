@@ -1,0 +1,14 @@
+.Modal {
+  position: fixed;
+  top: 10%;
+  left: 10%;
+  width: 75vw;
+  height: 75vh;
+  background-color: whitesmoke;
+  border-radius: 1rem;
+  box-shadow: 0 0 3px rgb(58,58,58);
+}
+
+.Modal-Title {
+  font-size: 3rem;
+}

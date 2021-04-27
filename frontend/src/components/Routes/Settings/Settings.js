@@ -1,22 +1,36 @@
 // External Dependencies
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
+// Components
+import SettingsContent from './SettingsContent';
 // Styles
-import '../../styles/Settings.css'
+import '../../../styles/Settings.css'
 
 const Settings = () => {
   const user = useSelector(state => state.authReducer.user);
+  const [active, setActive] = useState(null);
+
+  useEffect(() => {
+    if (!active) {
+      const activeElement = document.querySelector('.Settings-Sidebar-Option.active');
+      setActive(activeElement);
+    }
+  }, [active]);
 
   if (user.username === undefined) return <Redirect to="/" />
 
   const setActiveSetting = (evt) => {
     const target = evt.target
-    // remove the active class from all setting options
-    for (let sibling of target.parentElement.children) {
-      sibling.classList.remove('active');
+    // Prevent changing active element to random whitespace
+    if (target.classList.contains('Settings-Sidebar-Option')) {
+      // remove the active class from all setting options
+      for (let sibling of target.parentElement.children) {
+        sibling.classList.remove('active');
+      }
+      target.classList.add('active');
+      setActive(target);
     }
-    target.classList.add('active');
   }
 
   return (
@@ -34,7 +48,7 @@ const Settings = () => {
         </div>
       </div>
       <div className="Settings-Content">
-
+        {active ? <SettingsContent current={active.innerText} /> : null}
       </div>
     </div>
   )
