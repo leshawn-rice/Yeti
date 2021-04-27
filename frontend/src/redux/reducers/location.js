@@ -1,4 +1,4 @@
-import { GET_LOCATION, CLEAR_LOCATION } from '../actionTypes';
+import { SET_LOCATION, CLEAR_LOCATION } from '../actionTypes';
 
 const INITIAL_STATE = {
   location: {}
@@ -6,7 +6,7 @@ const INITIAL_STATE = {
 
 const locationReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case GET_LOCATION:
+    case SET_LOCATION:
       return {
         ...state,
         location: action.payload
