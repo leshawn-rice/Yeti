@@ -10,20 +10,27 @@ const Settings = () => {
 
   if (user.username === undefined) return <Redirect to="/" />
 
+  const setActiveSetting = (evt) => {
+    const target = evt.target
+    // remove the active class from all setting options
+    for (let sibling of target.parentElement.children) {
+      sibling.classList.remove('active');
+    }
+    target.classList.add('active');
+  }
+
   return (
-    // <>
-    //   <h1>Delete Account</h1>
-    //   <h1>Verify Email</h1>
-    // </>
     <div className="Settings">
       <div className="Settings-Sidebar">
         <h1 className="Settings-Sidebar-Header">Settings</h1>
-        <div className="Settings-Sidebar-Content">
-          <h2 className="active">General</h2>
-          <h2>General</h2>
-          <h2>Contact</h2>
-          <h2>About</h2>
-          <h2>Delete Account</h2>
+        <div className="Settings-Sidebar-Content" onClick={setActiveSetting}>
+          <h2 className="Settings-Sidebar-Option active">General</h2>
+          {!user.confirmed ? (
+            <h2 className="Settings-Sidebar-Option">Verify Email</h2>
+          ) : null}
+          <h2 className="Settings-Sidebar-Option">Contact</h2>
+          <h2 className="Settings-Sidebar-Option">About</h2>
+          <h2 className="Settings-Sidebar-Option">Delete Account</h2>
         </div>
       </div>
       <div className="Settings-Content">

@@ -12,6 +12,7 @@
   font-weight: 500;
   transition: opacity 1s;
   padding: 1rem;
+  z-index: 9999;
 }
 
 .Alert-Exit {
