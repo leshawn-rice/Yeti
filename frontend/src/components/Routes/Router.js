@@ -2,6 +2,7 @@ import { Switch, Route } from 'react-router-dom';
 import Home from './Home';
 import Login from './Auth/Login';
 import Signup from './Auth/Signup';
+import Logout from './Auth/Logout';
 
 const Router = () => {
   return (
@@ -14,6 +15,9 @@ const Router = () => {
       </Route>
       <Route exact path="/sign-up">
         <Signup />
+      </Route>
+      <Route exact path="/log-out">
+        <Logout />
       </Route>
     </Switch>
   );

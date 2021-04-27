@@ -10,16 +10,18 @@ const { NotFoundError, BadRequestError } = require('../expressError');
 class User {
   static async authenticate(email, password) {
     const user = await db.query(
-      `SELECT email, password FROM Users WHERE email=$1`,
+      `SELECT email, username, password, rating FROM Users WHERE email=$1`,
       [email]
     );
 
-    if (!userExists.rows[0]) throw new NotFoundError('User Not Found');
+    if (!user.rows[0]) throw new NotFoundError('User Not Found');
 
     const hashedPassword = user.rows[0].password;
 
-    if (bcrypt.compare(password, hashedPassword)) {
-      return user.rows[0];
+    if (await bcrypt.compare(password, hashedPassword)) {
+      const userToReturn = user.rows[0];
+      delete userToReturn.password;
+      return userToReturn;
     }
     else {
       throw new BadRequestError('Invalid Email/Password!');

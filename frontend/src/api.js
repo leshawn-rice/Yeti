@@ -49,8 +49,8 @@ class YetiApi {
   }
 
   static async login(loginData) {
-    let res = await this.request('auth/token', undefined, loginData, 'post');
-    return res.token;
+    let res = await this.request('auth/login', undefined, loginData, 'post');
+    return { token: res.token, user: res.user };
   }
 
   static async register(registerData) {

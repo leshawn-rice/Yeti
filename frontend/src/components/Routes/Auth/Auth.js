@@ -1,11 +1,32 @@
 // External Dependencies
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Redirect } from 'react-router';
+// Internal Dependencies
+import { stopLoading } from '../../../redux/actionCreators';
 // Components
 import Form from '../../Forms/Form';
+import Loading from '../../Loading';
 // Styles
 import '../../../styles/Auth.css';
 
 const Auth = ({ inputs = [], INITIAL_DATA = {}, buttonLabel = '', extraButton = {}, handleSubmit }) => {
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.authReducer.user);
+  const loading = useSelector(state => state.loadingReducer.isLoading);
+
+  useEffect(() => {
+    dispatch(stopLoading());
+  }, [dispatch])
+
+  if (user.username !== undefined) {
+    return <Redirect to="/" />
+  }
+
+  if (loading) {
+    return <Loading />
+  }
+
   return (
     <div className="Auth-Form">
       <Form

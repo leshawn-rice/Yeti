@@ -23,7 +23,7 @@ const Navbar = () => {
   ];
 
   if (user.username) {
-    links.push({ name: 'Logout', url: '/logout', icon: faSignOutAlt });
+    links.push({ name: 'Logout', url: '/log-out', icon: faSignOutAlt });
   }
   else {
     links.push({ name: 'Sign Up', url: '/sign-up', icon: faUserPlus });

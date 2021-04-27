@@ -50,7 +50,6 @@ const Signup = () => {
     }
   }
 
-
   return (
     <Auth
       inputs={inputs}

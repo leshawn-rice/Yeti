@@ -4,3 +4,17 @@
   margin-right: 5%;
   width: 90%;
 }
+
+.Loading-Icon {
+  position: absolute;
+  top: 35vh;
+  left: 50%;
+  color: black;
+  font-size: 5rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .Loading-Icon {
+    left: 45%;
+  }
+}
