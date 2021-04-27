@@ -1,8 +1,12 @@
+// External Dependencies
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useLocation } from 'react-router';
-import YetiApi from '../../api';
+// Internal Dependencies
 import { loginUser } from '../../redux/actionCreators';
+import YetiApi from '../../api';
+// Styles
+import '../../styles/ConfirmEmail.css';
 
 const ConfirmEmail = () => {
   const user = useSelector(state => state.authReducer.user);
@@ -22,7 +26,10 @@ const ConfirmEmail = () => {
   if (user.confirmed === true) return <Redirect to="/" />
 
   return (
-    <button onClick={confirm}>Click To Confirm Your Email!</button>
+    <div className="Email-Confirmation">
+      <h1>Confirm your email {user.username}!</h1>
+      <button className="Confirm-Button" onClick={confirm}>Confirm!</button>
+    </div>
   )
 }
 

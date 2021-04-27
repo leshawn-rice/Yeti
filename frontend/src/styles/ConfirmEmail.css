@@ -1,0 +1,42 @@
+.Email-Confirmation {
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.Email-Confirmation .Confirm-Button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  outline: none;
+  width: 15rem;
+  height: 4rem;
+  margin: 1rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  border-radius: 1rem;
+  cursor: pointer;
+  background-color: rgb(58,58,58);
+  color: whitesmoke;
+}
+
+.Email-Confirmation .Confirm-Button:active {
+  background: whitesmoke;
+  color: rgb(58,58,58);
+  -webkit-box-shadow: inset 0px 0px 5px rgb(58,58,58);
+     -moz-box-shadow: inset 0px 0px 5px rgb(58,58,58);
+          box-shadow: inset 0px 0px 5px rgb(58,58,58);
+   outline: none;
+}
+
+.Email-Confirmation .Confirm-Button:focus {
+  background: whitesmoke;
+  color: rgb(58,58,58);
+  -webkit-box-shadow: inset 0px 0px 5px rgb(58,58,58);
+     -moz-box-shadow: inset 0px 0px 5px rgb(58,58,58);
+          box-shadow: inset 0px 0px 5px rgb(58,58,58);
+   outline: none;
+}

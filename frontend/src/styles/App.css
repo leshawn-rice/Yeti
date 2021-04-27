@@ -3,13 +3,13 @@
   margin-left: 5%;
   margin-right: 5%;
   width: 90%;
+  color: rgb(58,58,58);
 }
 
 .Loading-Icon {
   position: absolute;
   top: 35vh;
   left: 50%;
-  color: black;
   font-size: 5rem;
 }
 
