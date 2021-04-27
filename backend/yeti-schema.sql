@@ -3,7 +3,8 @@ CREATE TABLE Users (
   email TEXT NOT NULL UNIQUE,
   username TEXT NOT NULL UNIQUE,
   password TEXT NOT NULL,
-  rating INT NOT NULL DEFAULT 0
+  rating INT NOT NULL DEFAULT 0,
+  confirmed BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE Posts (

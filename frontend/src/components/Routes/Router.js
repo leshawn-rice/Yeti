@@ -3,6 +3,8 @@ import Home from './Home';
 import Login from './Auth/Login';
 import Signup from './Auth/Signup';
 import Logout from './Auth/Logout';
+import Settings from './Settings';
+import ConfirmEmail from './ConfirmEmail';
 
 const Router = () => {
   return (
@@ -18,6 +20,12 @@ const Router = () => {
       </Route>
       <Route exact path="/log-out">
         <Logout />
+      </Route>
+      <Route exact path="/settings">
+        <Settings />
+      </Route>
+      <Route exact path="/confirm/:token">
+        <ConfirmEmail />
       </Route>
     </Switch>
   );

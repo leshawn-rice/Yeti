@@ -38,6 +38,7 @@ const Navbar = () => {
     };
     setResponsiveness();
     window.addEventListener("resize", () => setResponsiveness());
+    return () => { window.removeEventListener('resize', () => setResponsiveness()) }
   }, []);
 
   const displayMobile = () => {

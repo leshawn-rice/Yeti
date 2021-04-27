@@ -10,31 +10,6 @@ import {
   SET_LOCATION
 } from './actionTypes';
 
-
-
-// useEffect(() => {
-//   const locate = async () => {
-//     try {
-//       // Serving over HTTPS, use window GeoLocation API
-//       const domLocation = await GeoLocator.getLocationDOM();
-//       setLocation(domLocation);
-//       setLoading(false);
-//     }
-//     catch (err) {
-//       try {
-//         // Serving over HTTP, or disallow location, use less accurate ipinfo API
-//         const apiLocation = await GeoLocator.getLocationAPI();
-//         setLocation(apiLocation);
-//         setLoading(false);
-//       }
-//       catch (e) {
-//         console.warn('Error getting location data!')
-//       }
-//     }
-//   }
-//   locate();
-// }, [])
-
 const getLocationApi = () => {
   return async function (dispatch) {
     try {

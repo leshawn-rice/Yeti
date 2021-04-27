@@ -3,7 +3,7 @@ const { SECRET_KEY } = require('../config');
 
 /** return signed JWT from user data. */
 
-function createToken(user) {
+function createUserToken(user) {
   let payload = {
     username: user.username,
     email: user.email,
@@ -13,4 +13,17 @@ function createToken(user) {
   return jwt.sign(payload, SECRET_KEY);
 }
 
-module.exports = { createToken };
+function createEmailToken(email) {
+  let payload = {
+    email
+  };
+
+  return jwt.sign(payload, SECRET_KEY);
+}
+
+function decodeToken(token) {
+  let decoded = jwt.decode(token, SECRET_KEY);
+  return decoded;
+}
+
+module.exports = { createUserToken, createEmailToken, decodeToken };

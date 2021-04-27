@@ -10,7 +10,9 @@ const { NotFoundError, BadRequestError } = require('../expressError');
 class User {
   static async authenticate(email, password) {
     const user = await db.query(
-      `SELECT email, username, password, rating FROM Users WHERE email=$1`,
+      `SELECT email, username, password, rating, confirmed 
+      FROM Users 
+      WHERE email=$1`,
       [email]
     );
 
@@ -53,11 +55,25 @@ class User {
       VALUES
       ($1, $2, $3)
       RETURNING 
-      email, username, rating`,
+      email, username, rating, confirmed`,
       [email, username, hashedPassword]
     );
 
     if (!user.rows[0]) throw new BadRequestError();
+
+    return user.rows[0];
+  }
+
+  static async confirmEmail(payload) {
+    const user = await db.query(
+      `UPDATE Users
+      SET confirmed=TRUE
+      WHERE email=$1
+      RETURNING email, username, rating, confirmed`,
+      [payload.email]
+    );
+
+    if (!user.rows[0]) throw new BadRequestError('User does not exist!');
 
     return user.rows[0];
   }

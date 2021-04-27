@@ -57,6 +57,13 @@ class YetiApi {
     let res = await this.request('auth/register', undefined, registerData, 'post');
     return { token: res.token, user: res.user };
   }
+
+  static async confirmEmail(token) {
+    console.log(token);
+    console.log({ token });
+    let res = await this.request('auth/confirm-email', undefined, { emailToken: token }, 'post');
+    return { token: res.token, user: res.user };
+  }
 }
 
 
