@@ -1,12 +1,16 @@
 // External Dependencies
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { registerUserApi, showErrors } from '../../../redux/actionCreators';
+import { registerUserApi, showErrors, clearErrors } from '../../../redux/actionCreators';
 // Components
 import Auth from './Auth';
 
 const Signup = () => {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => { dispatch(clearErrors()) }
+  }, [dispatch])
 
   const INITIAL_DATA = {
     email: '',

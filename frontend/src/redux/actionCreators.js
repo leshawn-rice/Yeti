@@ -50,12 +50,15 @@ const registerUserApi = (userData) => {
 const loginUserApi = (userData) => {
   return async function (dispatch) {
     try {
-      dispatch(clearErrors())
+      dispatch(startLoading());
+      dispatch(clearErrors());
       const { token, user } = await YetiApi.login(userData);
       dispatch(loginUser({ token, user }));
+      dispatch(stopLoading());
     }
     catch (errs) {
-      dispatch(showErrors(errs))
+      dispatch(stopLoading());
+      dispatch(showErrors(errs));
     }
   }
 }
