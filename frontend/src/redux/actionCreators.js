@@ -64,12 +64,12 @@ const loginUserApi = (userData) => {
   }
 }
 
-const deleteUserApi = (token, id) => {
+const deleteUserApi = (token, username) => {
   return async function (dispatch) {
     try {
       dispatch(startLoading());
       dispatch(clearErrors());
-      const { message } = await YetiApi.deleteUser(token, id);
+      const { message } = await YetiApi.deleteUser(token, username);
       dispatch(logoutUser());
       dispatch(stopLoading());
     }

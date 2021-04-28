@@ -24,17 +24,35 @@
   width: 15rem;
   height: 4rem;
   border-radius: 1rem;
-  color: rgb(255, 82, 82);
   border: none;
   outline: none;
-  box-shadow: 0 0 3px red;
   cursor: pointer;
   font-weight: 700;
   font-size: 1.5rem;
   margin: 1rem 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
-.Delete-Confirmation .Form-Button:hover {
+.Delete-Confirmation .Main-Button {
+  box-shadow: 0 0 3px red;
+  color: rgb(255, 82, 82);
+}
+
+.Delete-Confirmation .Extra-Button {
+  box-shadow: 0 0 3px rgb(58,58,58);
+  color: rgb(58,58,58);
+  text-decoration: none;
+}
+
+.Delete-Confirmation .Main-Button:hover {
   background-color: rgb(255, 82, 82);
+  color: whitesmoke;
+}
+
+.Delete-Confirmation .Extra-Button:hover {
+  background-color: rgb(58,58,58);
   color: whitesmoke;
 }

@@ -7,7 +7,7 @@ import Input from "./Input";
 import MessageArea from "./MessageArea";
 import Alert from '../Alert';
 
-const Form = ({ inputs = [], messageAreas = [], INITIAL_DATA = {}, buttonLabel = null, extraButton = {}, submit }) => {
+const Form = ({ inputs = [], messageAreas = [], INITIAL_DATA = {}, buttonLabel = null, extraButton = {}, extraButtonOnClick, submit }) => {
   const [formData, setFormData] = useState(INITIAL_DATA);
   const errorThrown = useSelector(state => state.errorReducer.errorThrown);
   const errors = useSelector(state => state.errorReducer.errors);
@@ -59,7 +59,7 @@ const Form = ({ inputs = [], messageAreas = [], INITIAL_DATA = {}, buttonLabel =
         ))}
         <div className="Form-SubmitArea">
           {extraButton.name ?
-            <Link className="Form-Button Extra-Button" to={extraButton.url}>{extraButton.name}</Link>
+            <Link onClick={extraButtonOnClick} className="Form-Button Extra-Button" to={extraButton.url}>{extraButton.name}</Link>
             : null}
           <button className="Form-Button Main-Button">{buttonLabel}</button>
         </div>

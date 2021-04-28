@@ -9,25 +9,22 @@ import Drawer from './Drawer';
 // Styles
 import '../../styles/Navbar.css';
 
-// TODO: check if logged in, and add necessary link to links
-
 const Navbar = () => {
   const [mobileView, setMobileView] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const user = useSelector(state => state.authReducer.user);
 
 
-  const links = [
-    { name: 'Profile', url: '/profile', icon: faUser },
-    { name: 'Settings', url: '/settings', icon: faCog }
-  ];
+  const links = [];
 
   if (user.username) {
+    links.push({ name: 'Profile', url: '/profile', icon: faUser });
+    links.push({ name: 'Settings', url: '/settings', icon: faCog });
     links.push({ name: 'Logout', url: '/log-out', icon: faSignOutAlt });
   }
   else {
-    links.push({ name: 'Sign Up', url: '/sign-up', icon: faUserPlus });
     links.push({ name: 'Login', url: '/login', icon: faSignInAlt });
+    links.push({ name: 'Sign Up', url: '/sign-up', icon: faUserPlus });
   }
 
   useEffect(() => {
@@ -71,7 +68,6 @@ const Navbar = () => {
   }
 
   const displayDesktop = () => {
-    links.reverse()
     return (
       <>
         <NavLink className="Navbar-Logo" exact to="/">Yeti</NavLink>
