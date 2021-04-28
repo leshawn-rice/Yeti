@@ -58,6 +58,11 @@ class YetiApi {
     return { token: res.token, user: res.user };
   }
 
+  static async resendConfirmation(email) {
+    let res = await this.request('auth/resend-confirmation-email', undefined, { email }, 'post');
+    return { message: res.message };
+  }
+
   static async confirmEmail(token) {
     let res = await this.request('auth/confirm-email', undefined, { emailToken: token }, 'post');
     return { token: res.token, user: res.user };

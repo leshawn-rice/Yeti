@@ -1,0 +1,26 @@
+.About {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem 2rem;
+}
+
+.About-Header {
+  font-weight: 400;
+  font-size: 3rem;
+}
+
+.About-Body {
+  font-size: 2rem;
+}
+
+.About-Link {
+  text-decoration: none;
+  color: rgb(58,58,58);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.About-Link:hover {
+  color: rgb(117, 117, 117);
+}

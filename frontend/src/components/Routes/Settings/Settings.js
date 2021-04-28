@@ -1,7 +1,7 @@
 // External Dependencies
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router';
+import { Redirect, useLocation } from 'react-router';
 // Internal Dependencies
 import { stopLoading } from '../../../redux/actionCreators';
 // Components
@@ -13,6 +13,8 @@ import '../../../styles/Settings.css'
 const Settings = () => {
   const user = useSelector(state => state.authReducer.user);
   const loading = useSelector(state => state.loadingReducer.isLoading);
+  const location = useLocation();
+  const hash = location.hash;
   const dispatch = useDispatch();
   const [active, setActive] = useState(null);
 
@@ -22,6 +24,10 @@ const Settings = () => {
       setActive(activeElement);
     }
     dispatch(stopLoading());
+    if (hash.includes('#confirm-email')) {
+      const target = document.querySelector('#settings-confirm-option');
+      target.click();
+    }
   }, [active, dispatch]);
 
   if (user.username === undefined) return <Redirect to="/" />
@@ -48,12 +54,12 @@ const Settings = () => {
       <div className="Settings-Sidebar">
         <h1 className="Settings-Sidebar-Header">Settings</h1>
         <div className="Settings-Sidebar-Content" onClick={setActiveSetting}>
-          <h2 className="Settings-Sidebar-Option active">General</h2>
+          <h2 className="Settings-Sidebar-Option active" id="settings-general-option">General</h2>
           {!user.confirmed ? (
-            <h2 className="Settings-Sidebar-Option">Verify Email</h2>
+            <h2 className="Settings-Sidebar-Option" id="settings-confirm-option">Verify Email</h2>
           ) : null}
-          <h2 className="Settings-Sidebar-Option">Contact</h2>
-          <h2 className="Settings-Sidebar-Option">About</h2>
+          <h2 className="Settings-Sidebar-Option" id="settings-contact-option">Contact</h2>
+          <h2 className="Settings-Sidebar-Option" id="settings-about-option">About</h2>
           <h2 className="Settings-Sidebar-Option" id="settings-delete-option">Delete Account</h2>
         </div>
       </div>

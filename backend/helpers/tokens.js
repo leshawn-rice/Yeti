@@ -18,7 +18,10 @@ function createEmailToken(email) {
     email
   };
 
-  return jwt.sign(payload, SECRET_KEY);
+  // Create 15-minute expiration time
+  return jwt.sign(payload, SECRET_KEY, {
+    expiresIn: 900
+  });
 }
 
 function decodeToken(token) {

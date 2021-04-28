@@ -1,0 +1,19 @@
+.Verify {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+  padding: 2rem;
+}
+
+.Verify-Link {
+  text-decoration: none;
+  color: rgb(58,58,58);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.Verify-Link:hover {
+  color: rgb(117, 117, 117);
+}

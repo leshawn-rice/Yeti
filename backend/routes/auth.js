@@ -32,6 +32,18 @@ router.post('/login', async (req, res, next) => {
   }
 });
 
+router.post('/resend-confirmation-email', async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const emailOptions = createConfirmationEmail(email);
+    sendEmail(emailOptions);
+    return (res.json({ message: 'Sent!' }));
+  }
+  catch (err) {
+    return next(err);
+  }
+});
+
 
 router.post('/confirm-email', async (req, res, next) => {
   try {
