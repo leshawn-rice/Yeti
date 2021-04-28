@@ -1,0 +1,80 @@
+.Contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Contact-Header {
+  font-size: 3rem;
+  font-weight: 500;
+}
+
+.Contact-Form {
+  width: fit-content;
+  height: fit-content;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 0 6px rgb(58,58,58);
+}
+
+.Contact-Form .Form {
+  display: flex;
+  width: fit-content;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.Contact-Form .Input {
+  width: 90%;
+}
+
+.Contact-Form .MessageArea {
+  width: 90%;
+}
+
+.Contact-Form .MessageArea-Label {
+  width: 100%;
+  font-size: 1.75rem;
+  font-weight: 500;
+}
+
+.Contact-Form .MessageArea-Field {
+  width: 100%;
+  height: 10rem;
+  margin: 1rem;
+  border-radius: 1rem;
+  border: none;
+  outline: none;
+  box-shadow: 0 0 3px rgb(58,58,58);
+}
+
+.Contact-Form .Input-Label {
+  width: 100%;
+  font-size: 1.75rem;
+  font-weight: 500;
+}
+
+.Contact-Form .Input-Field {
+  width: 100%;
+  margin: 1rem;
+  border-radius: 1rem;
+  border: none;
+  outline: none;
+  box-shadow: 0 0 3px rgb(58,58,58);
+}
+
+.Contact-Form .Form-Button {
+  border: none;
+  outline: none;
+  margin: 1rem;
+  background-color: rgb(58,58,58);
+  width: 15rem;
+  height: 4rem;
+  color: whitesmoke;
+  border-radius: 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+}
