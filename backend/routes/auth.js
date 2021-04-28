@@ -2,7 +2,7 @@
 const express = require('express');
 // Internal Dependencies
 const User = require('../models/User');
-const { createUserToken, decodeToken } = require('../helpers/tokens');
+const { createUserToken, decodeToken, verifyToken } = require('../helpers/tokens');
 const { sendEmail, createConfirmationEmail } = require('../helpers/email');
 const router = express.Router();
 
@@ -48,8 +48,8 @@ router.post('/resend-confirmation-email', async (req, res, next) => {
 router.post('/confirm-email', async (req, res, next) => {
   try {
     const { emailToken } = req.body;
-    console.log(req.body);
-    console.log(emailToken);
+    const isTokenValid = verifyToken(emailToken);
+    console.log(isTokenValid);
     const decodedToken = decodeToken(emailToken);
     const user = await User.confirmEmail(decodedToken);
     const userToken = createUserToken(user);

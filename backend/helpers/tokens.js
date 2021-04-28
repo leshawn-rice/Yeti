@@ -29,4 +29,9 @@ function decodeToken(token) {
   return decoded;
 }
 
-module.exports = { createUserToken, createEmailToken, decodeToken };
+function verifyToken(token) {
+  if (jwt.verify(token, SECRET_KEY)) return true;
+  return false;
+}
+
+module.exports = { createUserToken, createEmailToken, decodeToken, verifyToken };

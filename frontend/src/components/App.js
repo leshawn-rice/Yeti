@@ -1,6 +1,6 @@
 // External dependencies
 import React, { useEffect } from 'react';
-import { BrowserRouter, Link } from 'react-router-dom';
+import { BrowserRouter, Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 // Internal Dependencies
 import { getLocationApi, clearErrors } from '../redux/actionCreators';
