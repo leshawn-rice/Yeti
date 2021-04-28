@@ -28,7 +28,7 @@ const Settings = () => {
       const target = document.querySelector('#settings-confirm-option');
       target.click();
     }
-  }, [active, dispatch]);
+  }, [active, dispatch, hash]);
 
   if (user.username === undefined) return <Redirect to="/" />
 

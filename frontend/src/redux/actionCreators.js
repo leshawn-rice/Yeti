@@ -70,6 +70,7 @@ const deleteUserApi = (token, username) => {
       dispatch(startLoading());
       dispatch(clearErrors());
       const { message } = await YetiApi.deleteUser(token, username);
+      console.log(message);
       dispatch(logoutUser());
       dispatch(stopLoading());
     }
@@ -87,6 +88,12 @@ const setLocation = (location) => {
   }
 }
 
+const clearLocation = () => {
+  return {
+    type: CLEAR_LOCATION
+  }
+}
+
 const loginUser = (userData) => {
   return {
     type: LOGIN_USER,
@@ -97,6 +104,12 @@ const loginUser = (userData) => {
 const logoutUser = () => {
   return {
     type: LOGOUT_USER
+  }
+}
+
+const deleteUser = () => {
+  return {
+    type: DELETE_USER
   }
 }
 
@@ -119,6 +132,7 @@ const showErrors = (errors) => {
   }
 }
 
+
 const clearErrors = () => {
   return {
     type: CLEAR_ERRORS
@@ -134,5 +148,7 @@ export {
   clearErrors,
   logoutUser,
   stopLoading,
-  loginUser
+  loginUser,
+  clearLocation,
+  deleteUser
 }
