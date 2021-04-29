@@ -7,8 +7,9 @@
 
 .Settings-Sidebar {
   display: flex;
+  overflow: visible;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
   min-height: -webkit-fill-available;
   width: 34%;
   background: rgb(58,58,58);
