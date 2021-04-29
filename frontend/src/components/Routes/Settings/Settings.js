@@ -30,7 +30,7 @@ const Settings = () => {
     }
   }, [active, dispatch, hash]);
 
-  // if (user.username === undefined) return <Redirect to="/" />
+  if (user.username === undefined) return <Redirect to="/" />
 
   if (loading) {
     return <Loading />
