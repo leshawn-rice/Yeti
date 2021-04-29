@@ -1,12 +1,19 @@
 // External Dependencies
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+// Internal Dependencies
+import { showErrors } from '../../../redux/actionCreators';
 // Components
 import YetiApi from '../../../api';
 import Form from '../../Forms/Form';
+import Alert from '../../Alert';
 // Styles
 import '../../../styles/Contact.css';
 
 const Contact = () => {
+  const [contactMessage, setContactMessage] = useState(null);
+  const dispatch = useDispatch();
+
   const INITIAL_DATA = {
     email: '',
     subject: '',
@@ -18,7 +25,7 @@ const Contact = () => {
       type: 'email',
       name: 'email',
       id: 'email',
-      placeholder: 'me@me.com',
+      placeholder: 'iloveyeti@email.com',
       label: 'Email Address',
       required: true
     },
@@ -26,7 +33,7 @@ const Contact = () => {
       type: 'text',
       name: 'subject',
       id: 'subject',
-      placeholder: 'Bug on settings page',
+      placeholder: 'I love Yeti!',
       label: 'Subject',
       required: true
     }
@@ -35,18 +42,28 @@ const Contact = () => {
     {
       name: 'body',
       id: 'body',
-      placeholder: 'There is a bug on the settings page where i see a real life yeti!',
+      placeholder: 'Thank you so much for making Yeti. My life is forever changed!',
       label: 'Message',
       required: true
     }
   ];
 
   const sendEmail = (formData) => {
-    YetiApi.contact(formData);
+    async function contact() {
+      try {
+        const message = await YetiApi.contact(formData);
+        setContactMessage(message.message);
+      }
+      catch (errs) {
+        dispatch(showErrors(errs));
+      }
+    }
+    contact();
   }
 
   return (
     <div className="Contact">
+      {contactMessage ? <Alert message={contactMessage} status={200} /> : null}
       <h1 className="Contact-Header">Contact Us</h1>
       <div className="Contact-Form">
         <Form

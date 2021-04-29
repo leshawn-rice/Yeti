@@ -3,9 +3,23 @@ const express = require('express');
 const { ensureCorrectUser } = require('../middleware/auth');
 // Internal Dependencies
 const User = require('../models/User');
-// const { createUserToken, decodeToken } = require('../helpers/tokens');
-// const { sendEmail, createConfirmationEmail } = require('../helpers/email');
+const { sendEmail } = require('../helpers/email');
+const { SERVER_EMAIL } = require('../config');
+const { response } = require('express');
 const router = express.Router();
+
+router.post('/contact', (req, res, next) => {
+  try {
+    const { email, subject, body } = req.body;
+    const text = `FROM: ${email}\n${body}`;
+    const options = { to: SERVER_EMAIL.email, subject, text }
+    sendEmail(options);
+    return res.json({ message: 'Your email has been sent' });
+  }
+  catch (err) {
+    return next(err);
+  }
+});
 
 router.delete('/:username', ensureCorrectUser, async (req, res, next) => {
   try {
@@ -16,6 +30,6 @@ router.delete('/:username', ensureCorrectUser, async (req, res, next) => {
   catch (err) {
     return next(err);
   }
-})
+});
 
 module.exports = router;

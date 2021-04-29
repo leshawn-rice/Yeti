@@ -68,9 +68,14 @@ class YetiApi {
     return { token: res.token, user: res.user };
   }
 
+  static async contact(data) {
+    let res = await this.request(`users/contact`, undefined, data, 'post');
+    return { message: res.message };
+  }
+
   static async deleteUser(token, username) {
     let res = await this.request(`users/${username}`, token, {}, 'delete');
-    return { message: res.message }
+    return { message: res.message };
   }
 }
 
