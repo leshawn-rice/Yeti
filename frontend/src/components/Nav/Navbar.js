@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faUser, faCog, faSignOutAlt, faSignInAlt, faUserPlus } from '@fortawesome/free-solid-svg-icons'
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+// internal dependencies
+import { handleScroll } from '../../helpers';
 // Components
 import Drawer from './Drawer';
 // Styles
@@ -36,10 +38,19 @@ const Navbar = () => {
         : setMobileView(false);
     };
 
+    let oldScrollPos = 0;
+    const nav = document.getElementById('navbar');
+
     setResponsiveness();
     window.addEventListener('resize', () => setResponsiveness());
+    window.addEventListener('scroll', () => {
+      oldScrollPos = handleScroll(oldScrollPos, nav, '-5rem', '0');
+    });
     return () => {
       window.removeEventListener('resize', () => setResponsiveness());
+      window.removeEventListener('scroll', () => {
+        oldScrollPos = handleScroll(oldScrollPos, nav, '-5rem', '0');
+      });
     }
   }, []);
 

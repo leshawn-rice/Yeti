@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useLocation } from 'react-router';
 // Internal Dependencies
 import { stopLoading } from '../../../redux/actionCreators';
+import { handleScroll } from '../../../helpers';
 // Components
 import SettingsContent from './SettingsContent';
 import Loading from '../../Loading';
@@ -28,6 +29,19 @@ const Settings = () => {
       const target = document.querySelector('#settings-confirm-option');
       target.click();
     }
+
+    let oldScrollPos = 0;
+    const sidebar = document.getElementById('settings-sidebar');
+
+    window.addEventListener('scroll', () => {
+      oldScrollPos = handleScroll(oldScrollPos, sidebar, '0', '5rem');
+    });
+    return () => {
+      window.removeEventListener('scroll', () => {
+        oldScrollPos = handleScroll(oldScrollPos, sidebar, '0', '5rem');
+      });
+    }
+
   }, [active, dispatch, hash]);
 
   if (user.username === undefined) return <Redirect to="/" />
@@ -51,7 +65,7 @@ const Settings = () => {
 
   return (
     <div className="Settings">
-      <div className="Settings-Sidebar">
+      <div className="Settings-Sidebar" id="settings-sidebar">
         <h1 className="Settings-Sidebar-Header">Settings</h1>
         <div className="Settings-Sidebar-Content" onClick={setActiveSetting}>
           <h2 className="Settings-Sidebar-Option active" id="settings-general-option">General</h2>

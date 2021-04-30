@@ -15,6 +15,7 @@
   width: 34%;
   background: rgb(58,58,58);
   color: white;
+  transition: top 300ms;
 }
 
 .Settings-Content {
