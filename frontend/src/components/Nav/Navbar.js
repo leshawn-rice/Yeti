@@ -27,15 +27,20 @@ const Navbar = () => {
     links.push({ name: 'Sign Up', url: '/sign-up', icon: faUserPlus });
   }
 
+  // ADD EVT LISTENER TO REMOVE NAVBAR ON SCROLL
+
   useEffect(() => {
     const setResponsiveness = () => {
       return window.innerWidth < 900
         ? setMobileView(true)
         : setMobileView(false);
     };
+
     setResponsiveness();
-    window.addEventListener("resize", () => setResponsiveness());
-    return () => { window.removeEventListener('resize', () => setResponsiveness()) }
+    window.addEventListener('resize', () => setResponsiveness());
+    return () => {
+      window.removeEventListener('resize', () => setResponsiveness());
+    }
   }, []);
 
   const displayMobile = () => {
@@ -79,7 +84,6 @@ const Navbar = () => {
                   icon={link.icon}
                 />
               )}
-              {/* <span className="Navbar-Tooltip">{link.name}</span> */}
             </NavLink>
           ))}
         </div>
@@ -88,7 +92,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="Navbar">
+    <nav className="Navbar" id="navbar">
       {mobileView ? displayMobile() : displayDesktop()}
     </nav>
   )

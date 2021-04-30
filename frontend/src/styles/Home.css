@@ -6,9 +6,14 @@
 .Downloads {
   display: flex;
   justify-content: center;
+  align-items: flex-start;
 }
 
 .Home {
   display: flex;
+  justify-self: flex-start;
+  margin-top: 5rem;
+  margin-bottom: auto;
+  align-items: flex-start;
   justify-content: center;
 }

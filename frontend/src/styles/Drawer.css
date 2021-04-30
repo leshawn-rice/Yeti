@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100%;
+  height: 100vh;
   animation: 500ms ease-out 0s 1 slideInFromLeft;
   z-index: 999999;
 }
@@ -30,6 +30,7 @@
   top: 0;
   left: 0;
   background-color: rgb(58, 58, 58);
+  z-index: 999999;
   width: 40vw;
   height: 100%;
   display: flex;
