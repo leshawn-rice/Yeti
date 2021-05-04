@@ -1,5 +1,5 @@
 // External Dependencies
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 // Components
 import Modal from '../../Modal';
 import ConfirmDelete from './ConfirmDelete';
@@ -8,25 +8,6 @@ import '../../../styles/Delete.css';
 
 const Delete = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  useEffect(() => {
-    const checkInsideModal = (target) => {
-      if (target.classList.contains('Modal')) return true;
-      if (target.parentElement === null) return false;
-      return checkInsideModal(target.parentElement);
-    }
-
-    const checkForClick = (evt) => {
-      const target = evt.target;
-      if (!isModalOpen) return;
-      if (!checkInsideModal(target)) {
-        setIsModalOpen(false);
-      }
-    }
-
-    window.addEventListener('click', checkForClick);
-    return () => window.removeEventListener('click', checkForClick);
-  }, [isModalOpen]);
 
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -43,7 +24,7 @@ const Delete = () => {
 
   return (
     <div className="Delete-Account">
-      <Modal toggled={isModalOpen} content={modalContent} />
+      <Modal toggled={isModalOpen} toggleModal={setIsModalOpen} content={modalContent} />
       <h1>Permanently delete your account</h1>
       <p className="Delete-Info">You won't be able to reverse this action. <strong>All</strong> posts, comments, and votes from this account will be permanently deleted from our servers, and will <strong>not</strong> be able to be retrieved.</p>
       <button onClick={toggleModal} className="Delete-Account-Button">Delete</button>

@@ -13,6 +13,22 @@
   animation: 250ms ease-out 0s 1 fadeIn;
 }
 
+.Modal-Close {
+  background: none;
+  border: none;
+  outline: none;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  cursor: pointer;
+  font-size: 2rem;
+  color: rgb(58,58,58);
+}
+
+.Modal-Close:hover {
+  color: rgb(134, 134, 134);
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0%;
