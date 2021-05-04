@@ -1,5 +1,5 @@
 // External Dependencies
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // Components
 import Modal from '../../Modal';
 import ConfirmDelete from './ConfirmDelete';
@@ -7,14 +7,33 @@ import ConfirmDelete from './ConfirmDelete';
 import '../../../styles/Delete.css';
 
 const Delete = () => {
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const checkInsideModal = (target) => {
+      if (target.classList.contains('Modal')) return true;
+      if (target.parentElement === null) return false;
+      return checkInsideModal(target.parentElement);
+    }
+
+    const checkForClick = (evt) => {
+      const target = evt.target;
+      if (!isModalOpen) return;
+      if (!checkInsideModal(target)) {
+        setIsModalOpen(false);
+      }
+    }
+
+    window.addEventListener('click', checkForClick);
+    return () => window.removeEventListener('click', checkForClick);
+  }, [isModalOpen]);
 
   const handleCancel = () => {
-    setModalOpen(false);
+    setIsModalOpen(false);
   }
 
   const toggleModal = () => {
-    setModalOpen(true);
+    setIsModalOpen(true);
   }
 
   const modalContent = {

@@ -42,6 +42,7 @@ const Form = ({ inputs = [], messageAreas = [], INITIAL_DATA = {}, buttonLabel =
             label={input.label}
             placeholder={input.placeholder}
             required={input.required}
+            isDisabled={input.disabled}
             value={formData[input.name]}
             handleChange={handleChange}
           />
