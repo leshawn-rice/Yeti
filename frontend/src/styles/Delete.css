@@ -6,8 +6,12 @@
   margin: 3rem;
 }
 
+.Delete-Header {
+  font-weight: 400;
+  font-size: 3rem;
+}
 .Delete-Info {
-  font-size: 1.5rem;
+  font-size: 2rem;
 }
 
 .Delete-Account-Button {
@@ -21,7 +25,7 @@
   box-shadow: 0 0 3px red;
   cursor: pointer;
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
 }
 
 .Delete-Account-Button:hover {
