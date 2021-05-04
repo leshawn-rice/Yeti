@@ -5,7 +5,7 @@ import Signup from './Auth/Signup';
 import Logout from './Auth/Logout';
 import Settings from './Settings/Settings';
 import ConfirmEmail from './ConfirmEmail';
-import Profile from './Profile';
+import Profile from './Profile/Profile';
 
 const Router = () => {
   return (
