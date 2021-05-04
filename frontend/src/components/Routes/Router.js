@@ -5,6 +5,7 @@ import Signup from './Auth/Signup';
 import Logout from './Auth/Logout';
 import Settings from './Settings/Settings';
 import ConfirmEmail from './ConfirmEmail';
+import Profile from './Profile';
 
 const Router = () => {
   return (
@@ -20,6 +21,9 @@ const Router = () => {
       </Route>
       <Route exact path="/log-out">
         <Logout />
+      </Route>
+      <Route exact path="/profile">
+        <Profile />
       </Route>
       <Route exact path="/settings">
         <Settings />
