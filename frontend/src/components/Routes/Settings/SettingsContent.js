@@ -1,7 +1,7 @@
 // External Dependencies
 import React from 'react';
 // Components
-import General from './General';
+import Account from './Account';
 import About from './About';
 import Contact from './Contact';
 import Delete from './Delete';
@@ -9,7 +9,7 @@ import Verify from './Verify';
 
 const SettingsContent = ({ current }) => {
   const CONTENT_MAP = {
-    'General': <General />,
+    'Account': <Account />,
     'About': <About />,
     'Contact': <Contact />,
     'Delete Account': <Delete />,

@@ -1,0 +1,69 @@
+.Account {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+  margin: 1rem 2rem;
+}
+
+.Account-Change {
+  background-color: whitesmoke;
+  width: 15rem;
+  height: 4rem;
+  border-radius: 1rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin: 1rem 0;
+  text-align: center;
+  box-shadow: 0 0 3px rgb(58,58,58);
+  color: rgb(58,58,58);
+}
+
+.Account-Change:hover {
+  background-color: rgb(58,58,58);
+  color: whitesmoke;
+}
+
+.Account-Email-Tooltip {
+  visibility: hidden;
+  width: fit-content;
+  bottom: 100%;
+  font-size: 1.2rem;
+  font-weight: 600;
+  left: 50%;
+  margin-left: -50%;
+  background-color: rgb(58,58,58);
+  color: whitesmoke;
+  text-align: center;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  position: absolute;
+}
+
+.Account-Body-Email {
+  position: relative;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.Account-Body-Password {
+  font-weight: 500;
+}
+
+.Account-Body-Email:hover .Account-Email-Tooltip {
+  visibility: visible;
+}
+
+.Account-Header {
+  font-weight: 400;
+  font-size: 3rem;
+}
+
+.Account-Body {
+  font-size: 2rem;
+}

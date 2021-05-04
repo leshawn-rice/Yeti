@@ -68,7 +68,7 @@ const Settings = () => {
       <div className="Settings-Sidebar" id="settings-sidebar">
         <h1 className="Settings-Sidebar-Header">Settings</h1>
         <div className="Settings-Sidebar-Content" onClick={setActiveSetting}>
-          <h2 className="Settings-Sidebar-Option active" id="settings-general-option">General</h2>
+          <h2 className="Settings-Sidebar-Option active" id="settings-general-option">Account</h2>
           {!user.confirmed ? (
             <h2 className="Settings-Sidebar-Option" id="settings-confirm-option">Verify Email</h2>
           ) : null}
