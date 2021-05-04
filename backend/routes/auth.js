@@ -2,6 +2,8 @@
 const express = require('express');
 // Internal Dependencies
 const User = require('../models/User');
+const Post = require('../models/Post');
+const Comment = require('../models/Comment');
 const { createUserToken, decodeToken, verifyToken } = require('../helpers/tokens');
 const { sendEmail, createConfirmationEmail } = require('../helpers/email');
 const router = express.Router();
@@ -10,6 +12,9 @@ router.post('/register', async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await User.register(email, password);
+    const posts = await Post.getByUserId(user.id);
+    const comments = await Comment.getByUserId(user.id);
+    user.posts = posts;
     const token = createUserToken(user);
     const emailOptions = createConfirmationEmail(email);
     sendEmail(emailOptions);
@@ -24,6 +29,10 @@ router.post('/login', async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await User.authenticate(email, password);
+    const posts = await Post.getByUserId(user.id);
+    const comments = await Comment.getByUserId(user.id);
+    user.posts = posts;
+    user.comments = comments;
     const token = createUserToken(user);
     return res.json({ token, user });
   }

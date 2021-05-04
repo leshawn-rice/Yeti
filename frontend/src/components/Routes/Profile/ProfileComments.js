@@ -1,5 +1,8 @@
+// External Dependencies
 import React from 'react';
 import { useSelector } from 'react-redux';
+// Components
+
 
 const ProfileComments = () => {
   const user = useSelector(state => state.authReducer.user);
