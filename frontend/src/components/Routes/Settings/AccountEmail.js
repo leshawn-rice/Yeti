@@ -9,7 +9,7 @@ import '../../../styles/Account.css';
 const AccountEmail = () => {
   const [emailModal, setEmailModal] = useState(false);
 
-  const user = useSelector(state => state.authReducer.user);
+  const user = useSelector(state => state.userReducer.user);
 
   const modalContent = {
     title: 'Change Email',

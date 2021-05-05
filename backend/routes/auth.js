@@ -61,6 +61,10 @@ router.post('/confirm-email', async (req, res, next) => {
     console.log(isTokenValid);
     const decodedToken = decodeToken(emailToken);
     const user = await User.confirmEmail(decodedToken);
+    const posts = await Post.getByUserId(user.id);
+    const comments = await Comment.getByUserId(user.id);
+    user.posts = posts;
+    user.comments = comments;
     const userToken = createUserToken(user);
     return res.json({ token: userToken, user });
   }

@@ -2,17 +2,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 // Components
-import Post from '../../Post';
+import Posts from '../../Posts/Posts';
 
 const ProfilePosts = () => {
-  const user = useSelector(state => state.authReducer.user);
+  const user = useSelector(state => state.userReducer.user);
 
   return (
-    <>
-      {user.posts.map(post => (
-        <Post post={post} />
-      ))}
-    </>
+    <Posts posts={user.posts} />
   )
 }
 

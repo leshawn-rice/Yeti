@@ -6,7 +6,7 @@ import YetiApi from '../../../api';
 import '../../../styles/Verify.css';
 
 const Verify = () => {
-  const user = useSelector(state => state.authReducer.user);
+  const user = useSelector(state => state.userReducer.user);
 
   const resendLink = () => {
     async function sendLink() {

@@ -12,7 +12,7 @@ import Loading from '../../Loading';
 import '../../../styles/Settings.css'
 
 const Settings = () => {
-  const user = useSelector(state => state.authReducer.user);
+  const user = useSelector(state => state.userReducer.user);
   const loading = useSelector(state => state.loadingReducer.isLoading);
   const location = useLocation();
   const hash = location.hash;

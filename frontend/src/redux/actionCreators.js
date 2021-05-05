@@ -4,6 +4,8 @@ import {
   LOGIN_USER,
   LOGOUT_USER,
   DELETE_USER,
+  ADD_USER_POST,
+  GET_POSTS,
   SHOW_ERRORS,
   CLEAR_ERRORS,
   START_LOADING,
@@ -81,6 +83,53 @@ const deleteUserApi = (token, username) => {
   }
 }
 
+const getLocalPostsApi = (location) => {
+  return async function (dispatch) {
+    try {
+      dispatch(startLoading());
+      dispatch(clearErrors());
+      const { posts } = await YetiApi.getLocalPosts(location);
+      dispatch(addPosts(posts));
+      dispatch(stopLoading());
+    }
+    catch (errs) {
+      dispatch(stopLoading());
+      dispatch(showErrors(errs));
+    }
+  }
+}
+
+const createPostApi = (token, username, postData) => {
+  return async function (dispatch) {
+    try {
+      dispatch(startLoading());
+      dispatch(clearErrors());
+      const { post } = await YetiApi.createPost(token, username, postData);
+      dispatch(addUserPost(post));
+      // dispatch(addPost);
+      dispatch(stopLoading());
+    }
+    catch (errs) {
+      dispatch(stopLoading());
+      dispatch(showErrors(errs));
+    }
+  }
+}
+
+const addUserPost = (post) => {
+  return {
+    type: ADD_USER_POST,
+    payload: post
+  }
+}
+
+const addPosts = (posts) => {
+  return {
+    type: GET_POSTS,
+    payload: posts
+  }
+}
+
 const setLocation = (location) => {
   return {
     type: SET_LOCATION,
@@ -144,6 +193,8 @@ export {
   registerUserApi,
   deleteUserApi,
   loginUserApi,
+  getLocalPostsApi,
+  createPostApi,
   showErrors,
   clearErrors,
   logoutUser,

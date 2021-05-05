@@ -9,8 +9,8 @@ import Form from '../../Forms/Form';
 import '../../../styles/ConfirmDelete.css';
 
 const ConfirmDelete = ({ handleCancel }) => {
-  const user = useSelector(state => state.authReducer.user);
-  const token = useSelector(state => state.authReducer.token);
+  const user = useSelector(state => state.userReducer.user);
+  const token = useSelector(state => state.userReducer.token);
   const dispatch = useDispatch();
   const INITIAL_DATA = {
     reason: ''

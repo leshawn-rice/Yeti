@@ -1,13 +1,17 @@
 // External Dependencies
 import React, { useEffect, useState } from 'react';
-
+import { useSelector } from 'react-redux';
+import { Redirect } from 'react-router';
+// Components
+import ProfileContent from './ProfileContent';
 // Styles
 import '../../../styles/Profile.css';
-import ProfileContent from './ProfileContent';
 
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState(null);
+
+  const user = useSelector(state => state.userReducer.user);
 
   useEffect(() => {
     const tablist = document.querySelector('.Profile-Tablist');
@@ -26,6 +30,8 @@ const Profile = () => {
     tablist.addEventListener('click', toggleActive);
     return () => tablist.removeEventListener('click', toggleActive)
   }, [])
+
+  if (!user.username) return <Redirect to="/" />
 
   return (
     <div className="Profile">

@@ -1,8 +1,9 @@
 import { combineReducers } from "redux";
-import authReducer from "./auth";
+import userReducer from "./user";
 import errorReducer from "./errors";
 import locationReducer from "./location";
 import loadingReducer from './load';
+import contentReducer from './content';
 
 /**
  * The root reducer combines all the other reducers (films, planets, people) 
@@ -10,10 +11,11 @@ import loadingReducer from './load';
  */
 
 const rootReducer = combineReducers({
-  authReducer,
+  userReducer,
   errorReducer,
   locationReducer,
-  loadingReducer
+  loadingReducer,
+  contentReducer
 });
 
 export default rootReducer;

@@ -1,11 +1,11 @@
-import { LOGIN_USER, LOGOUT_USER } from '../actionTypes';
+import { ADD_USER_POST, LOGIN_USER, LOGOUT_USER } from '../actionTypes';
 
 const INITIAL_STATE = {
   user: {},
   token: null,
 };
 
-const authReducer = (state = INITIAL_STATE, action) => {
+const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LOGIN_USER:
       if (action.payload) return {
@@ -24,9 +24,20 @@ const authReducer = (state = INITIAL_STATE, action) => {
         user: {},
         token: null
       }
+    case ADD_USER_POST:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          posts: [
+            ...state.user.posts,
+            action.payload
+          ]
+        }
+      }
     default:
       return state
   };
 }
 
-export default authReducer;
+export default userReducer;

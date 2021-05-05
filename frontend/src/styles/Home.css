@@ -11,9 +11,14 @@
 
 .Home {
   display: flex;
-  justify-self: flex-start;
-  margin-top: 5rem;
+  flex-direction: column;
   margin-bottom: auto;
-  align-items: flex-start;
-  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.Home-Header {
+  font-weight: 400;
+  font-size: 3rem;
 }

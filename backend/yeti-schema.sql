@@ -9,7 +9,6 @@ CREATE TABLE Users (
 
 CREATE TABLE Posts (
   id SERIAL PRIMARY KEY,
-  title TEXT NOT NULL,
   body TEXT NOT NULL,
   rating INT DEFAULT 0,
   latitude FLOAT NOT NULL,

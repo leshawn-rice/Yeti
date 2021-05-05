@@ -14,7 +14,7 @@ import '../../styles/Navbar.css';
 const Navbar = () => {
   const [mobileView, setMobileView] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const user = useSelector(state => state.authReducer.user);
+  const user = useSelector(state => state.userReducer.user);
 
 
   const links = [];
@@ -40,17 +40,16 @@ const Navbar = () => {
 
     let oldScrollPos = 0;
     const nav = document.getElementById('navbar');
+    const changeScroll = () => {
+      oldScrollPos = handleScroll(oldScrollPos, nav, '-5rem', '0');
+    }
 
     setResponsiveness();
     window.addEventListener('resize', () => setResponsiveness());
-    window.addEventListener('scroll', () => {
-      oldScrollPos = handleScroll(oldScrollPos, nav, '-5rem', '0');
-    });
+    window.addEventListener('scroll', changeScroll);
     return () => {
       window.removeEventListener('resize', () => setResponsiveness());
-      window.removeEventListener('scroll', () => {
-        oldScrollPos = handleScroll(oldScrollPos, nav, '-5rem', '0');
-      });
+      window.removeEventListener('scroll', changeScroll);
     }
   }, []);
 

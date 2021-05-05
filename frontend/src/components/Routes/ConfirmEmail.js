@@ -10,7 +10,7 @@ import '../../styles/ConfirmEmail.css';
 import Alert from '../Alert';
 
 const ConfirmEmail = () => {
-  const user = useSelector(state => state.authReducer.user);
+  const user = useSelector(state => state.userReducer.user);
   const errors = useSelector(state => state.errorReducer.errors);
   const dispatch = useDispatch();
   const location = useLocation();

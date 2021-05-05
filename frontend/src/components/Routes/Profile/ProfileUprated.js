@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 
 const ProfileUprated = () => {
-  const user = useSelector(state => state.authReducer.user);
+  const user = useSelector(state => state.userReducer.user);
 
   return (
     <h1>Profile Upvoted</h1>

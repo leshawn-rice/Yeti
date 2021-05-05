@@ -13,7 +13,7 @@ import Alert from './Alert';
 
 const App = () => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.authReducer.user);
+  const user = useSelector(state => state.userReducer.user);
 
   useEffect(() => {
     // Because we use a persisted store, when the App component first mounts, clear any errors

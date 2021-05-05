@@ -12,7 +12,7 @@ class Post {
 
   static async getAll() {
     const result = await db.query(
-      `SELECT id, title, body, rating, latitude, longitude, user_id
+      `SELECT id, body, rating, latitude, longitude, user_id
       FROM Posts`
     );
     return result.rows;
@@ -35,7 +35,7 @@ class Post {
     //  This query gets all the posts that are located within 2.5 of the current lat/long
     //  This is to quickly filter out any posts more than ~150 mi away before precise filtering occurs
     const result = await db.query(
-      `SELECT id, title, body, rating, latitude, longitude, user_id
+      `SELECT id, body, rating, latitude, longitude, user_id
       FROM Posts
       WHERE latitude BETWEEN $1 AND $2
       AND longitude BETWEEN $3 AND $4`,
@@ -64,7 +64,7 @@ class Post {
 
   static async getById(id) {
     const result = await db.query(
-      `SELECT id, title, body, rating, latitude, longitude, user_id
+      `SELECT id, body, rating, latitude, longitude, user_id
       FROM Posts
       WHERE id=$1`,
       [id]
@@ -91,16 +91,48 @@ class Post {
       [id]
     );
 
-    if (userResult.rows.length === 0) throw NotFoundError('User Not Found');
+    if (userResult.rows.length === 0) throw new NotFoundError('User Not Found');
 
     const result = await db.query(
-      `SELECT id, title, body, rating, latitude, longitude, user_id
+      `SELECT id, body, rating, latitude, longitude, user_id
       FROM Posts
       WHERE user_id=$1`,
       [id]
     );
 
     return result.rows;
+  }
+
+  static async create(username, body, location) {
+    const userResult = await db.query(
+      `SELECT id, username 
+      FROM Users 
+      WHERE username=$1`,
+      [username]
+    );
+
+    console.log(body);
+
+    if (userResult.rows.length === 0) throw new NotFoundError('User Not Found');
+
+    const user_id = userResult.rows[0].id;
+
+    const latitude = parseFloat(location.latitude);
+    const longitude = parseFloat(location.longitude);
+
+    const post = await db.query(
+      `INSERT INTO Posts
+      (body, latitude, longitude, user_id)
+      VALUES
+      ($1, $2, $3, $4)
+      RETURNING
+      id, body, rating, latitude, longitude, user_id `,
+      [body, latitude, longitude, user_id]
+    );
+
+    if (!post.rows[0]) throw new BadRequestError();
+
+    return post.rows[0];
   }
 }
 

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 
 const ProfileComments = () => {
-  const user = useSelector(state => state.authReducer.user);
+  const user = useSelector(state => state.userReducer.user);
 
   return (
     <h1>Profile Comments</h1>

@@ -48,6 +48,8 @@ class YetiApi {
     return res.user;
   }
 
+  // User Routes
+
   static async login(loginData) {
     let res = await this.request('auth/login', undefined, loginData, 'post');
     return { token: res.token, user: res.user };
@@ -76,6 +78,18 @@ class YetiApi {
   static async deleteUser(token, username) {
     let res = await this.request(`users/${username}`, token, {}, 'delete');
     return { message: res.message };
+  }
+
+  // Post Routes
+
+  static async getLocalPosts(location) {
+    let res = await this.request(`posts/find`, undefined, location, 'get');
+    return { posts: res.posts };
+  }
+
+  static async createPost(token, username, postData) {
+    let res = await this.request(`posts/${username}`, token, postData, 'post');
+    return { post: res.post };
   }
 }
 
