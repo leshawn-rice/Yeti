@@ -12,6 +12,7 @@ import Comment from './Comment';
 import CreateComment from './CreateComment';
 // Styles
 import '../../styles/FullPost.css';
+import Comments from './Comments';
 
 const FullPost = () => {
   const { id } = useParams();
@@ -48,9 +49,7 @@ const FullPost = () => {
       <Post post={post} />
       <div className="FullPost-Comments">
         <CreateComment postId={post.id} addToPost={addComment} />
-        {post.comments.map(comment => (
-          <Comment key={comment.id} comment={comment} />
-        ))}
+        <Comments comments={post.comments} />
       </div>
     </div>
   )

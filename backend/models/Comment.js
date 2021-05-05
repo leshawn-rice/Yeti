@@ -111,7 +111,7 @@ class Comment {
       VALUES
       ($1, $2, $3)
       RETURNING
-      id, comment, user_id, post_id `,
+      id, comment, rating, user_id, post_id `,
       [body, user_id, post_id]
     );
 
