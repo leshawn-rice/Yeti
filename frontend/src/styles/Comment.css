@@ -1,6 +1,6 @@
-.Post {
+.Comment {
   position: relative;
-  width: 80%;
+  width: 50%;
   height: fit-content;
   display: flex;
   flex-direction: row;
@@ -12,31 +12,31 @@
   margin: 1rem 0;
 }
 
-.Post-User {
+.Comment-User {
   height: fit-content;
   position: absolute;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 600;
   top: 0.5rem;
   left: 0.5rem;
 }
 
-.Post-Content {
-  font-size: 2rem;
+.Comment-Content {
+  font-size: 1.5rem;
   font-weight: 400;
   width: 90%;
   display: flex;
   align-items: center;
 }
 
-.Post-Options {
+.Comment-Options {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
-.Post-Item {
+.Comment-Item {
   margin: 0.5rem 0;
   cursor: pointer;
   text-decoration: none;
@@ -45,11 +45,11 @@
   padding: 0;
 }
 
-.Post-Item.rate {
+.Comment-Item.rate {
   margin: 0;
 }
 
-.Post-Item.text {
+.Comment-Item.text {
   cursor: default;
   margin: 0;
   font-weight: 600;

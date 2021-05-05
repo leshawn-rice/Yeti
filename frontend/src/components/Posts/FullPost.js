@@ -9,6 +9,7 @@ import Loading from '../Loading';
 import NotFound from '../NotFound';
 import Post from './Post';
 import Comment from './Comment';
+import CreateComment from './CreateComment';
 // Styles
 import '../../styles/FullPost.css';
 
@@ -26,6 +27,10 @@ const FullPost = () => {
       });
   }, [dispatch, id, token]);
 
+  const addComment = (comment) => {
+    post.comments.push(comment)
+  }
+
   if (isLoading) {
     return (
       <Loading />
@@ -42,8 +47,9 @@ const FullPost = () => {
     <div className="FullPost">
       <Post post={post} />
       <div className="FullPost-Comments">
+        <CreateComment postId={post.id} addToPost={addComment} />
         {post.comments.map(comment => (
-          <Comment comment={comment} />
+          <Comment key={comment.id} comment={comment} />
         ))}
       </div>
     </div>

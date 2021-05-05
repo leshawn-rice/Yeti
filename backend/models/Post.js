@@ -111,8 +111,6 @@ class Post {
       [username]
     );
 
-    console.log(body);
-
     if (userResult.rows.length === 0) throw new NotFoundError('User Not Found');
 
     const user_id = userResult.rows[0].id;

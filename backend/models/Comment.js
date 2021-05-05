@@ -92,6 +92,33 @@ class Comment {
 
     return result.rows;
   }
+
+  static async create(username, body, post_id) {
+    const userResult = await db.query(
+      `SELECT id, username 
+      FROM Users 
+      WHERE username=$1`,
+      [username]
+    );
+
+    if (userResult.rows.length === 0) throw new NotFoundError('User Not Found');
+
+    const user_id = userResult.rows[0].id;
+
+    const comment = await db.query(
+      `INSERT INTO Comments
+      (comment, user_id, post_id)
+      VALUES
+      ($1, $2, $3)
+      RETURNING
+      id, comment, user_id, post_id `,
+      [body, user_id, post_id]
+    );
+
+    if (!comment.rows[0]) throw new BadRequestError();
+
+    return comment.rows[0];
+  }
 }
 
 module.exports = Comment;

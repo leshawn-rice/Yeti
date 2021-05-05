@@ -1,4 +1,4 @@
-import { ADD_USER_POST, LOGIN_USER, LOGOUT_USER } from '../actionTypes';
+import { ADD_USER_COMMENT, ADD_USER_POST, LOGIN_USER, LOGOUT_USER } from '../actionTypes';
 
 const INITIAL_STATE = {
   user: {},
@@ -31,6 +31,17 @@ const userReducer = (state = INITIAL_STATE, action) => {
           ...state.user,
           posts: [
             ...state.user.posts,
+            action.payload
+          ]
+        }
+      }
+    case ADD_USER_COMMENT:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          comments: [
+            ...state.user.comments,
             action.payload
           ]
         }

@@ -101,6 +101,13 @@ class YetiApi {
     let res = await this.request(`posts/${username}`, token, postData, 'post');
     return { post: res.post };
   }
+
+  // Comment Routes
+
+  static async createComment(token, username, commentData) {
+    let res = await this.request(`comments/${username}`, token, commentData, 'post');
+    return { comment: res.comment };
+  }
 }
 
 

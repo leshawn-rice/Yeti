@@ -5,6 +5,7 @@ import {
   LOGOUT_USER,
   DELETE_USER,
   ADD_USER_POST,
+  ADD_USER_COMMENT,
   ADD_POST,
   GET_POSTS,
   LOAD_POSTS,
@@ -135,6 +136,22 @@ const createPostApi = (token, username, postData) => {
   }
 }
 
+const createCommentApi = (token, username, postData) => {
+  return async function (dispatch) {
+    try {
+      dispatch(startLoading());
+      dispatch(clearErrors());
+      const { comment } = await YetiApi.createComment(token, username, postData);
+      dispatch(addUserComment(comment));
+      dispatch(stopLoading());
+    }
+    catch (errs) {
+      dispatch(stopLoading());
+      dispatch(showErrors(errs));
+    }
+  }
+}
+
 const getPostApi = (token, id) => {
   return async function (dispatch) {
     try {
@@ -155,6 +172,13 @@ const addUserPost = (post) => {
   return {
     type: ADD_USER_POST,
     payload: post
+  }
+}
+
+const addUserComment = (comment) => {
+  return {
+    type: ADD_USER_COMMENT,
+    payload: comment
   }
 }
 
@@ -250,6 +274,7 @@ export {
   getUserByIdApi,
   getLocalPostsApi,
   createPostApi,
+  createCommentApi,
   getPostApi,
   loadPosts,
   clearPosts,
