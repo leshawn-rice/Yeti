@@ -6,6 +6,7 @@ import Logout from './Auth/Logout';
 import Settings from './Settings/Settings';
 import ConfirmEmail from './ConfirmEmail';
 import Profile from './Profile/Profile';
+import FullPost from '../Posts/FullPost';
 
 const Router = () => {
   return (
@@ -24,6 +25,9 @@ const Router = () => {
       </Route>
       <Route exact path="/profile">
         <Profile />
+      </Route>
+      <Route exact path="/posts/:id">
+        <FullPost />
       </Route>
       <Route exact path="/settings">
         <Settings />

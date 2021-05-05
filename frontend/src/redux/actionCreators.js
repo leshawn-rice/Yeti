@@ -5,13 +5,16 @@ import {
   LOGOUT_USER,
   DELETE_USER,
   ADD_USER_POST,
+  ADD_POST,
   GET_POSTS,
+  LOAD_POSTS,
+  CLEAR_POSTS,
   SHOW_ERRORS,
   CLEAR_ERRORS,
   START_LOADING,
   STOP_LOADING,
   SET_LOCATION,
-  CLEAR_LOCATION
+  CLEAR_LOCATION,
 } from './actionTypes';
 
 const getLocationApi = () => {
@@ -66,6 +69,22 @@ const loginUserApi = (userData) => {
   }
 }
 
+const getUserByIdApi = (id) => {
+  return async function (dispatch) {
+    try {
+      dispatch(startLoading());
+      dispatch(clearErrors());
+      const { user } = await YetiApi.getUserById(id);
+      dispatch(stopLoading());
+      return user;
+    }
+    catch (errs) {
+      dispatch(stopLoading());
+      dispatch(showErrors(errs));
+    }
+  }
+}
+
 const deleteUserApi = (token, username) => {
   return async function (dispatch) {
     try {
@@ -106,8 +125,24 @@ const createPostApi = (token, username, postData) => {
       dispatch(clearErrors());
       const { post } = await YetiApi.createPost(token, username, postData);
       dispatch(addUserPost(post));
-      // dispatch(addPost);
+      dispatch(addPost(post));
       dispatch(stopLoading());
+    }
+    catch (errs) {
+      dispatch(stopLoading());
+      dispatch(showErrors(errs));
+    }
+  }
+}
+
+const getPostApi = (token, id) => {
+  return async function (dispatch) {
+    try {
+      dispatch(startLoading());
+      dispatch(clearErrors());
+      const { post } = await YetiApi.getPost(token, id);
+      dispatch(stopLoading());
+      return post;
     }
     catch (errs) {
       dispatch(stopLoading());
@@ -123,10 +158,29 @@ const addUserPost = (post) => {
   }
 }
 
+const addPost = (post) => {
+  return {
+    type: ADD_POST,
+    payload: post
+  }
+}
+
 const addPosts = (posts) => {
   return {
     type: GET_POSTS,
     payload: posts
+  }
+}
+
+const loadPosts = () => {
+  return {
+    type: LOAD_POSTS
+  }
+}
+
+const clearPosts = () => {
+  return {
+    type: CLEAR_POSTS
   }
 }
 
@@ -193,11 +247,16 @@ export {
   registerUserApi,
   deleteUserApi,
   loginUserApi,
+  getUserByIdApi,
   getLocalPostsApi,
   createPostApi,
+  getPostApi,
+  loadPosts,
+  clearPosts,
   showErrors,
   clearErrors,
   logoutUser,
+  startLoading,
   stopLoading,
   loginUser,
   clearLocation,

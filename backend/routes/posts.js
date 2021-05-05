@@ -1,5 +1,6 @@
 const express = require('express');
 const Post = require('../models/Post');
+const Comment = require('../models/Comment');
 const { ensureCorrectUser } = require('../middleware/auth');
 const router = express.Router();
 
@@ -27,6 +28,8 @@ router.get('/find', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const post = await Post.getById(req.params.id);
+    const comments = await Comment.getByPostId(req.params.id);
+    post.comments = comments;
     return res.json({ post });
   }
   catch (err) {

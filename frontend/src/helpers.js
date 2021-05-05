@@ -20,9 +20,16 @@ const handleScroll = (oldScrollPos, div, scrollDownPos, scrollUpPos) => {
     div.style.top = scrollDownPos;
   }
   return newScrollPos;
+}
 
+const checkBottom = () => {
+  if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
+    return true;
+  }
+  return false;
 }
 
 export {
-  handleScroll
+  handleScroll,
+  checkBottom
 };

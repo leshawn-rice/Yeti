@@ -47,8 +47,6 @@ class User {
     const username = generateUsername(takenUsernames.rows);
     const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
 
-    console.log(hashedPassword);
-
     const user = await db.query(
       `INSERT INTO Users
       (email, username, password)
@@ -74,6 +72,19 @@ class User {
     );
 
     if (!user.rows[0]) throw new BadRequestError('User does not exist!');
+
+    return user.rows[0];
+  }
+
+  static async getById(id) {
+    const user = await db.query(
+      `SELECT id, email, username, password, rating, confirmed 
+      FROM Users 
+      WHERE id=$1`,
+      [id]
+    );
+
+    if (!user.rows.length) throw new BadRequestError('User Not Found');
 
     return user.rows[0];
   }

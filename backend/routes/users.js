@@ -8,6 +8,16 @@ const { SERVER_EMAIL } = require('../config');
 const { response } = require('express');
 const router = express.Router();
 
+router.get('/:id', async (req, res, next) => {
+  try {
+    const user = await User.getById(req.params.id);
+    return res.json({ user });
+  }
+  catch (err) {
+    return next(err);
+  }
+});
+
 router.post('/contact', (req, res, next) => {
   try {
     const { email, subject, body } = req.body;

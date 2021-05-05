@@ -46,7 +46,7 @@ class Comment {
 
   static async getByPostId(id) {
     const postResult = await db.query(
-      `SELECT id, title 
+      `SELECT id, body 
       FROM Posts 
       WHERE id=$1`,
       [id]

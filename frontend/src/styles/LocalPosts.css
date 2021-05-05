@@ -1,7 +1,55 @@
-.LocalPosts-Settings {
+.LocalPosts-Settings-Button {
   margin-left: auto;
   margin-top: 1rem;
   font-size: 3rem;
   margin-right: 10%;
   cursor: pointer;
+}
+
+.LocalPosts-Settings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.PostRange {
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.PostRange-Label {
+  font-size: 2rem;
+  margin: 0 1rem;
+}
+
+.PostRange-Value {
+  width: 10rem;
+  outline: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  margin: 0 1rem;
+  cursor: default;
+}
+
+.LocalPosts-Settings-Submit {
+  background: none;
+  outline: none;
+  border: none;
+  box-shadow: 0 0 3px rgb(58,58,58);
+  background-color: white;
+  color: rgb(58,58,58);
+  font-size: 1.75rem;
+  border-radius: 1rem;
+  margin: 1rem 0;
+  width: 10rem;
+  height: 3rem;
+  cursor: pointer;
+}
+
+.LocalPosts-Settings-Submit:hover {
+  background-color: rgb(58,58,58);
+  color: whitesmoke;
 }

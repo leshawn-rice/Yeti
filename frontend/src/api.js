@@ -50,6 +50,11 @@ class YetiApi {
 
   // User Routes
 
+  static async getUserById(id) {
+    let res = await this.request(`users/${id}`, undefined, {}, 'get');
+    return { user: res.user };
+  }
+
   static async login(loginData) {
     let res = await this.request('auth/login', undefined, loginData, 'post');
     return { token: res.token, user: res.user };
@@ -85,6 +90,11 @@ class YetiApi {
   static async getLocalPosts(location) {
     let res = await this.request(`posts/find`, undefined, location, 'get');
     return { posts: res.posts };
+  }
+
+  static async getPost(token, id) {
+    let res = await this.request(`posts/${id}`, token, {}, 'get');
+    return { post: res.post }
   }
 
   static async createPost(token, username, postData) {
