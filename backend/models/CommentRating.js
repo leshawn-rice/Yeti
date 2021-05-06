@@ -110,7 +110,30 @@ class CommentRating {
       [id]
     );
 
-    if (!commnet.rows.length) throw new NotFoundError('Comment Not Found');
+    if (!comment.rows.length) throw new NotFoundError('Comment Not Found');
+
+    const currentRating = await db.query(
+      `SELECT id, user_id, comment_id, rating
+      FROM Comments_Ratings
+      WHERE user_id=$1 AND comment_id=$2`,
+      [user_id, comment_id]
+    );
+
+    let ratingValue = 1;
+
+    if (currentRating.rows.length) {
+      if (currentRating.rows[0].rating === 1) {
+        ratingValue = 0;
+      }
+      const rating = await db.query(
+        `UPDATE Comments_Ratings
+        SET rating=$1
+        WHERE user_id=$2 AND comment_id=$3
+        RETURNING id, rating, user_id, comment_id`,
+        [ratingValue, user_id, comment_id]
+      );
+      return rating.rows[0];
+    }
 
     const rating = await db.query(
       `INSERT INTO Comments_Ratings
@@ -142,6 +165,29 @@ class CommentRating {
     );
 
     if (!comment.rows.length) throw new NotFoundError('Comment Not Found');
+
+    const currentRating = await db.query(
+      `SELECT id, user_id, comment_id, rating
+      FROM Comments_Ratings
+      WHERE user_id=$1 AND comment_id=$2`,
+      [user_id, comment_id]
+    );
+
+    let ratingValue = -1;
+
+    if (currentRating.rows.length) {
+      if (currentRating.rows[0].rating === -1) {
+        ratingValue = 0;
+      }
+      const rating = await db.query(
+        `UPDATE Comments_Ratings
+        SET rating=$1
+        WHERE user_id=$2 AND comment_id=$3
+        RETURNING id, rating, user_id, comment_id`,
+        [ratingValue, user_id, comment_id]
+      );
+      return rating.rows[0];
+    }
 
     const rating = await db.query(
       `INSERT INTO Comments_Ratings

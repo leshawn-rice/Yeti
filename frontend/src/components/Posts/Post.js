@@ -5,12 +5,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSortUp, faSortDown, faComment, faBookmark } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux';
 // Internal Dependencies
-import { showErrors, upratePostApi } from '../../redux/actionCreators';
+import { showErrors, upratePostApi, downratePostApi } from '../../redux/actionCreators';
 import YetiApi from '../../api';
 // Styles
 import '../../styles/Post.css';
 
-const Post = ({ post }) => {
+const Post = ({ post, showComment }) => {
   const [ratingColor, setRatingColor] = useState('rgb(58,58,58)');
   const [owner, setOwner] = useState(null);
   const user = useSelector(state => state.userReducer.user);
@@ -36,7 +36,7 @@ const Post = ({ post }) => {
       }
     }
 
-    if (!user) {
+    if (!owner) {
       getOwner();
     }
 
@@ -47,6 +47,8 @@ const Post = ({ post }) => {
 
   let isUpvoted = false;
   let isDownvoted = false;
+
+  console.log(user.ratings);
 
   if (user && user.ratings) {
     const userVotedPost = user.ratings.posts.find(p => p.id === post.id);
@@ -68,7 +70,7 @@ const Post = ({ post }) => {
   }
 
   const downratePost = () => {
-    // downrate
+    dispatch(downratePostApi(token, user.id, post.id));
   }
 
   const savePost = () => {
@@ -102,10 +104,12 @@ const Post = ({ post }) => {
           className="Post-Item"
           onClick={savePost}
         />
-        <Link to={`/posts/${post.id}`}> <FontAwesomeIcon
-          icon={faComment}
-          className="Post-Item"
-        /> </Link>
+        {showComment ? (
+          <Link to={`/posts/${post.id}`}> <FontAwesomeIcon
+            icon={faComment}
+            className="Post-Item"
+          /></Link>
+        ) : null}
       </div>
     </div>
   )

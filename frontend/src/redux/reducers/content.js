@@ -1,4 +1,4 @@
-import { ADD_POST, GET_POSTS, LOAD_POSTS, CLEAR_POSTS, UPRATE_POST, ADD_FULL_POST } from '../actionTypes';
+import { ADD_POST, GET_POSTS, LOAD_POSTS, CLEAR_POSTS, RATE_POST, ADD_FULL_POST } from '../actionTypes';
 
 const INITIAL_STATE = {
   posts: [],
@@ -40,14 +40,13 @@ const contentReducer = (state = INITIAL_STATE, action) => {
       else {
         return state
       }
-    case UPRATE_POST:
+    case RATE_POST:
       const newPosts = state.posts.slice(0);
       const newUnloadedPosts = state.unloadedPosts.slice(0);
       const newLoadedPosts = state.loadedPosts.slice(0);
       let newCurrent = null;
       if (state.currentPost && state.currentPost.id === action.payload.post.id) {
         newCurrent = { ...state.currentPost, rating: action.payload.post.rating }
-        console.log(newCurrent);
       }
       for (let post of newPosts) {
         if (post.id === action.payload.post.id) {

@@ -65,14 +65,20 @@ router.post('/:id/uprate', async (req, res, next) => {
   try {
     const id = req.params.id;
     const { user_id } = req.body;
-    const postRating = await PostRating.uprate(user_id, id);
-    if (postRating.rating === 0) {
-      const post = await Post.downrate(id);
-      return res.json({ post, rating: postRating });
+    const { rating, uprate } = await PostRating.uprate(user_id, id);
+    if (rating.rating === 0) {
+      let post;
+      if (uprate) {
+        post = await Post.uprate(id);
+      }
+      else {
+        post = await Post.downrate(id);
+      }
+      return res.json({ post, rating });
     }
     else {
       const post = await Post.uprate(id);
-      return res.json({ post, rating: postRating });
+      return res.json({ post, rating });
     }
   }
   catch (err) {
@@ -84,14 +90,20 @@ router.post('/:id/downrate', async (req, res, next) => {
   try {
     const id = req.params.id;
     const { user_id } = req.body;
-    const postRating = await PostRating.downrate(user_id, id);
-    if (newRating.rating === 0) {
-      const post = await Post.getById(id);
-      return res.json({ post, rating: postRating });
+    const { rating, downrate } = await PostRating.downrate(user_id, id);
+    if (rating.rating === 0) {
+      let post;
+      if (!downrate) {
+        post = await Post.uprate(id);
+      }
+      else {
+        post = await Post.downrate(id);
+      }
+      return res.json({ post, rating });
     }
     else {
       const post = await Post.downrate(id);
-      return res.json({ post, rating: postRating });
+      return res.json({ post, rating });
     }
   }
   catch (err) {

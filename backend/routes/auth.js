@@ -19,6 +19,7 @@ router.post('/register', async (req, res, next) => {
     const postRatings = await PostRating.getByUserId(user.id);
     const commentRatings = await CommentRating.getByUserId(user.id);
     const ratings = { posts: postRatings, comments: commentRatings }
+    console.log(ratings);
     user.posts = posts;
     user.comments = comments;
     user.ratings = ratings;
@@ -41,6 +42,7 @@ router.post('/login', async (req, res, next) => {
     const postRatings = await PostRating.getByUserId(user.id);
     const commentRatings = await CommentRating.getByUserId(user.id);
     const ratings = { posts: postRatings, comments: commentRatings }
+    console.log(ratings);
     user.posts = posts;
     user.comments = comments;
     user.ratings = ratings;

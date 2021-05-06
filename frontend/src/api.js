@@ -107,6 +107,11 @@ class YetiApi {
     return { post: res.post, rating: res.rating };
   }
 
+  static async downratePost(token, user_id, post_id) {
+    let res = await this.request(`posts/${post_id}/downrate`, token, { user_id }, 'post');
+    return { post: res.post, rating: res.rating };
+  }
+
   // Comment Routes
 
   static async createComment(token, username, commentData) {

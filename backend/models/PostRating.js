@@ -110,8 +110,6 @@ class PostRating {
       [post_id]
     );
 
-    console.log(post.rows);
-
     if (!post.rows.length) throw new NotFoundError('Post Not Found');
 
     // check if post rating exists
@@ -124,9 +122,11 @@ class PostRating {
     );
 
     let ratingValue = 1;
+    let uprate = true;
 
     if (currentRating.rows.length) {
       if (currentRating.rows[0].rating === 1) {
+        uprate = false;
         ratingValue = 0;
       }
       const rating = await db.query(
@@ -136,9 +136,10 @@ class PostRating {
         RETURNING id, rating, user_id, post_id`,
         [ratingValue, user_id, post_id]
       );
-      return rating.rows[0];
+      console.log(rating);
+      console.log(uprate);
+      return { rating: rating.rows[0], uprate };
     }
-
 
     const rating = await db.query(
       `INSERT INTO Posts_Ratings
@@ -149,9 +150,7 @@ class PostRating {
       [ratingValue, user_id, post_id]
     );
 
-    console.log(rating.rows);
-
-    return rating.rows[0];
+    return { rating: rating.rows[0], uprate };
   }
 
   static async downrate(user_id, post_id) {
@@ -181,8 +180,22 @@ class PostRating {
     );
 
     let ratingValue = -1;
+    let downrate = true;
 
-    if (currentRating.rows.length) ratingValue = 0;
+    if (currentRating.rows.length) {
+      if (currentRating.rows[0].rating === -1) {
+        downrate = false;
+        ratingValue = 0;
+      }
+      const rating = await db.query(
+        `UPDATE Posts_Ratings
+        SET rating=$1
+        WHERE user_id=$2 AND post_id=$3
+        RETURNING id, rating, user_id, post_id`,
+        [ratingValue, user_id, post_id]
+      );
+      return { rating: rating.rows[0], downrate };
+    }
 
     const rating = await db.query(
       `INSERT INTO Posts_Ratings
@@ -193,7 +206,7 @@ class PostRating {
       [ratingValue, user_id, post_id]
     );
 
-    return rating.rows[0];
+    return { rating: rating.rows[0], downrate };
   }
 }
 

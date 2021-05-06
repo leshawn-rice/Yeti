@@ -7,7 +7,7 @@ import {
   ADD_USER_POST,
   ADD_USER_COMMENT,
   ADD_POST,
-  UPRATE_POST,
+  RATE_POST,
   GET_POSTS,
   ADD_FULL_POST,
   LOAD_POSTS,
@@ -161,7 +161,21 @@ const upratePostApi = (token, user_id, post_id) => {
     try {
       dispatch(startApiAction());
       const { post, rating } = await YetiApi.upratePost(token, user_id, post_id);
-      dispatch(upratePost(post, rating));
+      dispatch(ratePost(post, rating));
+      dispatch(endApiAction());
+    }
+    catch (errs) {
+      dispatch(handleApiErrors(errs));
+    }
+  }
+}
+
+const downratePostApi = (token, user_id, post_id) => {
+  return async function (dispatch) {
+    try {
+      dispatch(startApiAction());
+      const { post, rating } = await YetiApi.downratePost(token, user_id, post_id);
+      dispatch(ratePost(post, rating));
       dispatch(endApiAction());
     }
     catch (errs) {
@@ -233,9 +247,9 @@ const addPosts = (posts) => {
   }
 }
 
-const upratePost = (post, rating) => {
+const ratePost = (post, rating) => {
   return {
-    type: UPRATE_POST,
+    type: RATE_POST,
     payload: { post, rating }
   }
 }
@@ -319,6 +333,7 @@ export {
   getLocalPostsApi,
   createPostApi,
   upratePostApi,
+  downratePostApi,
   createCommentApi,
   getFullPostApi,
   loadPosts,

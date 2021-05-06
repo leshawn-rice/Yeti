@@ -120,8 +120,9 @@ class Post {
     const newPost = await db.query(
       `UPDATE Posts
       SET rating=$1
+      WHERE id=$2
       RETURNING id, body, rating, user_id`,
-      [newRating]
+      [newRating, id]
     );
 
     return newPost.rows[0];
@@ -144,8 +145,9 @@ class Post {
     const newPost = await db.query(
       `UPDATE Posts
       SET rating=$1
+      WHERE id=$2
       RETURNING id, body, rating, user_id`,
-      [newRating]
+      [newRating, id]
     );
 
     return newPost.rows[0];

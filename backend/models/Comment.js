@@ -110,8 +110,9 @@ class Comment {
     const newComment = await db.query(
       `UPDATE Comments
       SET rating=$1
+      WHERE ID=$2
       RETURNING id, comment, rating, user_id, post_id`,
-      [newRating]
+      [newRating, id]
     );
 
     return newComment.rows[0];
@@ -134,8 +135,9 @@ class Comment {
     const newComment = await db.query(
       `UPDATE Comments
       SET rating=$1
+      WHERE ID=$2
       RETURNING id, comment, rating, user_id, post_id`,
-      [newRating]
+      [newRating, id]
     );
 
     return newComment.rows[0];
