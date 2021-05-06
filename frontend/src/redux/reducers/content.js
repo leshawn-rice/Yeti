@@ -1,7 +1,8 @@
-import { ADD_POST, GET_POSTS, LOAD_POSTS, CLEAR_POSTS } from '../actionTypes';
+import { ADD_POST, GET_POSTS, LOAD_POSTS, CLEAR_POSTS, UPRATE_POST, ADD_FULL_POST } from '../actionTypes';
 
 const INITIAL_STATE = {
   posts: [],
+  currentPost: null,
   loadedPosts: [],
   unloadedPosts: [],
 };
@@ -39,9 +40,46 @@ const contentReducer = (state = INITIAL_STATE, action) => {
       else {
         return state
       }
+    case UPRATE_POST:
+      const newPosts = state.posts.slice(0);
+      const newUnloadedPosts = state.unloadedPosts.slice(0);
+      const newLoadedPosts = state.loadedPosts.slice(0);
+      let newCurrent = null;
+      if (state.currentPost && state.currentPost.id === action.payload.post.id) {
+        newCurrent = { ...state.currentPost, rating: action.payload.post.rating }
+        console.log(newCurrent);
+      }
+      for (let post of newPosts) {
+        if (post.id === action.payload.post.id) {
+          post.rating = action.payload.post.rating;
+        }
+      }
+      for (let post of newUnloadedPosts) {
+        if (post.id === action.payload.post.id) {
+          post.rating = action.payload.post.rating;
+        }
+      }
+      for (let post of newLoadedPosts) {
+        if (post.id === action.payload.post.id) {
+          post.rating = action.payload.post.rating;
+        }
+      }
+      return {
+        ...state,
+        posts: newPosts,
+        unloadedPosts: newUnloadedPosts,
+        loadedPosts: newLoadedPosts,
+        currentPost: newCurrent
+      }
+    case ADD_FULL_POST:
+      return {
+        ...state,
+        currentPost: action.payload
+      }
     case CLEAR_POSTS:
       return {
         ...state,
+        currentPost: null,
         posts: [],
         loadedPosts: [],
         unloadedPosts: []

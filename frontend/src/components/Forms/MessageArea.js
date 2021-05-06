@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MessageArea = ({ id, name, label, placeholder, value, handleChange }) => {
+const MessageArea = ({ id, name, label, placeholder, value, disabled, handleChange }) => {
   return (
     <div className="MessageArea">
       <label
@@ -14,6 +14,7 @@ const MessageArea = ({ id, name, label, placeholder, value, handleChange }) => {
         name={name}
         placeholder={placeholder}
         value={value}
+        disabled={disabled}
         onChange={handleChange} />
     </div>
   );

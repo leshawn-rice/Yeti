@@ -56,6 +56,7 @@ const Form = ({ inputs = [], messageAreas = [], INITIAL_DATA = {}, buttonLabel =
             label={messageArea.label}
             placeholder={messageArea.placeholder}
             value={formData[messageArea.name]}
+            disabled={messageArea.disabled}
             handleChange={handleChange} />
         ))}
         <div className="Form-SubmitArea">

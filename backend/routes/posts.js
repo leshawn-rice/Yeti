@@ -2,6 +2,8 @@ const express = require('express');
 const Post = require('../models/Post');
 const Comment = require('../models/Comment');
 const { ensureCorrectUser } = require('../middleware/auth');
+const User = require('../models/User');
+const PostRating = require('../models/PostRating');
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
@@ -53,6 +55,44 @@ router.post('/:username', ensureCorrectUser, async (req, res, next) => {
     const username = req.params.username;
     const post = await Post.create(username, body, location);
     return res.json({ post });
+  }
+  catch (err) {
+    return next(err);
+  }
+});
+
+router.post('/:id/uprate', async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const { user_id } = req.body;
+    const postRating = await PostRating.uprate(user_id, id);
+    if (postRating.rating === 0) {
+      const post = await Post.downrate(id);
+      return res.json({ post, rating: postRating });
+    }
+    else {
+      const post = await Post.uprate(id);
+      return res.json({ post, rating: postRating });
+    }
+  }
+  catch (err) {
+    return next(err);
+  }
+});
+
+router.post('/:id/downrate', async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const { user_id } = req.body;
+    const postRating = await PostRating.downrate(user_id, id);
+    if (newRating.rating === 0) {
+      const post = await Post.getById(id);
+      return res.json({ post, rating: postRating });
+    }
+    else {
+      const post = await Post.downrate(id);
+      return res.json({ post, rating: postRating });
+    }
   }
   catch (err) {
     return next(err);

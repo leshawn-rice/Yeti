@@ -6,6 +6,8 @@ const Post = require('../models/Post');
 const Comment = require('../models/Comment');
 const { createUserToken, decodeToken, verifyToken } = require('../helpers/tokens');
 const { sendEmail, createConfirmationEmail } = require('../helpers/email');
+const PostRating = require('../models/PostRating');
+const CommentRating = require('../models/CommentRating');
 const router = express.Router();
 
 router.post('/register', async (req, res, next) => {
@@ -14,7 +16,12 @@ router.post('/register', async (req, res, next) => {
     const user = await User.register(email, password);
     const posts = await Post.getByUserId(user.id);
     const comments = await Comment.getByUserId(user.id);
+    const postRatings = await PostRating.getByUserId(user.id);
+    const commentRatings = await CommentRating.getByUserId(user.id);
+    const ratings = { posts: postRatings, comments: commentRatings }
     user.posts = posts;
+    user.comments = comments;
+    user.ratings = ratings;
     const token = createUserToken(user);
     const emailOptions = createConfirmationEmail(email);
     sendEmail(emailOptions);
@@ -31,8 +38,12 @@ router.post('/login', async (req, res, next) => {
     const user = await User.authenticate(email, password);
     const posts = await Post.getByUserId(user.id);
     const comments = await Comment.getByUserId(user.id);
+    const postRatings = await PostRating.getByUserId(user.id);
+    const commentRatings = await CommentRating.getByUserId(user.id);
+    const ratings = { posts: postRatings, comments: commentRatings }
     user.posts = posts;
     user.comments = comments;
+    user.ratings = ratings;
     const token = createUserToken(user);
     return res.json({ token, user });
   }
@@ -63,8 +74,12 @@ router.post('/confirm-email', async (req, res, next) => {
     const user = await User.confirmEmail(decodedToken);
     const posts = await Post.getByUserId(user.id);
     const comments = await Comment.getByUserId(user.id);
+    const postRatings = await PostRating.getByUserId(user.id);
+    const commentRatings = await CommentRating.getByUserId(user.id);
+    const ratings = { posts: postRatings, comments: commentRatings }
     user.posts = posts;
     user.comments = comments;
+    user.ratings = ratings;
     const userToken = createUserToken(user);
     return res.json({ token: userToken, user });
   }

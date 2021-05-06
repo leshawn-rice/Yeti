@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import ios from '../../img/download-ios.svg';
 import android from '../../img/download-android.svg';
 // Components
-import CreatePost from './CreatePost';
+import CreatePost from '../Posts/CreatePost';
 import LocalPosts from '../Posts/LocalPosts';
 // Styles
 import '../../styles/Home.css'

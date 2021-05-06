@@ -27,8 +27,14 @@ const CreatePost = () => {
     }
   ];
 
+  if (!user.username) {
+    messageAreas[0].disabled = true;
+    messageAreas[0].placeholder = 'You need to be logged in to post';
+  }
+
   const handleSubmit = (formData) => {
     formData.location = location;
+    if (!user.username) return;
     dispatch(createPostApi(token, user.username, formData));
   }
 

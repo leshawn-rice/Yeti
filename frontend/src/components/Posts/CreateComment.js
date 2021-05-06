@@ -26,8 +26,14 @@ const CreateComment = ({ postId, addToPost }) => {
     }
   ];
 
+  if (!user.username) {
+    messageAreas[0].disabled = true;
+    messageAreas[0].placeholder = 'You need to be logged in to comment';
+  }
+
   const handleSubmit = (formData) => {
     formData.postId = postId;
+    // if (!user.username) return;
     dispatch(createCommentApi(token, user.username, formData));
     const data = { user_id: user.id, post_id: postId, comment: formData.comment, rating: 0 };
     addToPost(data);

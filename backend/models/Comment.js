@@ -1,7 +1,7 @@
 "use strict";
 
 const db = require("../db");
-const { BadRequestError, NotFoundError } = require("../expressError");
+const { BadRequestError, NotFoundError, UnauthorizedError } = require("../expressError");
 
 class Comment {
   /**
@@ -93,7 +93,58 @@ class Comment {
     return result.rows;
   }
 
+  static async uprate(id) {
+    const comment = await db.query(
+      `SELECT id, rating
+      FROM Comments 
+      WHERE id=$1`,
+      [id]
+    );
+
+    if (!comment.rows.length) {
+      throw new NotFoundError('Comment Not Found');
+    }
+
+    let newRating = comment.rows[0].rating + 1;
+
+    const newComment = await db.query(
+      `UPDATE Comments
+      SET rating=$1
+      RETURNING id, comment, rating, user_id, post_id`,
+      [newRating]
+    );
+
+    return newComment.rows[0];
+  }
+
+  static async downrate(id) {
+    const comment = await db.query(
+      `SELECT id, rating
+      FROM Comments 
+      WHERE id=$1`,
+      [id]
+    );
+
+    if (!comment.rows.length) {
+      throw new NotFoundError('Comment Not Found');
+    }
+
+    let newRating = comment.rows[0].rating - 1;
+
+    const newComment = await db.query(
+      `UPDATE Comments
+      SET rating=$1
+      RETURNING id, comment, rating, user_id, post_id`,
+      [newRating]
+    );
+
+    return newComment.rows[0];
+  }
+
   static async create(username, body, post_id) {
+
+    if (!username) throw new UnauthorizedError('You need to be logged in to comment!');
+
     const userResult = await db.query(
       `SELECT id, username 
       FROM Users 
@@ -101,7 +152,15 @@ class Comment {
       [username]
     );
 
-    if (userResult.rows.length === 0) throw new NotFoundError('User Not Found');
+    const postResult = await db.query(
+      `SELECT id, body 
+      FROM Posts 
+      WHERE id=$1`,
+      [post_id]
+    );
+
+    if (!userResult.rows.length) throw new NotFoundError('User Not Found');
+    if (!postResult.rows.length) throw new NotFoundError('Post Not Found');
 
     const user_id = userResult.rows[0].id;
 

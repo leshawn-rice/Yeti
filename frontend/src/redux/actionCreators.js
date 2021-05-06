@@ -7,7 +7,9 @@ import {
   ADD_USER_POST,
   ADD_USER_COMMENT,
   ADD_POST,
+  UPRATE_POST,
   GET_POSTS,
+  ADD_FULL_POST,
   LOAD_POSTS,
   CLEAR_POSTS,
   SHOW_ERRORS,
@@ -17,6 +19,36 @@ import {
   SET_LOCATION,
   CLEAR_LOCATION,
 } from './actionTypes';
+
+const startApiAction = () => {
+  return async function (dispatch) {
+    try {
+      dispatch(startLoading());
+      dispatch(clearErrors());
+    }
+    catch (errs) {
+      dispatch(handleApiErrors(errs));
+    }
+  }
+}
+
+const endApiAction = () => {
+  return async function (dispatch) {
+    try {
+      dispatch(stopLoading());
+    }
+    catch (errs) {
+      dispatch(handleApiErrors(errs));
+    }
+  }
+}
+
+const handleApiErrors = (errs) => {
+  return async function (dispatch) {
+    dispatch(stopLoading());
+    dispatch(showErrors(errs));
+  }
+}
 
 const getLocationApi = () => {
   return async function (dispatch) {
@@ -41,15 +73,13 @@ const getLocationApi = () => {
 const registerUserApi = (userData) => {
   return async function (dispatch) {
     try {
-      dispatch(startLoading());
-      dispatch(clearErrors());
+      dispatch(startApiAction());
       const { token, user } = await YetiApi.register(userData);
       dispatch(loginUser({ token, user }));
-      dispatch(stopLoading());
+      dispatch(endApiAction());
     }
     catch (errs) {
-      dispatch(showErrors(errs));
-      dispatch(stopLoading());
+      dispatch(handleApiErrors(errs));
     }
   }
 }
@@ -57,15 +87,13 @@ const registerUserApi = (userData) => {
 const loginUserApi = (userData) => {
   return async function (dispatch) {
     try {
-      dispatch(startLoading());
-      dispatch(clearErrors());
+      dispatch(startApiAction());
       const { token, user } = await YetiApi.login(userData);
       dispatch(loginUser({ token, user }));
-      dispatch(stopLoading());
+      dispatch(endApiAction());
     }
     catch (errs) {
-      dispatch(stopLoading());
-      dispatch(showErrors(errs));
+      dispatch(handleApiErrors(errs));
     }
   }
 }
@@ -73,15 +101,13 @@ const loginUserApi = (userData) => {
 const getUserByIdApi = (id) => {
   return async function (dispatch) {
     try {
-      dispatch(startLoading());
-      dispatch(clearErrors());
+      dispatch(startApiAction());
       const { user } = await YetiApi.getUserById(id);
-      dispatch(stopLoading());
+      dispatch(endApiAction());
       return user;
     }
     catch (errs) {
-      dispatch(stopLoading());
-      dispatch(showErrors(errs));
+      dispatch(handleApiErrors(errs));
     }
   }
 }
@@ -89,16 +115,14 @@ const getUserByIdApi = (id) => {
 const deleteUserApi = (token, username) => {
   return async function (dispatch) {
     try {
-      dispatch(startLoading());
-      dispatch(clearErrors());
+      dispatch(startApiAction());
       const { message } = await YetiApi.deleteUser(token, username);
       console.log(message);
       dispatch(logoutUser());
-      dispatch(stopLoading());
+      dispatch(endApiAction());
     }
     catch (errs) {
-      dispatch(stopLoading());
-      dispatch(showErrors(errs));
+      dispatch(handleApiErrors(errs));
     }
   }
 }
@@ -106,15 +130,13 @@ const deleteUserApi = (token, username) => {
 const getLocalPostsApi = (location) => {
   return async function (dispatch) {
     try {
-      dispatch(startLoading());
-      dispatch(clearErrors());
+      dispatch(startApiAction());
       const { posts } = await YetiApi.getLocalPosts(location);
       dispatch(addPosts(posts));
-      dispatch(stopLoading());
+      dispatch(endApiAction());
     }
     catch (errs) {
-      dispatch(stopLoading());
-      dispatch(showErrors(errs));
+      dispatch(handleApiErrors(errs));
     }
   }
 }
@@ -122,16 +144,28 @@ const getLocalPostsApi = (location) => {
 const createPostApi = (token, username, postData) => {
   return async function (dispatch) {
     try {
-      dispatch(startLoading());
-      dispatch(clearErrors());
+      dispatch(startApiAction());
       const { post } = await YetiApi.createPost(token, username, postData);
       dispatch(addUserPost(post));
       dispatch(addPost(post));
-      dispatch(stopLoading());
+      dispatch(endApiAction());
     }
     catch (errs) {
-      dispatch(stopLoading());
-      dispatch(showErrors(errs));
+      dispatch(handleApiErrors(errs));
+    }
+  }
+}
+
+const upratePostApi = (token, user_id, post_id) => {
+  return async function (dispatch) {
+    try {
+      dispatch(startApiAction());
+      const { post, rating } = await YetiApi.upratePost(token, user_id, post_id);
+      dispatch(upratePost(post, rating));
+      dispatch(endApiAction());
+    }
+    catch (errs) {
+      dispatch(handleApiErrors(errs));
     }
   }
 }
@@ -139,31 +173,27 @@ const createPostApi = (token, username, postData) => {
 const createCommentApi = (token, username, postData) => {
   return async function (dispatch) {
     try {
-      dispatch(startLoading());
-      dispatch(clearErrors());
+      dispatch(startApiAction());
       const { comment } = await YetiApi.createComment(token, username, postData);
       dispatch(addUserComment(comment));
-      dispatch(stopLoading());
+      dispatch(endApiAction());
     }
     catch (errs) {
-      dispatch(stopLoading());
-      dispatch(showErrors(errs));
+      dispatch(handleApiErrors(errs));
     }
   }
 }
 
-const getPostApi = (token, id) => {
+const getFullPostApi = (token, id) => {
   return async function (dispatch) {
     try {
-      dispatch(startLoading());
-      dispatch(clearErrors());
+      dispatch(startApiAction());
       const { post } = await YetiApi.getPost(token, id);
-      dispatch(stopLoading());
-      return post;
+      dispatch(addFullPost(post));
+      dispatch(endApiAction());
     }
     catch (errs) {
-      dispatch(stopLoading());
-      dispatch(showErrors(errs));
+      dispatch(handleApiErrors(errs));
     }
   }
 }
@@ -189,10 +219,24 @@ const addPost = (post) => {
   }
 }
 
+const addFullPost = (post) => {
+  return {
+    type: ADD_FULL_POST,
+    payload: post
+  }
+}
+
 const addPosts = (posts) => {
   return {
     type: GET_POSTS,
     payload: posts
+  }
+}
+
+const upratePost = (post, rating) => {
+  return {
+    type: UPRATE_POST,
+    payload: { post, rating }
   }
 }
 
@@ -274,8 +318,9 @@ export {
   getUserByIdApi,
   getLocalPostsApi,
   createPostApi,
+  upratePostApi,
   createCommentApi,
-  getPostApi,
+  getFullPostApi,
   loadPosts,
   clearPosts,
   showErrors,

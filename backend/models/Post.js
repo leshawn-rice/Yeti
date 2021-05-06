@@ -103,6 +103,54 @@ class Post {
     return result.rows;
   }
 
+  static async uprate(id) {
+    const post = await db.query(
+      `SELECT id, rating
+      FROM Posts 
+      WHERE id=$1`,
+      [id]
+    );
+
+    if (!post.rows.length) {
+      throw new NotFoundError('Post Not Found');
+    }
+
+    let newRating = post.rows[0].rating + 1;
+
+    const newPost = await db.query(
+      `UPDATE Posts
+      SET rating=$1
+      RETURNING id, body, rating, user_id`,
+      [newRating]
+    );
+
+    return newPost.rows[0];
+  }
+
+  static async downrate(id) {
+    const post = await db.query(
+      `SELECT id, rating
+      FROM Posts 
+      WHERE id=$1`,
+      [id]
+    );
+
+    if (!post.rows.length) {
+      throw new NotFoundError('Post Not Found');
+    }
+
+    let newRating = post.rows[0].rating - 1;
+
+    const newPost = await db.query(
+      `UPDATE Posts
+      SET rating=$1
+      RETURNING id, body, rating, user_id`,
+      [newRating]
+    );
+
+    return newPost.rows[0];
+  }
+
   static async create(username, body, location) {
     const userResult = await db.query(
       `SELECT id, username 
