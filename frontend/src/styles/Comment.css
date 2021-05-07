@@ -2,6 +2,7 @@
   position: relative;
   width: 50%;
   height: fit-content;
+  overflow-x: hidden;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -24,6 +25,7 @@
 .Comment-Content {
   font-size: 1.5rem;
   font-weight: 400;
+  margin-top: 1rem;
   width: 90%;
   display: flex;
   align-items: center;

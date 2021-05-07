@@ -1,6 +1,7 @@
 // External Dependencies
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuid } from 'uuid';
 // Internal Dependencies
 import { createCommentApi } from '../../redux/actionCreators';
 // Components
@@ -35,7 +36,8 @@ const CreateComment = ({ postId, addToPost }) => {
     formData.postId = postId;
     // if (!user.username) return;
     dispatch(createCommentApi(token, user.username, formData));
-    const data = { user_id: user.id, post_id: postId, comment: formData.comment, rating: 0 };
+    const id = uuid();
+    const data = { id, user_id: user.id, post_id: postId, comment: formData.comment, rating: 0 };
     addToPost(data);
   }
 

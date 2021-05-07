@@ -12,6 +12,9 @@ const Comments = ({ comments }) => {
       <NotFound />
     )
   }
+
+  console.log(comments);
+
   return (
     <div className="Comments">
       {comments.map(comment => (
