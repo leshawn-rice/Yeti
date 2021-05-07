@@ -2,6 +2,7 @@
   position: relative;
   width: 80%;
   height: fit-content;
+  overflow-x: hidden;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
