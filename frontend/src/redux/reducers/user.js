@@ -47,14 +47,23 @@ const userReducer = (state = INITIAL_STATE, action) => {
         }
       }
     case RATE_POST:
-      const newPosts = state.user.ratings.posts.slice(0);
-      for (let post of newPosts) {
-        if (post.id === action.payload.rating.post_id) {
-          post.rating = action.payload.rating.rating;
+      const posts = state.user.ratings.posts.slice(0);
+      // Adjust post if it exists in current ratings
+      console.log(action.payload);
+      for (let i = 0; i < posts.length; i++) {
+        let post = posts[i];
+        if (post.post_id === action.payload.rating.post_id) {
+          if (action.payload.rating.rating === 0) {
+            posts.splice(i, 1);
+          }
+          else {
+            post.rating = action.payload.rating.rating;
+          }
         }
       }
-      if (newPosts.length === 0) {
-        newPosts.push(action.payload.rating);
+      // If ratings is empty, put the rating in if it isn't null
+      if (posts.length === 0 && action.payload.rating.rating !== 0) {
+        posts.push(action.payload.rating);
       }
       return {
         ...state,
@@ -62,7 +71,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
           ...state.user,
           ratings: {
             ...state.user.ratings,
-            posts: newPosts
+            posts: posts
           }
         }
       }

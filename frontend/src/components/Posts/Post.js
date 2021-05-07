@@ -48,10 +48,8 @@ const Post = ({ post, showComment }) => {
   let isUpvoted = false;
   let isDownvoted = false;
 
-  console.log(user.ratings);
-
   if (user && user.ratings) {
-    const userVotedPost = user.ratings.posts.find(p => p.id === post.id);
+    const userVotedPost = user.ratings.posts.find(post_rating => post_rating.post_id === post.id);
     if (userVotedPost) {
       if (userVotedPost.rating === 1) {
         isUpvoted = true;

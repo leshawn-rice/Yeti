@@ -63,23 +63,22 @@ router.post('/:username', ensureCorrectUser, async (req, res, next) => {
 
 router.post('/:id/uprate', async (req, res, next) => {
   try {
-    const id = req.params.id;
+    const id = parseInt(req.params.id);
     const { user_id } = req.body;
-    const { rating, uprate } = await PostRating.uprate(user_id, id);
-    if (rating.rating === 0) {
-      let post;
-      if (uprate) {
-        post = await Post.uprate(id);
-      }
-      else {
-        post = await Post.downrate(id);
-      }
-      return res.json({ post, rating });
+    const { rating, wasUprated, wasDownrated } = await PostRating.uprate(user_id, id);
+    let post;
+    if (wasUprated) {
+      post = await Post.downrate(id);
+    }
+    else if (wasDownrated) {
+      // uprate twice if it was downrated before
+      await Post.uprate(id);
+      post = await Post.uprate(id);
     }
     else {
-      const post = await Post.uprate(id);
-      return res.json({ post, rating });
+      post = await Post.uprate(id);
     }
+    return res.json({ post, rating })
   }
   catch (err) {
     return next(err);
@@ -88,23 +87,22 @@ router.post('/:id/uprate', async (req, res, next) => {
 
 router.post('/:id/downrate', async (req, res, next) => {
   try {
-    const id = req.params.id;
+    const id = parseInt(req.params.id);
     const { user_id } = req.body;
-    const { rating, downrate } = await PostRating.downrate(user_id, id);
-    if (rating.rating === 0) {
-      let post;
-      if (!downrate) {
-        post = await Post.uprate(id);
-      }
-      else {
-        post = await Post.downrate(id);
-      }
-      return res.json({ post, rating });
+    const { rating, wasUprated, wasDownrated } = await PostRating.downrate(user_id, id);
+    let post;
+    if (wasDownrated) {
+      post = await Post.uprate(id);
+    }
+    else if (wasUprated) {
+      // downrate twice if it was uprated before
+      await Post.downrate(id);
+      post = await Post.downrate(id);
     }
     else {
-      const post = await Post.downrate(id);
-      return res.json({ post, rating });
+      post = await Post.downrate(id);
     }
+    return res.json({ post, rating })
   }
   catch (err) {
     return next(err);

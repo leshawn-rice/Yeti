@@ -2,6 +2,7 @@
 
 const db = require("../db");
 const { BadRequestError, NotFoundError, UnauthorizedError } = require("../expressError");
+const { checkLastRating } = require("../helpers/models");
 
 class CommentRating {
   /**
@@ -119,32 +120,30 @@ class CommentRating {
       [user_id, comment_id]
     );
 
-    let ratingValue = 1;
+    const { wasUprated, wasDownrated } = checkLastRating(currentRating);
 
     if (currentRating.rows.length) {
-      if (currentRating.rows[0].rating === 1) {
-        ratingValue = 0;
-      }
-      const rating = await db.query(
-        `UPDATE Comments_Ratings
-        SET rating=$1
-        WHERE user_id=$2 AND comment_id=$3
-        RETURNING id, rating, user_id, comment_id`,
-        [ratingValue, user_id, comment_id]
+      await db.query(
+        `DELETE FROM Comments_Ratings
+        WHERE user_id=$1 AND comment_id=$2`,
+        [user_id, comment_id]
       );
-      return rating.rows[0];
     }
 
-    const rating = await db.query(
-      `INSERT INTO Comments_Ratings
-      (rating, user_id, comment_id)
-      VALUES
-      ($1, $2, $3)
-      RETURNING id, rating, user_id, comment_id`,
-      [1, user_id, comment_id]
-    );
-
-    return rating.rows[0];
+    if (!wasUprated) {
+      const rating = await db.query(
+        `INSERT INTO Comments_Ratings
+        (rating, user_id, comment_id)
+        VALUES
+        ($1, $2, $3)
+        RETURNING id, rating, user_id, comment_id`,
+        [1, user_id, comment_id]
+      );
+      return { rating: rating.rows[0], wasUprated, wasDownrated };
+    }
+    else {
+      return { rating: { id: 0, user_id, comment_id, rating: 0 }, wasUprated, wasDownrated }
+    }
   }
 
   static async downrate(id) {
@@ -173,32 +172,30 @@ class CommentRating {
       [user_id, comment_id]
     );
 
-    let ratingValue = -1;
+    const { wasUprated, wasDownrated } = checkLastRating(currentRating);
 
     if (currentRating.rows.length) {
-      if (currentRating.rows[0].rating === -1) {
-        ratingValue = 0;
-      }
-      const rating = await db.query(
-        `UPDATE Comments_Ratings
-        SET rating=$1
-        WHERE user_id=$2 AND comment_id=$3
-        RETURNING id, rating, user_id, comment_id`,
-        [ratingValue, user_id, comment_id]
+      await db.query(
+        `DELETE FROM Comments_Ratings
+        WHERE user_id=$1 AND comment_id=$2`,
+        [user_id, comment_id]
       );
-      return rating.rows[0];
     }
 
-    const rating = await db.query(
-      `INSERT INTO Comments_Ratings
-      (rating, user_id, comment_id)
-      VALUES
-      ($1, $2, $3)
-      RETURNING id, rating, user_id, comment_id`,
-      [-1, user_id, comment_id]
-    );
-
-    return rating.rows[0];
+    if (!wasDownrated) {
+      const rating = await db.query(
+        `INSERT INTO Comments_Ratings
+        (rating, user_id, comment_id)
+        VALUES
+        ($1, $2, $3)
+        RETURNING id, rating, user_id, comment_id`,
+        [-1, user_id, comment_id]
+      );
+      return { rating: rating.rows[0], wasUprated, wasDownrated };
+    }
+    else {
+      return { rating: { id: 0, user_id, comment_id, rating: 0 }, wasUprated, wasDownrated }
+    }
   }
 }
 
