@@ -4,6 +4,7 @@ const Comment = require('../models/Comment');
 const { ensureCorrectUser } = require('../middleware/auth');
 const User = require('../models/User');
 const PostRating = require('../models/PostRating');
+const { handlePostDownrate, handlePostUprate } = require('../helpers/routes');
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
@@ -65,19 +66,7 @@ router.post('/:id/uprate', async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
     const { user_id } = req.body;
-    const { rating, wasUprated, wasDownrated } = await PostRating.uprate(user_id, id);
-    let post;
-    if (wasUprated) {
-      post = await Post.downrate(id);
-    }
-    else if (wasDownrated) {
-      // uprate twice if it was downrated before
-      await Post.uprate(id);
-      post = await Post.uprate(id);
-    }
-    else {
-      post = await Post.uprate(id);
-    }
+    const { post, rating } = await handlePostUprate(id, user_id);
     return res.json({ post, rating })
   }
   catch (err) {
@@ -89,19 +78,7 @@ router.post('/:id/downrate', async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
     const { user_id } = req.body;
-    const { rating, wasUprated, wasDownrated } = await PostRating.downrate(user_id, id);
-    let post;
-    if (wasDownrated) {
-      post = await Post.uprate(id);
-    }
-    else if (wasUprated) {
-      // downrate twice if it was uprated before
-      await Post.downrate(id);
-      post = await Post.downrate(id);
-    }
-    else {
-      post = await Post.downrate(id);
-    }
+    const { post, rating } = await handlePostDownrate(id, user_id);
     return res.json({ post, rating })
   }
   catch (err) {
