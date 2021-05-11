@@ -7,6 +7,13 @@
   margin-bottom: auto;
 }
 
+.FullPost-Post {
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .FullPost-Comments {
   display: flex;
   flex-direction: column;

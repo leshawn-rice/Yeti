@@ -8,7 +8,7 @@ const ProfilePosts = () => {
   const user = useSelector(state => state.userReducer.user);
 
   return (
-    <Posts posts={user.posts} />
+    <Posts posts={user.posts} allowDelete={true} />
   )
 }
 

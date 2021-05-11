@@ -118,6 +118,11 @@ class YetiApi {
     let res = await this.request(`comments/${username}`, token, commentData, 'post');
     return { comment: res.comment };
   }
+
+  static async getComment(token, id) {
+    let res = await this.request(`comments/${id}`, token, {}, 'get');
+    return { comment: res.comment };
+  }
 }
 
 

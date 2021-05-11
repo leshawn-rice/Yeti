@@ -1,8 +1,19 @@
 const express = require('express');
 const Comment = require('../models/Comment');
-const { ensureCorrectUser } = require('../middleware/auth');
+const { ensureCorrectUser, ensureLoggedIn } = require('../middleware/auth');
 const { handleCommentDownrate, handleCommentUprate } = require('../helpers/routes');
 const router = express.Router();
+
+router.get('/:id', ensureLoggedIn, async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const comment = await Comment.getById(id);
+    return res.json({ comment });
+  }
+  catch (err) {
+    return next(err);
+  }
+});
 
 router.post('/:username', ensureCorrectUser, async (req, res, next) => {
   try {

@@ -23,6 +23,7 @@ const LocalPosts = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log('Getting local posts');
     const data = { ...location, distance };
     dispatch(getLocalPostsApi(data));
 
@@ -56,7 +57,8 @@ const LocalPosts = () => {
   }
 
   const handleSubmit = (evt) => {
-    const { value } = evt.target;
+    evt.preventDefault();
+    const value = document.querySelector('#post-range').value;
     setDistance(value);
     setIsSettingsOpen(false);
   }
@@ -80,7 +82,7 @@ const LocalPosts = () => {
             id="post-range"
             placeholder={5}
             min={1} max={100} />
-          <input className="PostRange-Value" id="post-range-value" type="text" placeholder="5 miles" readOnly />
+          <input className="PostRange-Value" id="post-range-value" type="text" placeholder="50 miles" readOnly />
         </div>
         <button className="LocalPosts-Settings-Submit">Change</button>
       </form>

@@ -9,7 +9,7 @@ const ProfileComments = () => {
   const user = useSelector(state => state.userReducer.user);
 
   return (
-    <Comments comments={user.comments} />
+    <Comments comments={user.comments} allowDelete={true} />
   )
 }
 

@@ -9,9 +9,9 @@ import Loading from '../Loading';
 import NotFound from '../NotFound';
 import Post from './Post';
 import CreateComment from './CreateComment';
+import Comments from './Comments';
 // Styles
 import '../../styles/FullPost.css';
-import Comments from './Comments';
 
 const FullPost = () => {
   const { id } = useParams();
@@ -42,7 +42,9 @@ const FullPost = () => {
 
   return (
     <div className="FullPost">
-      <Post post={post} />
+      <div className="FullPost-Post">
+        <Post post={post} />
+      </div>
       <div className="FullPost-Comments">
         <CreateComment postId={post.id} addToPost={addComment} />
         <Comments comments={post.comments} />

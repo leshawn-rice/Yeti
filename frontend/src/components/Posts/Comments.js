@@ -6,7 +6,7 @@ import NotFound from '../NotFound';
 // Styles
 import '../../styles/Comments.css';
 
-const Comments = ({ comments }) => {
+const Comments = ({ comments, allowDelete }) => {
   if (!comments.length) {
     return (
       <NotFound />
@@ -18,7 +18,7 @@ const Comments = ({ comments }) => {
   return (
     <div className="Comments">
       {comments.map(comment => (
-        <Comment key={comment.id} comment={comment} />
+        <Comment key={comment.id} comment={comment} allowDelete={allowDelete} />
       ))}
     </div>
   )

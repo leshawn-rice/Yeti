@@ -6,7 +6,7 @@ import NotFound from '../NotFound';
 // Styles
 import '../../styles/Posts.css';
 
-const Posts = ({ posts }) => {
+const Posts = ({ posts, allowDelete }) => {
   if (!posts.length) {
     return (
       <NotFound />
@@ -15,7 +15,7 @@ const Posts = ({ posts }) => {
   return (
     <div className="Posts">
       {posts.map(post => (
-        <Post key={post.id} post={post} showComment={true} />
+        <Post key={post.id} post={post} showComment={true} allowDelete={allowDelete} />
       ))}
     </div>
   )
