@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 const ProfileSaved = () => {
   const user = useSelector(state => state.userReducer.user);
 
+  console.log(user.saved);
+
   return (
     <h1>Profile Saved</h1>
   )
