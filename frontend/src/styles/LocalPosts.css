@@ -19,6 +19,12 @@
   width: 100%;
 }
 
+@media only screen and (max-width: 600px) {
+  .PostRange {
+    flex-direction: column;
+  }
+}
+
 .PostRange-Label {
   font-size: 2rem;
   margin: 0 1rem;

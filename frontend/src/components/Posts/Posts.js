@@ -15,7 +15,7 @@ const Posts = ({ posts, allowDelete }) => {
   return (
     <div className="Posts">
       {posts.map(post => (
-        <Post key={post.id} post={post} showComment={true} allowDelete={allowDelete} />
+        <Post key={`post-${post.id}`} post={post} showComment={true} allowDelete={allowDelete} />
       ))}
     </div>
   )

@@ -1,8 +1,10 @@
 .ContentItem {
   position: relative;
   height: fit-content;
-  overflow-x: hidden;
   display: flex;
+  word-wrap: break-word;
+  word-break:break-all;
+  overflow-wrap: break-word;
   flex-direction: row;
   justify-content: space-between;
   border-radius: 1rem;

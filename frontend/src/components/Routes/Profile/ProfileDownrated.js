@@ -24,7 +24,7 @@ const ProfileDownrated = () => {
     <>
       {downrated.map(item => (
         <ContentItem
-          key={item.id}
+          key={`${item.type}-${item.id}`}
           contentItem={item}
           type={item.type}
           showComment={item.type === 'post' ? true : false}

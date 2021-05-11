@@ -1,4 +1,4 @@
-import { ADD_POST, GET_POSTS, LOAD_POSTS, CLEAR_POSTS, RATE_POST, ADD_FULL_POST } from '../actionTypes';
+import { ADD_POST, GET_POSTS, LOAD_POSTS, CLEAR_POSTS, RATE_POST, ADD_FULL_POST, RATE_COMMENT } from '../actionTypes';
 
 const INITIAL_STATE = {
   posts: [],
@@ -69,6 +69,24 @@ const contentReducer = (state = INITIAL_STATE, action) => {
         unloadedPosts: unloadedPosts,
         loadedPosts: loadedPosts,
         currentPost: current
+      }
+
+    case RATE_COMMENT:
+      let currentPost = null;
+      let newComments = state.currentPost.comments.filter(c => c.id !== action.payload.comment.id);
+      if (state.currentPost && state.currentPost.id === action.payload.comment.post_id) {
+        let newComment = null;
+        for (let comment of state.currentPost.comments) {
+          if (comment.id === action.payload.comment.id) {
+            newComment = { ...comment, rating: action.payload.comment.rating }
+          }
+        }
+        newComments.push(newComment);
+      }
+      currentPost = { ...state.currentPost, comments: newComments }
+      return {
+        ...state,
+        currentPost: currentPost
       }
     case ADD_FULL_POST:
       return {

@@ -123,6 +123,16 @@ class YetiApi {
     let res = await this.request(`comments/${id}`, token, {}, 'get');
     return { comment: res.comment };
   }
+
+  static async uprateComment(token, user_id, comment_id) {
+    let res = await this.request(`comments/${comment_id}/uprate`, token, { user_id }, 'post');
+    return { comment: res.comment, rating: res.rating };
+  }
+
+  static async downrateComment(token, user_id, comment_id) {
+    let res = await this.request(`comments/${comment_id}/downrate`, token, { user_id }, 'post');
+    return { comment: res.comment, rating: res.rating };
+  }
 }
 
 

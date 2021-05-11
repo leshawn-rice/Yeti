@@ -99,7 +99,7 @@ class CommentRating {
       `SELECT id
       FROM Users 
       WHERE id=$1`,
-      [id]
+      [user_id]
     );
 
     if (!user.rows.length) throw new NotFoundError('User Not Found');
@@ -108,7 +108,7 @@ class CommentRating {
       `SELECT id
       FROM Comments 
       WHERE id=$1`,
-      [id]
+      [comment_id]
     );
 
     if (!comment.rows.length) throw new NotFoundError('Comment Not Found');
@@ -146,12 +146,12 @@ class CommentRating {
     }
   }
 
-  static async downrate(id) {
+  static async downrate(user_id, comment_id) {
     const user = await db.query(
       `SELECT id
       FROM Users 
       WHERE id=$1`,
-      [id]
+      [user_id]
     );
 
     if (!user.rows.length) throw new NotFoundError('User Not Found');
@@ -160,7 +160,7 @@ class CommentRating {
       `SELECT id
       FROM Comments
       WHERE id=$1`,
-      [id]
+      [comment_id]
     );
 
     if (!comment.rows.length) throw new NotFoundError('Comment Not Found');

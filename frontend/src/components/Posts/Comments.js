@@ -13,12 +13,10 @@ const Comments = ({ comments, allowDelete }) => {
     )
   }
 
-  console.log(comments);
-
   return (
     <div className="Comments">
       {comments.map(comment => (
-        <Comment key={comment.id} comment={comment} allowDelete={allowDelete} />
+        <Comment key={`comment-${comment.id}`} comment={comment} allowDelete={allowDelete} />
       ))}
     </div>
   )

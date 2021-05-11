@@ -6,14 +6,16 @@ import { useHistory } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSortUp, faSortDown, faBookmark, faComment, faTrash } from '@fortawesome/free-solid-svg-icons'
 // Internal Dependencies
-import { showErrors, upratePostApi, downratePostApi } from '../../redux/actionCreators';
+import { showErrors, upratePostApi, downratePostApi, uprateCommentApi, downrateCommentApi } from '../../redux/actionCreators';
 import YetiApi from '../../api';
+// Components
+import Loading from '../Loading';
 // Styles
 import '../../styles/ContentItem.css';
 
 const ContentItem = ({ contentItem, type, showComment, allowDelete, isRating }) => {
   const [ratingColor, setRatingColor] = useState('rgb(58,58,58)');
-  const [awaitingItem, setAwaitingItem] = useState(false);
+  const [awaitingItem, setAwaitingItem] = useState(true);
   const user = useSelector(state => state.userReducer.user);
   const token = useSelector(state => state.userReducer.token);
   const [owner, setOwner] = useState(null);
@@ -44,9 +46,11 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isRating }) 
         try {
           const { post } = await YetiApi.getPost(token, contentItem.id);
           if (isMounted) {
+            contentItem.user_id = post.user_id
             contentItem.body = post.body;
             contentItem.rating = post.rating;
-            setAwaitingItem(true);
+            setOwner(null);
+            setAwaitingItem(false);
           }
         }
         catch (errs) {
@@ -57,9 +61,12 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isRating }) 
         try {
           const { comment } = await YetiApi.getComment(token, contentItem.id);
           if (isMounted) {
+            contentItem.user_id = comment.user_id
+            contentItem.post_id = comment.post_id;
             contentItem.comment = comment.comment;
             contentItem.rating = comment.rating;
-            setAwaitingItem(true)
+            setOwner(null);
+            setAwaitingItem(false)
           }
         }
         catch (errs) {
@@ -75,6 +82,9 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isRating }) 
     if (isRating && !contentItem.body && !contentItem.comment) {
       getItem();
     }
+    else {
+      setAwaitingItem(false);
+    }
 
     return () => {
       isMounted = false;
@@ -86,11 +96,17 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isRating }) 
     if (type === 'post') {
       dispatch(upratePostApi(token, user.id, contentItem.id));
     }
+    else if (type === 'comment') {
+      dispatch(uprateCommentApi(token, user.id, contentItem.id));
+    }
   }
 
   const downrate = () => {
     if (type === 'post') {
       dispatch(downratePostApi(token, user.id, contentItem.id));
+    }
+    else if (type === 'comment') {
+      dispatch(downrateCommentApi(token, user.id, contentItem.id));
     }
   }
 
@@ -142,8 +158,16 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isRating }) 
   const upvoteColor = isUprated ? 'green' : 'black';
   const downvoteColor = isDownrated ? 'red' : 'black';
 
+  if (awaitingItem) {
+    return (
+      <Loading />
+    )
+  }
+
   return (
-    <div className={`ContentItem ${type}`} id={`${type}-${contentItem.id}`}>
+    <div
+      className={isRating ? `ContentItem post` : `ContentItem ${type}`}
+      id={`${type}-${contentItem.id}`}>
       <div className="ContentItem-User">
         <span onClick={goToItem}>{owner ? owner.username : null}</span>
       </div>

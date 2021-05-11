@@ -8,6 +8,7 @@ import {
   ADD_USER_COMMENT,
   ADD_POST,
   RATE_POST,
+  RATE_COMMENT,
   GET_POSTS,
   ADD_FULL_POST,
   LOAD_POSTS,
@@ -184,6 +185,34 @@ const downratePostApi = (token, user_id, post_id) => {
   }
 }
 
+const uprateCommentApi = (token, user_id, comment_id) => {
+  return async function (dispatch) {
+    try {
+      dispatch(startApiAction());
+      const { comment, rating } = await YetiApi.uprateComment(token, user_id, comment_id);
+      dispatch(rateComment(comment, rating));
+      dispatch(endApiAction());
+    }
+    catch (errs) {
+      dispatch(handleApiErrors(errs));
+    }
+  }
+}
+
+const downrateCommentApi = (token, user_id, comment_id) => {
+  return async function (dispatch) {
+    try {
+      dispatch(startApiAction());
+      const { comment, rating } = await YetiApi.downrateComment(token, user_id, comment_id);
+      dispatch(rateComment(comment, rating));
+      dispatch(endApiAction());
+    }
+    catch (errs) {
+      dispatch(handleApiErrors(errs));
+    }
+  }
+}
+
 const createCommentApi = (token, username, postData) => {
   return async function (dispatch) {
     try {
@@ -251,6 +280,13 @@ const ratePost = (post, rating) => {
   return {
     type: RATE_POST,
     payload: { post, rating }
+  }
+}
+
+const rateComment = (comment, rating) => {
+  return {
+    type: RATE_COMMENT,
+    payload: { comment, rating }
   }
 }
 
@@ -334,6 +370,8 @@ export {
   createPostApi,
   upratePostApi,
   downratePostApi,
+  uprateCommentApi,
+  downrateCommentApi,
   createCommentApi,
   getFullPostApi,
   loadPosts,

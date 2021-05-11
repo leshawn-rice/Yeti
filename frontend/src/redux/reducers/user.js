@@ -1,4 +1,4 @@
-import { ADD_USER_COMMENT, ADD_USER_POST, LOGIN_USER, LOGOUT_USER, RATE_POST } from '../actionTypes';
+import { ADD_USER_COMMENT, ADD_USER_POST, LOGIN_USER, LOGOUT_USER, RATE_COMMENT, RATE_POST } from '../actionTypes';
 
 const INITIAL_STATE = {
   user: {},
@@ -72,7 +72,6 @@ const userReducer = (state = INITIAL_STATE, action) => {
       if (!pushedPost && action.payload.rating.rating !== 0) {
         posts.push(action.payload.rating);
       }
-      console.log(posts);
       return {
         ...state,
         user: {
@@ -80,6 +79,43 @@ const userReducer = (state = INITIAL_STATE, action) => {
           ratings: {
             ...state.user.ratings,
             posts: posts
+          }
+        }
+      }
+
+    case RATE_COMMENT:
+      const comments = state.user.ratings.comments.slice(0);
+      // Adjust comment if it exists in current ratings
+      let pushedComment = false;
+      for (let i = 0; i < comments.length; i++) {
+        let comment = comments[i];
+        if (comment.comment_id === action.payload.rating.comment_id) {
+          if (action.payload.rating.rating === 0) {
+            comments.splice(i, 1);
+            pushedComment = true;
+          }
+          else {
+            comment.rating = action.payload.rating.rating;
+            pushedComment = true;
+          }
+        }
+      }
+      // Adjust users comments
+      for (let comment of state.user.comments) {
+        if (comment.id === action.payload.rating.comment_id) {
+          comment.rating = action.payload.rating.rating;
+        }
+      }
+      if (!pushedComment && action.payload.rating.rating !== 0) {
+        comments.push(action.payload.rating);
+      }
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          ratings: {
+            ...state.user.ratings,
+            comments: comments
           }
         }
       }
