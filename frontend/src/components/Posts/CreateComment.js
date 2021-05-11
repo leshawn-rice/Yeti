@@ -34,8 +34,8 @@ const CreateComment = ({ postId, addToPost }) => {
 
   const handleSubmit = (formData) => {
     formData.postId = postId;
-    // if (!user.username) return;
     dispatch(createCommentApi(token, user.username, formData));
+    if (!formData.comment) return;
     const id = uuid();
     const data = { id, user_id: user.id, post_id: postId, comment: formData.comment, rating: 0 };
     addToPost(data);

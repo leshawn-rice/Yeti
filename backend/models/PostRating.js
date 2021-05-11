@@ -26,6 +26,8 @@ class PostRating {
    */
 
   static async getById(id) {
+    if (!id) throw new BadRequestError();
+
     const result = await db.query(
       `SELECT id, rating, user_id, post_id
       FROM Posts_Ratings
@@ -33,7 +35,7 @@ class PostRating {
       [id]
     );
 
-    if (result.rows.length === 0) throw new NotFoundError('Post Rating Not Found');
+    if (!result.rows.length) throw new NotFoundError('Post Rating Not Found');
     return result.rows[0];
   }
 
@@ -46,6 +48,8 @@ class PostRating {
    */
 
   static async getByPostId(id) {
+    if (!id) throw new BadRequestError();
+
     const postResult = await db.query(
       `SELECT id, body 
       FROM Posts 
@@ -53,7 +57,7 @@ class PostRating {
       [id]
     );
 
-    if (postResult.rows.length === 0) throw NotFoundError('Post Not Found');
+    if (!postResult.rows.length) throw NotFoundError('Post Not Found');
 
     const result = await db.query(
       `SELECT id, rating, user_id, post_id
@@ -74,6 +78,7 @@ class PostRating {
    */
 
   static async getByUserId(id) {
+    if (!id) throw new BadRequestError();
 
     const userResult = await db.query(
       `SELECT id, username 
@@ -82,7 +87,7 @@ class PostRating {
       [id]
     );
 
-    if (userResult.rows.length === 0) throw NotFoundError('User Not Found');
+    if (!userResult.rows.length) throw NotFoundError('User Not Found');
 
     const result = await db.query(
       `SELECT id, rating, user_id, post_id
@@ -95,6 +100,8 @@ class PostRating {
   }
 
   static async uprate(user_id, post_id) {
+    if (!user_id || !post_id) throw new BadRequestError();
+
     const user = await db.query(
       `SELECT id
       FROM Users 
@@ -149,6 +156,8 @@ class PostRating {
   }
 
   static async downrate(user_id, post_id) {
+    if (!user_id || !post_id) throw new BadRequestError();
+
     const user = await db.query(
       `SELECT id
       FROM Users 

@@ -55,6 +55,11 @@ class YetiApi {
     return { user: res.user };
   }
 
+  static async refresh(token, username) {
+    let res = await this.request(`auth/refresh/${username}`, token, {}, 'get');
+    return { token: res.token, user: res.user };
+  }
+
   static async login(loginData) {
     let res = await this.request('auth/login', undefined, loginData, 'post');
     return { token: res.token, user: res.user };

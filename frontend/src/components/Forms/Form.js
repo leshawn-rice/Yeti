@@ -1,16 +1,12 @@
 // External Dependencies
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
-import { useSelector } from "react-redux";
 // Components
 import Input from "./Input";
 import MessageArea from "./MessageArea";
-import Alert from '../Alert';
 
 const Form = ({ inputs = [], messageAreas = [], INITIAL_DATA = {}, buttonLabel = null, extraButton = {}, extraButtonOnClick, submit }) => {
   const [formData, setFormData] = useState(INITIAL_DATA);
-  const errorThrown = useSelector(state => state.errorReducer.errorThrown);
-  const errors = useSelector(state => state.errorReducer.errors);
 
   const handleChange = (evt) => {
     const { name, value } = evt.target;
@@ -28,10 +24,6 @@ const Form = ({ inputs = [], messageAreas = [], INITIAL_DATA = {}, buttonLabel =
 
   return (
     <>
-      {errorThrown ? (
-        errors.map(err => <Alert key={err.message} message={err.message} status={err.status} />)
-      ) : null
-      }
       <form className="Form" onSubmit={handleSubmit}>
         {inputs.map(input => (
           <Input

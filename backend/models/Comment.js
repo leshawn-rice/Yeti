@@ -25,6 +25,8 @@ class Comment {
    */
 
   static async getById(id) {
+    if (!id) throw new BadRequestError();
+
     const result = await db.query(
       `SELECT id, comment, rating, user_id, post_id
       FROM Comments
@@ -32,7 +34,7 @@ class Comment {
       [id]
     );
 
-    if (result.rows.length === 0) throw new NotFoundError('Post Not Found');
+    if (!result.rows.length) throw new NotFoundError('Post Not Found');
     return result.rows[0];
   }
 
@@ -45,6 +47,8 @@ class Comment {
    */
 
   static async getByPostId(id) {
+    if (!id) throw new BadRequestError();
+
     const postResult = await db.query(
       `SELECT id, body 
       FROM Posts 
@@ -52,7 +56,7 @@ class Comment {
       [id]
     );
 
-    if (postResult.rows.length === 0) throw NotFoundError('Post Not Found');
+    if (!postResult.rows.length) throw NotFoundError('Post Not Found');
 
     const result = await db.query(
       `SELECT id, comment, rating, user_id, post_id
@@ -73,6 +77,7 @@ class Comment {
    */
 
   static async getByUserId(id) {
+    if (!id) throw new BadRequestError();
 
     const userResult = await db.query(
       `SELECT id, username 
@@ -81,7 +86,7 @@ class Comment {
       [id]
     );
 
-    if (userResult.rows.length === 0) throw NotFoundError('User Not Found');
+    if (!userResult.rows.length) throw NotFoundError('User Not Found');
 
     const result = await db.query(
       `SELECT id, comment, rating, user_id, post_id
@@ -94,6 +99,8 @@ class Comment {
   }
 
   static async uprate(id) {
+    if (!id) throw new BadRequestError();
+
     const comment = await db.query(
       `SELECT id, rating
       FROM Comments 
@@ -101,11 +108,9 @@ class Comment {
       [id]
     );
 
-    if (!comment.rows.length) {
-      throw new NotFoundError('Comment Not Found');
-    }
+    if (!comment.rows.length) throw new NotFoundError('Comment Not Found');
 
-    let newRating = comment.rows[0].rating + 1;
+    const newRating = comment.rows[0].rating + 1;
 
     const newComment = await db.query(
       `UPDATE Comments
@@ -119,6 +124,8 @@ class Comment {
   }
 
   static async downrate(id) {
+    if (!id) throw new BadRequestError();
+
     const comment = await db.query(
       `SELECT id, rating
       FROM Comments 
@@ -126,11 +133,9 @@ class Comment {
       [id]
     );
 
-    if (!comment.rows.length) {
-      throw new NotFoundError('Comment Not Found');
-    }
+    if (!comment.rows.length) throw new NotFoundError('Comment Not Found');
 
-    let newRating = comment.rows[0].rating - 1;
+    const newRating = comment.rows[0].rating - 1;
 
     const newComment = await db.query(
       `UPDATE Comments
@@ -143,9 +148,10 @@ class Comment {
     return newComment.rows[0];
   }
 
-  static async create(username, body, post_id) {
-
+  static async create(username, comment, post_id) {
     if (!username) throw new UnauthorizedError('You need to be logged in to comment!');
+    if (!comment) throw new BadRequestError('You need to write something to comment!')
+    if (!post_id) throw new BadRequestError('Invalid Post!');
 
     const userResult = await db.query(
       `SELECT id, username 
@@ -154,6 +160,8 @@ class Comment {
       [username]
     );
 
+    if (!userResult.rows.length) throw new NotFoundError('User Not Found');
+
     const postResult = await db.query(
       `SELECT id, body 
       FROM Posts 
@@ -161,24 +169,33 @@ class Comment {
       [post_id]
     );
 
-    if (!userResult.rows.length) throw new NotFoundError('User Not Found');
     if (!postResult.rows.length) throw new NotFoundError('Post Not Found');
 
     const user_id = userResult.rows[0].id;
 
-    const comment = await db.query(
+    const result = await db.query(
       `INSERT INTO Comments
       (comment, user_id, post_id)
       VALUES
       ($1, $2, $3)
       RETURNING
       id, comment, rating, user_id, post_id `,
-      [body, user_id, post_id]
+      [comment, user_id, post_id]
     );
 
-    if (!comment.rows[0]) throw new BadRequestError();
+    return result.rows[0];
+  }
 
-    return comment.rows[0];
+  static async delete(id) {
+    if (!id) throw new BadRequestError();
+
+    await db.query(
+      `DELETE FROM Comments
+      WHERE id=$1`,
+      [id]
+    );
+
+    return { message: 'Comment Deleted' }
   }
 }
 

@@ -1,10 +1,11 @@
 const express = require('express');
 const Post = require('../models/Post');
 const Comment = require('../models/Comment');
-const { ensureCorrectUser } = require('../middleware/auth');
+const { ensureCorrectUser, ensureLoggedIn } = require('../middleware/auth');
 const User = require('../models/User');
 const PostRating = require('../models/PostRating');
 const { handlePostDownrate, handlePostUprate } = require('../helpers/routes');
+const SavedPost = require('../models/SavedPost');
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
@@ -80,6 +81,29 @@ router.post('/:id/downrate', async (req, res, next) => {
     const { user_id } = req.body;
     const { post, rating } = await handlePostDownrate(id, user_id);
     return res.json({ post, rating })
+  }
+  catch (err) {
+    return next(err);
+  }
+});
+
+router.post('/:username/:id/save', ensureCorrectUser, async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const { user_id } = req.body;
+    const savedPost = await SavedPost.save(user_id, id);
+    return res.json({ post: savedPost });
+  }
+  catch (err) {
+    return next(err);
+  }
+});
+
+router.delete('/:username/:id', ensureCorrectUser, async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const message = await Post.delete(id);
+    return res.json({ message });
   }
   catch (err) {
     return next(err);

@@ -1,5 +1,4 @@
-const RADIANS = Math.PI / 180;
-const EARTH_RADIUS = 3958.8;
+const { RADIANS, EARTH_RADIUS } = require('../config');
 
 function getHaversine(latDistance, lonDistance, lat1, lat2) {
   const a =

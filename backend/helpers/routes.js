@@ -3,6 +3,8 @@ const User = require('../models/User');
 const Comment = require('../models/Comment');
 const PostRating = require('../models/PostRating');
 const CommentRating = require('../models/CommentRating');
+const SavedPost = require('../models/SavedPost');
+const SavedComment = require('../models/SavedComment');
 
 
 // Update user rating on each of these
@@ -75,9 +77,26 @@ const handleCommentDownrate = async (commentId, userId) => {
   return { comment, rating }
 }
 
+const getUserData = async (user) => {
+  const posts = await Post.getByUserId(user.id);
+  const comments = await Comment.getByUserId(user.id);
+  const savedPosts = await SavedPost.getByUserId(user.id);
+  const savedComments = await SavedComment.getByUserId(user.id);
+  const saved = { posts: savedPosts, comments: savedComments };
+  const postRatings = await PostRating.getByUserId(user.id);
+  const commentRatings = await CommentRating.getByUserId(user.id);
+  const ratings = { posts: postRatings, comments: commentRatings }
+  user.posts = posts;
+  user.comments = comments;
+  user.ratings = ratings;
+  user.saved = saved;
+  return user;
+}
+
 module.exports = {
   handlePostUprate,
   handlePostDownrate,
   handleCommentUprate,
-  handleCommentDownrate
+  handleCommentDownrate,
+  getUserData
 }

@@ -8,7 +8,24 @@ const { generateUsername } = require('../helpers/user');
 const { NotFoundError, BadRequestError } = require('../expressError');
 
 class User {
+
+  static async getByUsername(username) {
+    if (!username) throw new BadRequestError('No Username');
+
+    const user = await db.query(
+      `SELECT id, email, username, rating, confirmed 
+      FROM Users 
+      WHERE username=$1`,
+      [username]
+    );
+
+    if (!user.rows.length) throw new NotFoundError('User Not Found');
+    return user.rows[0];
+  }
+
   static async authenticate(email, password) {
+    if (!email || !password) throw new BadRequestError();
+
     const user = await db.query(
       `SELECT id, email, username, password, rating, confirmed 
       FROM Users 
@@ -16,7 +33,7 @@ class User {
       [email]
     );
 
-    if (!user.rows[0]) throw new NotFoundError('User Not Found');
+    if (!user.rows.length) throw new NotFoundError('Invalid Email/Password');
 
     const hashedPassword = user.rows[0].password;
 
@@ -31,6 +48,7 @@ class User {
   }
 
   static async register(email, password) {
+    if (!email || !password) throw new BadRequestError('Email/Password Required!');
 
     const emailExists = await db.query(
       `SELECT email FROM Users
@@ -38,7 +56,7 @@ class User {
       [email]
     );
 
-    if (emailExists.rows.length > 0) throw new BadRequestError('Email Taken')
+    if (emailExists.rows.length) throw new BadRequestError('Email Taken!')
 
     const takenUsernames = await db.query(
       `SELECT username FROM Users`
@@ -57,12 +75,12 @@ class User {
       [email, username, hashedPassword]
     );
 
-    if (!user.rows[0]) throw new BadRequestError();
-
     return user.rows[0];
   }
 
   static async confirmEmail(payload) {
+    if (!payload || !payload.email) throw new BadRequestError('Invalid Token!');
+
     const user = await db.query(
       `UPDATE Users
       SET confirmed=TRUE
@@ -71,12 +89,14 @@ class User {
       [payload.email]
     );
 
-    if (!user.rows[0]) throw new BadRequestError('User does not exist!');
+    if (!user.rows.length) throw new BadRequestError('User does not exist!');
 
     return user.rows[0];
   }
 
   static async getById(id) {
+    if (!id) throw new BadRequestError();
+
     const user = await db.query(
       `SELECT id, email, username, password, rating, confirmed 
       FROM Users 
@@ -90,6 +110,7 @@ class User {
   }
 
   static async delete(username) {
+    if (!username) throw new BadRequestError();
     await db.query(
       `DELETE FROM Users
       WHERE username=$1`,

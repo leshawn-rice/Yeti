@@ -2,27 +2,26 @@
 const express = require('express');
 // Internal Dependencies
 const User = require('../models/User');
-const Post = require('../models/Post');
-const Comment = require('../models/Comment');
+const { ensureCorrectUser } = require('../middleware/auth');
 const { createUserToken, decodeToken, verifyToken } = require('../helpers/tokens');
 const { sendEmail, createConfirmationEmail } = require('../helpers/email');
-const PostRating = require('../models/PostRating');
-const CommentRating = require('../models/CommentRating');
+const { getUserData } = require('../helpers/routes');
+
 const router = express.Router();
+
+router.get('/refresh/:username', ensureCorrectUser, async (req, res, next) => {
+  const username = req.params.username;
+  const rawUser = await User.getByUsername(username);
+  const user = await getUserData(rawUser);
+  const token = createUserToken(user);
+  return res.json({ token, user });
+})
 
 router.post('/register', async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const user = await User.register(email, password);
-    const posts = await Post.getByUserId(user.id);
-    const comments = await Comment.getByUserId(user.id);
-    const postRatings = await PostRating.getByUserId(user.id);
-    const commentRatings = await CommentRating.getByUserId(user.id);
-    const ratings = { posts: postRatings, comments: commentRatings }
-    console.log(ratings);
-    user.posts = posts;
-    user.comments = comments;
-    user.ratings = ratings;
+    const rawUser = await User.register(email, password);
+    const user = await getUserData(rawUser);
     const token = createUserToken(user);
     const emailOptions = createConfirmationEmail(email);
     sendEmail(emailOptions);
@@ -36,16 +35,8 @@ router.post('/register', async (req, res, next) => {
 router.post('/login', async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const user = await User.authenticate(email, password);
-    const posts = await Post.getByUserId(user.id);
-    const comments = await Comment.getByUserId(user.id);
-    const postRatings = await PostRating.getByUserId(user.id);
-    const commentRatings = await CommentRating.getByUserId(user.id);
-    const ratings = { posts: postRatings, comments: commentRatings }
-    console.log(ratings);
-    user.posts = posts;
-    user.comments = comments;
-    user.ratings = ratings;
+    const rawUser = await User.authenticate(email, password);
+    const user = await getUserData(rawUser);
     const token = createUserToken(user);
     return res.json({ token, user });
   }
@@ -71,17 +62,9 @@ router.post('/confirm-email', async (req, res, next) => {
   try {
     const { emailToken } = req.body;
     const isTokenValid = verifyToken(emailToken);
-    console.log(isTokenValid);
     const decodedToken = decodeToken(emailToken);
-    const user = await User.confirmEmail(decodedToken);
-    const posts = await Post.getByUserId(user.id);
-    const comments = await Comment.getByUserId(user.id);
-    const postRatings = await PostRating.getByUserId(user.id);
-    const commentRatings = await CommentRating.getByUserId(user.id);
-    const ratings = { posts: postRatings, comments: commentRatings }
-    user.posts = posts;
-    user.comments = comments;
-    user.ratings = ratings;
+    const rawUser = await User.confirmEmail(decodedToken);
+    const user = await getUserData(rawUser);
     const userToken = createUserToken(user);
     return res.json({ token: userToken, user });
   }

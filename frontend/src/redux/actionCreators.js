@@ -19,6 +19,7 @@ import {
   STOP_LOADING,
   SET_LOCATION,
   CLEAR_LOCATION,
+  REFRESH,
 } from './actionTypes';
 
 const startApiAction = () => {
@@ -67,6 +68,20 @@ const getLocationApi = () => {
       catch (apiError) {
         dispatch(showErrors(['Location unavailable! Please disable adblock or refresh the page!']));
       }
+    }
+  }
+}
+
+const refreshUserApi = (oldToken, username) => {
+  return async function (dispatch) {
+    try {
+      dispatch(startApiAction());
+      const { token, user } = await YetiApi.refresh(oldToken, username);
+      dispatch(refreshUser(token, user));
+      dispatch(endApiAction());
+    }
+    catch (errs) {
+      dispatch(handleApiErrors(errs));
     }
   }
 }
@@ -315,6 +330,13 @@ const clearLocation = () => {
   }
 }
 
+const refreshUser = (token, user) => {
+  return {
+    type: REFRESH,
+    payload: { token, user }
+  }
+}
+
 const loginUser = (userData) => {
   return {
     type: LOGIN_USER,
@@ -362,6 +384,7 @@ const clearErrors = () => {
 
 export {
   getLocationApi,
+  refreshUserApi,
   registerUserApi,
   deleteUserApi,
   loginUserApi,

@@ -1,4 +1,4 @@
-import { ADD_USER_COMMENT, ADD_USER_POST, LOGIN_USER, LOGOUT_USER, RATE_COMMENT, RATE_POST } from '../actionTypes';
+import { REFRESH, ADD_USER_COMMENT, ADD_USER_POST, LOGIN_USER, LOGOUT_USER, RATE_COMMENT, RATE_POST } from '../actionTypes';
 
 const INITIAL_STATE = {
   user: {},
@@ -7,6 +7,12 @@ const INITIAL_STATE = {
 
 const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case REFRESH:
+      return {
+        ...state,
+        user: action.payload.user,
+        token: action.payload.token
+      }
     case LOGIN_USER:
       if (action.payload) return {
         ...state,

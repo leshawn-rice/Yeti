@@ -3,8 +3,10 @@
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../expressError");
 const { calculateDistance } = require('../helpers/locater');
+const { MAX_RADIAL_DISTANCE } = require('../config');
 
 class Post {
+
   /**
    * 
    * @returns all the posts in the database
@@ -26,25 +28,27 @@ class Post {
    * @returns all the posts that are within "distance" miles of the given latitude & longitude.
    */
 
-  static async getByLocation(lat, long, dist = null) {
+  static async getByLocation(lat, long, dist = 5) {
+    if (!lat || !long) throw new BadRequestError('Error Retrieving Location!');
 
     const latitude = parseFloat(lat);
     const longitude = parseFloat(long);
-    let distance = parseFloat(dist);
+    const distance = parseFloat(dist);
 
     //  This query gets all the posts that are located within 2.5 of the current lat/long
     //  This is to quickly filter out any posts more than ~150 mi away before precise filtering occurs
+    //  because the max distance is 100mi
     const result = await db.query(
       `SELECT id, body, rating, latitude, longitude, user_id
       FROM Posts
       WHERE latitude BETWEEN $1 AND $2
       AND longitude BETWEEN $3 AND $4`,
-      [latitude - 2.5, latitude + 2.5, longitude - 2.5, longitude + 2.5]
+      [
+        latitude - MAX_RADIAL_DISTANCE,
+        latitude + MAX_RADIAL_DISTANCE,
+        longitude - MAX_RADIAL_DISTANCE,
+        longitude + MAX_RADIAL_DISTANCE]
     );
-
-    if (!distance) return result.rows;
-    // Default max distance
-    if (distance > 250) distance = 250;
 
     const posts = result.rows.filter((row) => {
       const postDistance = calculateDistance([latitude, longitude], [row.latitude, row.longitude]);
@@ -63,6 +67,8 @@ class Post {
    */
 
   static async getById(id) {
+    if (!id) throw new BadRequestError();
+
     const result = await db.query(
       `SELECT id, body, rating, latitude, longitude, user_id
       FROM Posts
@@ -70,7 +76,7 @@ class Post {
       [id]
     );
 
-    if (result.rows.length === 0) throw new NotFoundError('Post Not Found');
+    if (!result.rows.length) throw new NotFoundError('Post Not Found');
     return result.rows[0];
   }
 
@@ -83,6 +89,7 @@ class Post {
    */
 
   static async getByUserId(id) {
+    if (!id) throw new BadRequestError();
 
     const userResult = await db.query(
       `SELECT id, username 
@@ -91,7 +98,7 @@ class Post {
       [id]
     );
 
-    if (userResult.rows.length === 0) throw new NotFoundError('User Not Found');
+    if (!userResult.rows.length) throw new NotFoundError('User Not Found');
 
     const result = await db.query(
       `SELECT id, body, rating, latitude, longitude, user_id
@@ -104,6 +111,8 @@ class Post {
   }
 
   static async uprate(id) {
+    if (!id) throw new BadRequestError();
+
     const post = await db.query(
       `SELECT id, rating
       FROM Posts 
@@ -111,11 +120,9 @@ class Post {
       [id]
     );
 
-    if (!post.rows.length) {
-      throw new NotFoundError('Post Not Found');
-    }
+    if (!post.rows.length) throw new NotFoundError('Post Not Found');
 
-    let newRating = post.rows[0].rating + 1;
+    const newRating = post.rows[0].rating + 1;
 
     const newPost = await db.query(
       `UPDATE Posts
@@ -129,6 +136,8 @@ class Post {
   }
 
   static async downrate(id) {
+    if (!id) throw new BadRequestError();
+
     const post = await db.query(
       `SELECT id, rating
       FROM Posts 
@@ -136,11 +145,9 @@ class Post {
       [id]
     );
 
-    if (!post.rows.length) {
-      throw new NotFoundError('Post Not Found');
-    }
+    if (!post.rows.length) throw new NotFoundError('Post Not Found');
 
-    let newRating = post.rows[0].rating - 1;
+    const newRating = post.rows[0].rating - 1;
 
     const newPost = await db.query(
       `UPDATE Posts
@@ -154,6 +161,12 @@ class Post {
   }
 
   static async create(username, body, location) {
+    if (!body) throw new BadRequestError('Post cannot be blank!');
+    if (!username || !location) throw new BadRequestError('Error! Username/Location invalid!');
+
+    const latitude = parseFloat(location.latitude);
+    const longitude = parseFloat(location.longitude);
+
     const userResult = await db.query(
       `SELECT id, username 
       FROM Users 
@@ -161,12 +174,8 @@ class Post {
       [username]
     );
 
-    if (userResult.rows.length === 0) throw new NotFoundError('User Not Found');
-
+    if (!userResult.rows.length) throw new NotFoundError('User Not Found');
     const user_id = userResult.rows[0].id;
-
-    const latitude = parseFloat(location.latitude);
-    const longitude = parseFloat(location.longitude);
 
     const post = await db.query(
       `INSERT INTO Posts
@@ -178,9 +187,19 @@ class Post {
       [body, latitude, longitude, user_id]
     );
 
-    if (!post.rows[0]) throw new BadRequestError();
-
     return post.rows[0];
+  }
+
+  static async delete(id) {
+    if (!id) throw new BadRequestError();
+
+    await db.query(
+      `DELETE FROM Posts
+      WHERE id=$1`,
+      [id]
+    );
+
+    return { message: 'Post Deleted' }
   }
 }
 
