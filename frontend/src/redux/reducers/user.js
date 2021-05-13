@@ -136,14 +136,16 @@ const userReducer = (state = INITIAL_STATE, action) => {
           }
           else {
             post.rating = action.payload.rating.rating;
+            posts[i] = post;
             pushedPost = true;
           }
         }
       }
       // Adjust users posts
-      for (let post of state.user.posts) {
-        if (post.id === action.payload.rating.post_id) {
-          post.rating = action.payload.rating.rating;
+      const userPosts = state.user.posts.slice(0);
+      for (let post of userPosts) {
+        if (post.id === action.payload.post.id) {
+          post.rating = action.payload.post.rating;
         }
       }
       if (!pushedPost && action.payload.rating.rating !== 0) {
@@ -156,7 +158,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
           ratings: {
             ...state.user.ratings,
             posts: posts
-          }
+          },
+          posts: userPosts
         }
       }
 

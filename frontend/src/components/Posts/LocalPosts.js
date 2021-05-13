@@ -43,18 +43,6 @@ const LocalPosts = () => {
     setIsSettingsOpen(true);
   }
 
-  if (isLoading) {
-    return (
-      <Loading />
-    )
-  }
-
-  if (!posts.length) {
-    return (
-      <NotFound />
-    )
-  }
-
   const handleSubmit = (evt) => {
     evt.preventDefault();
     const value = document.querySelector('#post-range').value;
@@ -87,6 +75,25 @@ const LocalPosts = () => {
       </form>
   }
 
+  if (isLoading) {
+    return (
+      <Loading />
+    )
+  }
+
+  if (!posts.length) {
+    return (
+      <>
+        <Modal toggled={isSettingsOpen} toggleModal={setIsSettingsOpen} content={content} />
+        <FontAwesomeIcon
+          icon={faSlidersH}
+          className="LocalPosts-Settings-Button"
+          onClick={openSettings}
+        />
+        <NotFound />
+      </>
+    )
+  }
 
   return (
     <>

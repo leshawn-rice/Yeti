@@ -60,6 +60,7 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isList }) =>
           if (isMounted) {
             contentItem.user_id = post.user_id
             contentItem.body = post.body;
+            contentItem.myRating = contentItem.rating;
             contentItem.rating = post.rating;
             setOwner(null);
             setAwaitingItem(false);
@@ -76,6 +77,7 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isList }) =>
             contentItem.user_id = comment.user_id
             contentItem.post_id = comment.post_id;
             contentItem.comment = comment.comment;
+            contentItem.myRating = contentItem.rating;
             contentItem.rating = comment.rating;
             setOwner(null);
             setAwaitingItem(false)
@@ -158,6 +160,8 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isList }) =>
 
   const checkRatedPost = () => {
     const ratedPost = user.ratings.posts.find(postRating => postRating.post_id === contentItem.id);
+    console.log(user.ratings);
+    console.log(ratedPost);
     if (ratedPost && ratedPost.rating !== 0) {
       if (ratedPost.rating === 1) isUprated = true;
       if (ratedPost.rating === -1) isDownrated = true;
