@@ -1,4 +1,4 @@
-import { REFRESH, ADD_USER_COMMENT, ADD_USER_POST, LOGIN_USER, LOGOUT_USER, RATE_COMMENT, RATE_POST } from '../actionTypes';
+import { REFRESH, ADD_USER_COMMENT, ADD_USER_POST, LOGIN_USER, LOGOUT_USER, RATE_COMMENT, RATE_POST, UPDATE_USER } from '../actionTypes';
 
 const INITIAL_STATE = {
   user: {},
@@ -29,6 +29,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         user: {},
         token: null
+      }
+    case UPDATE_USER:
+      return {
+        ...state,
+        user: action.payload.user,
+        token: action.payload.token
       }
     case ADD_USER_POST:
       return {

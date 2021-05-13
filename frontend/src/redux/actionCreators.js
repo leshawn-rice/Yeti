@@ -3,6 +3,7 @@ import GeoLocator from '../GeoLocater';
 import {
   LOGIN_USER,
   LOGOUT_USER,
+  UPDATE_USER,
   DELETE_USER,
   ADD_USER_POST,
   ADD_USER_COMMENT,
@@ -106,6 +107,34 @@ const loginUserApi = (userData) => {
       dispatch(startApiAction());
       const { token, user } = await YetiApi.login(userData);
       dispatch(loginUser({ token, user }));
+      dispatch(endApiAction());
+    }
+    catch (errs) {
+      dispatch(handleApiErrors(errs));
+    }
+  }
+}
+
+const updateEmailApi = (oldToken, username, email) => {
+  return async function (dispatch) {
+    try {
+      dispatch(startApiAction());
+      const { token, user } = await YetiApi.updateEmail(oldToken, username, email);
+      dispatch(updateUser({ token, user }));
+      dispatch(endApiAction());
+    }
+    catch (errs) {
+      dispatch(handleApiErrors(errs));
+    }
+  }
+}
+
+const updatePasswordApi = (oldToken, username, oldPassword, newPassworrd) => {
+  return async function (dispatch) {
+    try {
+      dispatch(startApiAction());
+      const { token, user } = await YetiApi.updatePassword(oldToken, username, oldPassword, newPassworrd);
+      dispatch(updateUser({ token, user }));
       dispatch(endApiAction());
     }
     catch (errs) {
@@ -350,6 +379,13 @@ const logoutUser = () => {
   }
 }
 
+const updateUser = (data) => {
+  return {
+    type: UPDATE_USER,
+    payload: data
+  }
+}
+
 const deleteUser = () => {
   return {
     type: DELETE_USER
@@ -386,6 +422,8 @@ export {
   getLocationApi,
   refreshUserApi,
   registerUserApi,
+  updateEmailApi,
+  updatePasswordApi,
   deleteUserApi,
   loginUserApi,
   getUserByIdApi,

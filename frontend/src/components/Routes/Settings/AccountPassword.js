@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Modal from '../../Modal';
 // Styles
 import '../../../styles/Account.css';
+import PasswordChange from './PasswordChange';
 
 
 const AccountPassword = () => {
@@ -11,7 +12,7 @@ const AccountPassword = () => {
 
   const modalContent = {
     title: 'Change Password',
-    body: 'WeeWeeWaaWaa'
+    body: <PasswordChange setModal={setPasswordModal} />
   }
 
   const toggleModal = () => {

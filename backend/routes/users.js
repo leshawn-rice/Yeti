@@ -5,7 +5,8 @@ const { ensureCorrectUser } = require('../middleware/auth');
 const User = require('../models/User');
 const { sendEmail } = require('../helpers/email');
 const { SERVER_EMAIL } = require('../config');
-const { response } = require('express');
+const { getUserData } = require('../helpers/routes');
+const { createUserToken } = require('../helpers/tokens');
 const router = express.Router();
 
 router.get('/:id', async (req, res, next) => {
@@ -25,6 +26,34 @@ router.post('/contact', (req, res, next) => {
     const options = { to: SERVER_EMAIL.email, subject, text }
     sendEmail(options);
     return res.json({ message: 'Your email has been sent' });
+  }
+  catch (err) {
+    return next(err);
+  }
+});
+
+router.patch('/:username/change-email', ensureCorrectUser, async (req, res, next) => {
+  try {
+    const username = req.params.username;
+    const { email } = req.body;
+    const rawUser = await User.changeEmail(username, email);
+    const user = await getUserData(rawUser);
+    const token = createUserToken(user);
+    return res.json({ token, user });
+  }
+  catch (err) {
+    return next(err);
+  }
+});
+
+router.patch('/:username/change-password', ensureCorrectUser, async (req, res, next) => {
+  try {
+    const username = req.params.username;
+    const { oldPassword, newPassword } = req.body;
+    const rawUser = await User.changePassword(username, oldPassword, newPassword);
+    const user = await getUserData(rawUser);
+    const token = createUserToken(user);
+    return res.json({ token, user });
   }
   catch (err) {
     return next(err);

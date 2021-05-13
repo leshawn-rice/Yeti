@@ -3,6 +3,8 @@ const handleScroll = (oldScrollPos, div, scrollDownPos, scrollUpPos) => {
 
   // on ios, this causes the navbar to disappear then reappear due to the bouncy scrolling
 
+  if (!div) return;
+
   // At Top of page
   if (newScrollPos === 0) {
     div.style.top = scrollUpPos;

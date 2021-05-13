@@ -1,7 +1,7 @@
 // External Dependencies
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useLocation } from 'react-router';
+import { Redirect } from 'react-router';
 // Internal Dependencies
 import { stopLoading } from '../../../redux/actionCreators';
 import { handleScroll } from '../../../helpers';
@@ -14,10 +14,9 @@ import '../../../styles/Settings.css'
 const Settings = () => {
   const user = useSelector(state => state.userReducer.user);
   const loading = useSelector(state => state.loadingReducer.isLoading);
-  const location = useLocation();
-  const hash = location.hash;
   const dispatch = useDispatch();
   const [active, setActive] = useState(null);
+  const [sidebar, setSidebar] = useState(null);
 
   useEffect(() => {
     if (!active) {
@@ -25,24 +24,34 @@ const Settings = () => {
       setActive(activeElement);
     }
     dispatch(stopLoading());
-    if (hash.includes('#confirm-email')) {
-      const target = document.querySelector('#settings-confirm-option');
-      target.click();
-    }
 
     let oldScrollPos = 0;
-    const sidebar = document.getElementById('settings-sidebar');
+    let newSidebar = document.querySelector('#settings-sidebar');
+    // Weird way to persist the sidebar element. useRef evaluates the sidebar to null
+    setSidebar(newSidebar);
 
     window.addEventListener('scroll', () => {
-      oldScrollPos = handleScroll(oldScrollPos, sidebar, '0', '5rem');
+      if (sidebar) {
+        oldScrollPos = handleScroll(oldScrollPos, sidebar, '0', '5rem');
+      }
+      else {
+        newSidebar = document.querySelector('#settings-sidebar');
+        setSidebar(newSidebar);
+      }
     });
     return () => {
       window.removeEventListener('scroll', () => {
-        oldScrollPos = handleScroll(oldScrollPos, sidebar, '0', '5rem');
+        if (sidebar) {
+          oldScrollPos = handleScroll(oldScrollPos, sidebar, '0', '5rem');
+        }
+        else {
+          newSidebar = document.querySelector('#settings-sidebar');
+          setSidebar(newSidebar);
+        }
       });
     }
 
-  }, [active, dispatch, hash]);
+  }, [active, dispatch, sidebar]);
 
   if (user.username === undefined) return <Redirect to="/" />
 
@@ -68,7 +77,7 @@ const Settings = () => {
       <div className="Settings-Sidebar" id="settings-sidebar">
         <h1 className="Settings-Sidebar-Header">Settings</h1>
         <div className="Settings-Sidebar-Content" onClick={setActiveSetting}>
-          <h2 className="Settings-Sidebar-Option active" id="settings-general-option">Account</h2>
+          <h2 className="Settings-Sidebar-Option active" id="settings-account-option">Account</h2>
           {!user.confirmed ? (
             <h2 className="Settings-Sidebar-Option" id="settings-confirm-option">Verify Email</h2>
           ) : null}

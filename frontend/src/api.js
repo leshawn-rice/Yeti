@@ -70,6 +70,16 @@ class YetiApi {
     return { token: res.token, user: res.user };
   }
 
+  static async updateEmail(token, username, email) {
+    let res = await this.request(`users/${username}/change-email`, token, { email }, 'patch');
+    return { token: res.token, user: res.user };
+  }
+
+  static async updatePassword(token, username, oldPassword, newPassword) {
+    let res = await this.request(`users/${username}/change-password`, token, { oldPassword, newPassword }, 'patch');
+    return { token: res.token, user: res.user };
+  }
+
   static async resendConfirmation(email) {
     let res = await this.request('auth/resend-confirmation-email', undefined, { email }, 'post');
     return { message: res.message };

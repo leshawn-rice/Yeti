@@ -78,6 +78,69 @@ class User {
     return user.rows[0];
   }
 
+  static async changeEmail(username, email) {
+    if (!username || !email) throw new BadRequestError('Invalid Data!');
+
+    const user = await db.query(
+      `SELECT id, username, email
+      FROM Users
+      WHERE username=$1`,
+      [username]
+    );
+
+    if (!user.rows.length) throw new NotFoundError('User Not Found!');
+
+    const duplicateEmail = await db.query(
+      `SELECT id, username, email
+      FROM Users
+      WHERE email=$1`,
+      [email]
+    );
+
+    if (duplicateEmail.rows.length) throw new BadRequestError('Email Taken!');
+
+    const result = await db.query(
+      `UPDATE Users
+      SET email=$1
+      WHERE username=$2
+      RETURNING id, email, username, rating, confirmed`,
+      [email, username]
+    );
+
+    return result.rows[0];
+  }
+
+  static async changePassword(username, oldPassword, newPassword) {
+    if (!username || !oldPassword || !newPassword) throw new BadRequestError('Invalid Data!');
+
+    const user = await db.query(
+      `SELECT id, username, password
+      FROM Users
+      WHERE username=$1`,
+      [username]
+    );
+
+    if (!user.rows.length) throw new NotFoundError('User Not Found!');
+
+    const hashedPassword = user.rows[0].password;
+
+    if (await bcrypt.compare(oldPassword, hashedPassword)) {
+      const newHashedPassword = await bcrypt.hash(newPassword, BCRYPT_WORK_FACTOR);
+      const result = await db.query(
+        `UPDATE Users
+        SET password=$1
+        WHERE username=$2
+        RETURNING id, email, username, rating, confirmed`,
+        [newHashedPassword, username]
+      );
+      return result.rows[0];
+    }
+    else {
+      throw new BadRequestError('Invalid Password!');
+    }
+
+  }
+
   static async confirmEmail(payload) {
     if (!payload || !payload.email) throw new BadRequestError('Invalid Token!');
 

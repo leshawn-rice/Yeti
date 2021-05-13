@@ -39,7 +39,7 @@ const Navbar = () => {
     };
 
     let oldScrollPos = 0;
-    const nav = document.getElementById('navbar');
+    const nav = document.querySelector('#navbar');
     const changeScroll = () => {
       oldScrollPos = handleScroll(oldScrollPos, nav, '-5rem', '0');
     }
