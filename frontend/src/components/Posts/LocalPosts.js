@@ -23,7 +23,6 @@ const LocalPosts = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('Getting local posts');
     const data = { ...location, distance };
     dispatch(getLocalPostsApi(data));
 

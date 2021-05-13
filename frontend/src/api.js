@@ -127,6 +127,11 @@ class YetiApi {
     return { post: res.post, rating: res.rating };
   }
 
+  static async deletePost(token, username, id) {
+    let res = await this.request(`posts/${username}/${id}`, token, {}, 'delete');
+    return { message: res.message };
+  }
+
   // Comment Routes
 
   static async createComment(token, username, commentData) {
@@ -147,6 +152,11 @@ class YetiApi {
   static async downrateComment(token, user_id, comment_id) {
     let res = await this.request(`comments/${comment_id}/downrate`, token, { user_id }, 'post');
     return { comment: res.comment, rating: res.rating };
+  }
+
+  static async deleteComment(token, username, id) {
+    let res = await this.request(`comments/${username}/${id}`, token, {}, 'delete');
+    return { message: res.message };
   }
 }
 

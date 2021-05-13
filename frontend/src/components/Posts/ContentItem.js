@@ -6,7 +6,7 @@ import { useHistory } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSortUp, faSortDown, faBookmark, faComment, faTrash } from '@fortawesome/free-solid-svg-icons'
 // Internal Dependencies
-import { showErrors, upratePostApi, downratePostApi, uprateCommentApi, downrateCommentApi } from '../../redux/actionCreators';
+import { showErrors, upratePostApi, downratePostApi, uprateCommentApi, downrateCommentApi, deletePostApi, deleteCommentApi } from '../../redux/actionCreators';
 import YetiApi from '../../api';
 // Components
 import Loading from '../Loading';
@@ -114,6 +114,15 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isRating }) 
     // save
   }
 
+  const deleteItem = () => {
+    if (type === 'post') {
+      dispatch(deletePostApi(token, user.username, contentItem.id));
+    }
+    if (type === 'comment') {
+      dispatch(deleteCommentApi(token, user.username, contentItem.id));
+    }
+  }
+
   let isUprated = false;
   let isDownrated = false;
 
@@ -140,10 +149,6 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isRating }) 
     if (type === 'comment') {
       history.push(`/posts/${contentItem.post_id}#comment-${contentItem.id}`)
     }
-  }
-
-  const deleteItem = () => {
-    console.log('DELETE');
   }
 
   if (user && user.ratings) {

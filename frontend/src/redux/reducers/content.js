@@ -1,4 +1,4 @@
-import { ADD_POST, GET_POSTS, LOAD_POSTS, CLEAR_POSTS, RATE_POST, ADD_FULL_POST, RATE_COMMENT } from '../actionTypes';
+import { ADD_POST, GET_POSTS, LOAD_POSTS, CLEAR_POSTS, DELETE_POST, DELETE_COMMENT, RATE_POST, ADD_FULL_POST, RATE_COMMENT } from '../actionTypes';
 
 const INITIAL_STATE = {
   posts: [],
@@ -39,6 +39,22 @@ const contentReducer = (state = INITIAL_STATE, action) => {
       }
       else {
         return state
+      }
+    case DELETE_POST:
+      return {
+        ...state,
+        posts: [],
+        unloadedPosts: [],
+        loadedPosts: [],
+        currentPost: null
+      }
+    case DELETE_COMMENT:
+      return {
+        ...state,
+        posts: [],
+        unloadedPosts: [],
+        loadedPosts: [],
+        currentPost: null
       }
     case RATE_POST:
       const posts = state.posts.slice(0);

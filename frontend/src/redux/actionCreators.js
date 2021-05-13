@@ -9,6 +9,8 @@ import {
   ADD_USER_COMMENT,
   ADD_POST,
   RATE_POST,
+  DELETE_POST,
+  DELETE_COMMENT,
   RATE_COMMENT,
   GET_POSTS,
   ADD_FULL_POST,
@@ -229,6 +231,21 @@ const downratePostApi = (token, user_id, post_id) => {
   }
 }
 
+const deletePostApi = (token, username, id) => {
+  return async function (dispatch) {
+    try {
+      dispatch(startApiAction());
+      const { message } = await YetiApi.deletePost(token, username, id);
+      dispatch(deletePost(id));
+      dispatch(endApiAction());
+      dispatch(showErrors([{ message: `${message.message}! Refresh the page!`, status: 202 }]));
+    }
+    catch (errs) {
+      dispatch(handleApiErrors(errs));
+    }
+  }
+}
+
 const uprateCommentApi = (token, user_id, comment_id) => {
   return async function (dispatch) {
     try {
@@ -264,6 +281,21 @@ const createCommentApi = (token, username, postData) => {
       const { comment } = await YetiApi.createComment(token, username, postData);
       dispatch(addUserComment(comment));
       dispatch(endApiAction());
+    }
+    catch (errs) {
+      dispatch(handleApiErrors(errs));
+    }
+  }
+}
+
+const deleteCommentApi = (token, username, id) => {
+  return async function (dispatch) {
+    try {
+      dispatch(startApiAction());
+      const { message } = await YetiApi.deleteComment(token, username, id);
+      dispatch(deleteComment(id));
+      dispatch(endApiAction());
+      dispatch(showErrors([{ message: `${message.message}! Refresh the page!`, status: 202 }]));
     }
     catch (errs) {
       dispatch(handleApiErrors(errs));
@@ -327,10 +359,24 @@ const ratePost = (post, rating) => {
   }
 }
 
+const deletePost = (id) => {
+  return {
+    type: DELETE_POST,
+    payload: id
+  }
+}
+
 const rateComment = (comment, rating) => {
   return {
     type: RATE_COMMENT,
     payload: { comment, rating }
+  }
+}
+
+const deleteComment = (id) => {
+  return {
+    type: DELETE_COMMENT,
+    payload: id
   }
 }
 
@@ -431,9 +477,11 @@ export {
   createPostApi,
   upratePostApi,
   downratePostApi,
+  deletePostApi,
   uprateCommentApi,
   downrateCommentApi,
   createCommentApi,
+  deleteCommentApi,
   getFullPostApi,
   loadPosts,
   clearPosts,
