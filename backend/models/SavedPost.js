@@ -33,26 +33,14 @@ class SavedPost {
     return result.rows;
   }
 
-  static async delete(id, user_id = undefined, post_id = undefined) {
-    if (!id && !user_id && !post_id) throw new BadRequestError();
+  static async delete(user_id, post_id) {
+    if (!user_id || !post_id) throw new BadRequestError();
 
-    let result;
-
-    if (!id) {
-      if (!user_id || !post_id) throw new BadRequestError();
-      result = await db.query(
-        `DELETE FROM Saved_Posts
+    const result = await db.query(
+      `DELETE FROM Saved_Posts
         WHERE user_id=$1 AND post_id=$2`,
-        [user_id, post_id]
-      );
-    }
-    else {
-      result = await db.query(
-        `DELETE FROM Saved_Posts
-        WHERE user_id=$1 AND post_id=$2`,
-        [user_id, post_id]
-      );
-    }
+      [user_id, post_id]
+    );
 
     return result.rows[0];
   }
@@ -70,13 +58,13 @@ class SavedPost {
     if (!userResult.rows.length) throw new NotFoundError('User Not Found');
 
     const commentResult = await db.query(
-      `SELECT id, comment 
+      `SELECT id, body 
       FROM Posts 
       WHERE id=$1`,
       [post_id]
     );
 
-    if (!commentResult.rows.length) throw new NotFoundError('Comment Not Found');
+    if (!commentResult.rows.length) throw new NotFoundError('Post Not Found');
 
     const duplicateResult = await db.query(
       `SELECT id, user_id, post_id
@@ -87,13 +75,18 @@ class SavedPost {
 
     if (duplicateResult.rows.length) return duplicateResult.rows[0];
 
+    console.log(duplicateResult.rows);
+
     const result = await db.query(
       `INSERT INTO Saved_Posts
       (user_id, post_id)
       VALUES
-      ($1,$2)`,
+      ($1,$2)
+      RETURNING id, user_id, post_id`,
       [user_id, post_id]
     );
+
+    console.log(result.rows);
 
     return result.rows[0];
   }

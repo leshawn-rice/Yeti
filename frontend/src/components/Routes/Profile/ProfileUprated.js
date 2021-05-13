@@ -29,7 +29,7 @@ const ProfileUprated = () => {
           contentItem={item}
           type={item.type}
           showComment={item.type === 'post' ? true : false}
-          isRating={true} />
+          isList={true} />
       ))}
     </>
   )

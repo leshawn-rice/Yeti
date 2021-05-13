@@ -29,6 +29,10 @@ const App = () => {
   }, [dispatch, token, user.username]);
 
 
+  if (!Array.isArray(errors)) {
+    dispatch(clearErrors());
+  }
+
   return (
     <BrowserRouter>
       <Navbar />

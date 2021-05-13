@@ -6,14 +6,26 @@ import { useHistory } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSortUp, faSortDown, faBookmark, faComment, faTrash } from '@fortawesome/free-solid-svg-icons'
 // Internal Dependencies
-import { showErrors, upratePostApi, downratePostApi, uprateCommentApi, downrateCommentApi, deletePostApi, deleteCommentApi } from '../../redux/actionCreators';
+import {
+  showErrors,
+  upratePostApi,
+  downratePostApi,
+  uprateCommentApi,
+  downrateCommentApi,
+  deletePostApi,
+  deleteCommentApi,
+  savePostApi,
+  saveCommentApi,
+  unsavePostApi,
+  unsaveCommentApi
+} from '../../redux/actionCreators';
 import YetiApi from '../../api';
 // Components
 import Loading from '../Loading';
 // Styles
 import '../../styles/ContentItem.css';
 
-const ContentItem = ({ contentItem, type, showComment, allowDelete, isRating }) => {
+const ContentItem = ({ contentItem, type, showComment, allowDelete, isList }) => {
   const [ratingColor, setRatingColor] = useState('rgb(58,58,58)');
   const [awaitingItem, setAwaitingItem] = useState(true);
   const user = useSelector(state => state.userReducer.user);
@@ -79,7 +91,7 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isRating }) 
       getOwner();
     }
 
-    if (isRating && !contentItem.body && !contentItem.comment) {
+    if (isList && !contentItem.body && !contentItem.comment) {
       getItem();
     }
     else {
@@ -90,7 +102,7 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isRating }) 
       isMounted = false;
     }
 
-  }, [contentItem.rating, contentItem.user_id, owner, dispatch, contentItem, token, isRating, type])
+  }, [contentItem.rating, contentItem.user_id, owner, dispatch, contentItem, token, isList, type])
 
   const uprate = () => {
     if (type === 'post') {
@@ -111,7 +123,24 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isRating }) 
   }
 
   const save = () => {
-    // save
+    if (type === 'post') {
+      const savedPost = user.saved.posts.length ? user.saved.posts.find(postSaved => postSaved.post_id === contentItem.id) : null;
+      if (savedPost) {
+        dispatch(unsavePostApi(token, user.username, contentItem.id, user.id));
+      }
+      else {
+        dispatch(savePostApi(token, user.username, contentItem.id, user.id));
+      }
+    }
+    if (type === 'comment') {
+      const savedComment = user.saved.comments.length ? user.saved.comments.find(commentSaved => commentSaved.comment_id === contentItem.id) : null;
+      if (savedComment) {
+        dispatch(unsaveCommentApi(token, user.username, contentItem.id, user.id));
+      }
+      else {
+        dispatch(saveCommentApi(token, user.username, contentItem.id, user.id));
+      }
+    }
   }
 
   const deleteItem = () => {
@@ -125,6 +154,7 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isRating }) 
 
   let isUprated = false;
   let isDownrated = false;
+  let isSaved = false;
 
   const checkRatedPost = () => {
     const ratedPost = user.ratings.posts.find(postRating => postRating.post_id === contentItem.id);
@@ -142,6 +172,16 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isRating }) 
     }
   }
 
+  const checkSavedPost = () => {
+    const savedPost = user.saved.posts.find(postSaved => postSaved.post_id === contentItem.id);
+    if (savedPost) isSaved = true;
+  }
+
+  const checkSavedComment = () => {
+    const savedComment = user.saved.comments.find(commentSaved => commentSaved.comment_id === contentItem.id);
+    if (savedComment) isSaved = true;
+  }
+
   const goToItem = () => {
     if (type === 'post') {
       history.push(`/posts/${contentItem.id}`);
@@ -154,14 +194,17 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isRating }) 
   if (user && user.ratings) {
     if (type === 'post') {
       checkRatedPost();
+      if (user.saved.posts.length) checkSavedPost();
     }
     else if (type === 'comment') {
       checkRatedComment();
+      if (user.saved.comments.length) checkSavedComment();
     }
   }
 
   const upvoteColor = isUprated ? 'green' : 'black';
   const downvoteColor = isDownrated ? 'red' : 'black';
+  const savedColor = isSaved ? 'blue' : 'black';
 
   if (awaitingItem) {
     return (
@@ -171,7 +214,7 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isRating }) 
 
   return (
     <div
-      className={isRating ? `ContentItem post` : `ContentItem ${type}`}
+      className={isList ? `ContentItem post` : `ContentItem ${type}`}
       id={`${type}-${contentItem.id}`}>
       <div className="ContentItem-User">
         <span onClick={goToItem}>{owner ? owner.username : null}</span>
@@ -197,6 +240,7 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isRating }) 
           icon={faBookmark}
           className="ContentItem-Option"
           onClick={save}
+          style={{ color: savedColor }}
         />
         {showComment ? (
           <Link to={`/posts/${contentItem.id}`}><FontAwesomeIcon

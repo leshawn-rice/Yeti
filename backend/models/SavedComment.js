@@ -33,26 +33,15 @@ class SavedComment {
     return result.rows;
   }
 
-  static async delete(id, user_id = undefined, comment_id = undefined) {
-    if (!id && !user_id && !comment_id) throw new BadRequestError();
+  static async delete(user_id, comment_id) {
+    if (!user_id || !comment_id) throw new BadRequestError();
 
-    let result;
 
-    if (!id) {
-      if (!user_id || !comment_id) throw new BadRequestError();
-      result = await db.query(
-        `DELETE FROM Saved_Comments
+    const result = await db.query(
+      `DELETE FROM Saved_Comments
         WHERE user_id=$1 AND comment_id=$2`,
-        [user_id, comment_id]
-      );
-    }
-    else {
-      result = await db.query(
-        `DELETE FROM Saved_Comments
-        WHERE user_id=$1 AND comment_id=$2`,
-        [user_id, comment_id]
-      );
-    }
+      [user_id, comment_id]
+    );
 
     return result.rows[0];
   }
@@ -91,7 +80,8 @@ class SavedComment {
       `INSERT INTO Saved_Comments
       (user_id, comment_id)
       VALUES
-      ($1,$2)`,
+      ($1,$2)
+      RETURNING id, user_id, comment_id`,
       [user_id, comment_id]
     );
 

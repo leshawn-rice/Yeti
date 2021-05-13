@@ -1,4 +1,17 @@
-import { REFRESH, ADD_USER_COMMENT, ADD_USER_POST, LOGIN_USER, LOGOUT_USER, RATE_COMMENT, RATE_POST, UPDATE_USER } from '../actionTypes';
+import {
+  REFRESH,
+  ADD_USER_COMMENT,
+  ADD_USER_POST,
+  LOGIN_USER,
+  LOGOUT_USER,
+  RATE_COMMENT,
+  RATE_POST,
+  UPDATE_USER,
+  SAVE_COMMENT,
+  SAVE_POST,
+  UNSAVE_COMMENT,
+  UNSAVE_POST
+} from '../actionTypes';
 
 const INITIAL_STATE = {
   user: {},
@@ -56,6 +69,58 @@ const userReducer = (state = INITIAL_STATE, action) => {
             ...state.user.comments,
             action.payload
           ]
+        }
+      }
+    case SAVE_POST:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          saved: {
+            ...state.user.saved,
+            posts: [
+              ...state.user.saved.posts,
+              action.payload
+            ]
+          }
+        }
+      }
+    case UNSAVE_POST:
+      const newSavedPosts = state.user.saved.posts.filter(post => post.post_id !== action.payload).filter(Boolean);
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          saved: {
+            ...state.user.saved,
+            posts: newSavedPosts
+          }
+        }
+      }
+    case SAVE_COMMENT:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          saved: {
+            ...state.user.saved,
+            comments: [
+              ...state.user.saved.comments,
+              action.payload
+            ]
+          }
+        }
+      }
+    case UNSAVE_COMMENT:
+      const newSavedComments = state.user.saved.comments.filter(comment => comment.comment_id !== action.payload).filter(Boolean);
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          saved: {
+            ...state.user.saved,
+            comments: newSavedComments
+          }
         }
       }
     case RATE_POST:

@@ -127,6 +127,16 @@ class YetiApi {
     return { post: res.post, rating: res.rating };
   }
 
+  static async savePost(token, username, id, user_id) {
+    let res = await this.request(`posts/${username}/${id}/save`, token, { user_id }, 'post');
+    return { post: res.post };
+  }
+
+  static async unsavePost(token, username, id, user_id) {
+    let res = await this.request(`posts/${username}/${id}/unsave`, token, { user_id }, 'delete');
+    return { message: res.message };
+  }
+
   static async deletePost(token, username, id) {
     let res = await this.request(`posts/${username}/${id}`, token, {}, 'delete');
     return { message: res.message };
@@ -152,6 +162,16 @@ class YetiApi {
   static async downrateComment(token, user_id, comment_id) {
     let res = await this.request(`comments/${comment_id}/downrate`, token, { user_id }, 'post');
     return { comment: res.comment, rating: res.rating };
+  }
+
+  static async saveComment(token, username, id, user_id) {
+    let res = await this.request(`comments/${username}/${id}/save`, token, { user_id }, 'post');
+    return { comment: res.comment };
+  }
+
+  static async unsaveComment(token, username, id, user_id) {
+    let res = await this.request(`comments/${username}/${id}/unsave`, token, { user_id }, 'delete');
+    return { message: res.message };
   }
 
   static async deleteComment(token, username, id) {

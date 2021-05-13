@@ -99,6 +99,18 @@ router.post('/:username/:id/save', ensureCorrectUser, async (req, res, next) => 
   }
 });
 
+router.delete('/:username/:id/unsave', ensureCorrectUser, async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const { user_id } = req.body;
+    const savedPost = await SavedPost.delete(user_id, id);
+    return res.json({ post: savedPost });
+  }
+  catch (err) {
+    return next(err);
+  }
+});
+
 router.delete('/:username/:id', ensureCorrectUser, async (req, res, next) => {
   try {
     const id = req.params.id;
