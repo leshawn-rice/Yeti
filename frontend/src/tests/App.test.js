@@ -14,6 +14,6 @@ test('renders learn react link', () => {
         <App />
       </PersistGate>
     </Provider>);
-  const linkElement = screen.getAllByText(/Yeti/i);
+  const linkElement = screen.getAllByText(/Yeti/i)[0];
   expect(linkElement).toBeInTheDocument();
 });
