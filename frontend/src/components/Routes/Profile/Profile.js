@@ -19,6 +19,7 @@ const Profile = () => {
 
     const toggleActive = (evt) => {
       const target = evt.target;
+      if (target.innerText.includes(user.username) || target.innerText.includes(user.rating)) return;
       if (!target.classList.contains('Profile-Tab')) return;
       for (let child of tablist.children) {
         child.classList.remove('active');
@@ -36,11 +37,13 @@ const Profile = () => {
   return (
     <div className="Profile">
       <div className="Profile-Tablist">
+        <h1 className="Profile-Tab User-Info">{user.username}</h1>
         <h1 className="Profile-Tab active">Posts</h1>
         <h1 className="Profile-Tab">Comments</h1>
         <h1 className="Profile-Tab">Saved</h1>
         <h1 className="Profile-Tab">Uprated</h1>
         <h1 className="Profile-Tab">Downrated</h1>
+        <h1 className="Profile-Tab User-Info">Rating: {user.rating}</h1>
         <div className="slider" role="presentation"></div>
       </div>
       <ProfileContent active={activeTab} />

@@ -27,7 +27,8 @@ const ProfileSaved = () => {
           contentItem={item}
           type={item.type}
           showComment={item.type === 'post' ? true : false}
-          isList={true} />
+          isList={true}
+          isSavedItem={true} />
       ))}
     </>
   )

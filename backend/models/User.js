@@ -161,15 +161,61 @@ class User {
     if (!id) throw new BadRequestError();
 
     const user = await db.query(
-      `SELECT id, email, username, password, rating, confirmed 
+      `SELECT id, email, username, rating, confirmed 
       FROM Users 
       WHERE id=$1`,
       [id]
     );
 
-    if (!user.rows.length) throw new BadRequestError('User Not Found');
+    if (!user.rows.length) throw new NotFoundError('User Not Found');
 
     return user.rows[0];
+  }
+
+  static async uprate(id) {
+    if (!id) throw new BadRequestError();
+
+    const user = await db.query(
+      `SELECT id, email, username, rating, confirmed 
+      FROM Users 
+      WHERE id=$1`,
+      [id]
+    );
+
+    if (!user.rows.length) throw new NotFoundError('User Not Found');
+
+    const result = await db.query(
+      `UPDATE Users
+      SET rating=$1
+      WHERE id=$2
+      RETURNING id, email, username, rating, confirmed`,
+      [user.rows[0].rating + 1, id]
+    );
+
+    return result.rows[0];
+  }
+
+  static async downrate(id) {
+    if (!id) throw new BadRequestError();
+
+    const user = await db.query(
+      `SELECT id, email, username, rating, confirmed 
+      FROM Users 
+      WHERE id=$1`,
+      [id]
+    );
+
+    if (!user.rows.length) throw new NotFoundError('User Not Found');
+
+    const result = await db.query(
+      `UPDATE Users
+      SET rating=$1
+      WHERE id=$2
+      RETURNING id, email, username, rating, confirmed`,
+      [user.rows[0].rating - 1, id]
+    );
+
+    return result.rows[0];
   }
 
   static async delete(username) {

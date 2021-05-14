@@ -14,14 +14,18 @@ const handlePostUprate = async (postId, userId) => {
   let post;
   if (wasUprated) {
     post = await Post.downrate(postId);
+    await User.downrate(userId);
   }
   else if (wasDownrated) {
     // uprate twice if it was downrated before
     await Post.uprate(postId);
     post = await Post.uprate(postId);
+    await User.uprate(userId);
+    await User.uprate(userId);
   }
   else {
     post = await Post.uprate(postId);
+    await User.uprate(userId);
   }
   return { post, rating };
 }
@@ -29,16 +33,21 @@ const handlePostUprate = async (postId, userId) => {
 const handlePostDownrate = async (postId, userId) => {
   const { rating, wasUprated, wasDownrated } = await PostRating.downrate(userId, postId);
   let post;
+  console.log(wasDownrated);
   if (wasDownrated) {
     post = await Post.uprate(postId);
+    await User.uprate(userId);
   }
   else if (wasUprated) {
     // downrate twice if it was uprated before
     await Post.downrate(postId);
     post = await Post.downrate(postId);
+    await User.downrate(userId);
+    await User.downrate(userId);
   }
   else {
     post = await Post.downrate(postId);
+    await User.downrate(userId);
   }
   return { post, rating };
 }
@@ -48,14 +57,18 @@ const handleCommentUprate = async (commentId, userId) => {
   let comment;
   if (wasUprated) {
     comment = await Comment.downrate(commentId);
+    await User.downrate(userId);
   }
   else if (wasDownrated) {
     // uprate twice if it was downrated before
     await Comment.uprate(commentId);
     comment = await Comment.uprate(commentId);
+    await User.uprate(userId);
+    await User.uprate(userId);
   }
   else {
     comment = await Comment.uprate(commentId);
+    await User.uprate(userId);
   }
   return { comment, rating }
 }
@@ -65,14 +78,18 @@ const handleCommentDownrate = async (commentId, userId) => {
   let comment;
   if (wasDownrated) {
     comment = await Comment.uprate(commentId);
+    await User.uprate(userId);
   }
   else if (wasUprated) {
     // downrate twice if it was uprated before
     await Comment.downrate(commentId);
     comment = await Comment.downrate(commentId);
+    await User.downrate(userId);
+    await User.downrate(userId);
   }
   else {
     comment = await Comment.downrate(commentId);
+    await User.downrate(userId);
   }
   return { comment, rating }
 }

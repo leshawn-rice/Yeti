@@ -25,7 +25,7 @@ import Loading from '../Loading';
 // Styles
 import '../../styles/ContentItem.css';
 
-const ContentItem = ({ contentItem, type, showComment, allowDelete, isList }) => {
+const ContentItem = ({ contentItem, type, showComment, allowDelete, isList, isSavedItem }) => {
   const [ratingColor, setRatingColor] = useState('rgb(58,58,58)');
   const [awaitingItem, setAwaitingItem] = useState(true);
   const user = useSelector(state => state.userReducer.user);
@@ -53,6 +53,8 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isList }) =>
       }
     }
 
+    // Get item is where the issue for upvoting is happening
+
     const getItem = async () => {
       if (type === 'post') {
         try {
@@ -60,8 +62,7 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isList }) =>
           if (isMounted) {
             contentItem.user_id = post.user_id
             contentItem.body = post.body;
-            contentItem.myRating = contentItem.rating;
-            contentItem.rating = post.rating;
+            if (isSavedItem) contentItem.rating = post.rating;
             setOwner(null);
             setAwaitingItem(false);
           }
@@ -77,8 +78,7 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isList }) =>
             contentItem.user_id = comment.user_id
             contentItem.post_id = comment.post_id;
             contentItem.comment = comment.comment;
-            contentItem.myRating = contentItem.rating;
-            contentItem.rating = comment.rating;
+            if (isSavedItem) contentItem.rating = comment.rating;
             setOwner(null);
             setAwaitingItem(false)
           }
@@ -160,9 +160,11 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isList }) =>
 
   const checkRatedPost = () => {
     const ratedPost = user.ratings.posts.find(postRating => postRating.post_id === contentItem.id);
-    console.log(user.ratings);
-    console.log(ratedPost);
-    if (ratedPost && ratedPost.rating !== 0) {
+    if (ratedPost && ratedPost.myRating !== undefined) {
+      if (ratedPost.myRating === 1) isUprated = true;
+      if (ratedPost.myRating === -1) isDownrated = true;
+    }
+    else if (ratedPost && ratedPost.rating !== 0) {
       if (ratedPost.rating === 1) isUprated = true;
       if (ratedPost.rating === -1) isDownrated = true;
     }
@@ -206,9 +208,9 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isList }) =>
     }
   }
 
-  const upvoteColor = isUprated ? 'green' : 'black';
-  const downvoteColor = isDownrated ? 'red' : 'black';
-  const savedColor = isSaved ? 'blue' : 'black';
+  const upvoteColor = isUprated ? 'green' : 'rgb(58,58,58)';
+  const downvoteColor = isDownrated ? 'red' : 'rgb(58,58,58)';
+  const savedColor = isSaved ? 'rgb(90, 90, 230)' : 'rgb(58,58,58)';
 
   if (awaitingItem) {
     return (

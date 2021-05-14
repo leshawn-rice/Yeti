@@ -16,6 +16,11 @@
   margin-top: 1rem;
 }
 
+.Profile-Tab.User-Info {
+  cursor: default;
+  color: black;
+}
+
 .Profile-Tab {
   margin: 0 1rem;
   cursor: pointer;
