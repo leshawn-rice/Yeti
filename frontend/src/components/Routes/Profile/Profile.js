@@ -30,7 +30,7 @@ const Profile = () => {
 
     tablist.addEventListener('click', toggleActive);
     return () => tablist.removeEventListener('click', toggleActive)
-  }, [])
+  }, [user.username, user.rating])
 
   if (!user.username) return <Redirect to="/" />
 

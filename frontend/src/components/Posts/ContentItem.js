@@ -104,7 +104,7 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isList, isSa
       isMounted = false;
     }
 
-  }, [contentItem.rating, contentItem.user_id, owner, dispatch, contentItem, token, isList, type])
+  }, [contentItem.rating, contentItem.user_id, owner, dispatch, contentItem, token, isList, type, isSavedItem])
 
   const uprate = () => {
     if (type === 'post') {
