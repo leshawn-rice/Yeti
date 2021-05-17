@@ -30,7 +30,12 @@ function decodeToken(token) {
 }
 
 function verifyToken(token) {
-  if (jwt.verify(token, SECRET_KEY)) return true;
+  try {
+    if (jwt.verify(token, SECRET_KEY)) return true;
+  }
+  catch (err) {
+    return false
+  }
   return false;
 }
 

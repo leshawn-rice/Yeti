@@ -7,8 +7,6 @@ const SavedPost = require('../models/SavedPost');
 const SavedComment = require('../models/SavedComment');
 
 
-// Update user rating on each of these
-
 const handlePostUprate = async (postId, userId) => {
   const { rating, wasUprated, wasDownrated } = await PostRating.uprate(userId, postId);
   let post;
@@ -93,6 +91,14 @@ const handleCommentDownrate = async (commentId, userId) => {
   }
   return { comment, rating }
 }
+
+/**
+ * 
+ * @param {object} user
+ * given a user with an id, username, rating, & confirmed,
+ * adds the users' posts, comments, saved & rated items, to the user
+ * @returns the user
+ */
 
 const getUserData = async (user) => {
   const posts = await Post.getByUserId(user.id);

@@ -8,7 +8,8 @@ function getHaversine(latDistance, lonDistance, lat1, lat2) {
   return EARTH_RADIUS * c;
 }
 
-function calculateDistance([lat1, lon1], [lat2, lon2]) {
+function calculateDistance([lat1, lon1] = [], [lat2, lon2] = []) {
+  if (!lat1 || !lon1 || !lat2 || !lon2) return undefined;
   // Get the radians of the distance between the lats/longs
   const latDistance = RADIANS * (lat2 - lat1);
   const lonDistance = RADIANS * (lon2 - lon1);

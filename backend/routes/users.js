@@ -19,12 +19,12 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-router.post('/contact', (req, res, next) => {
+router.post('/contact', async (req, res, next) => {
   try {
     const { email, subject, body } = req.body;
     const text = `FROM: ${email}\n${body}`;
     const options = { to: SERVER_EMAIL.email, subject, text }
-    sendEmail(options);
+    await sendEmail(options);
     return res.json({ message: 'Your email has been sent' });
   }
   catch (err) {

@@ -24,7 +24,7 @@ router.post('/register', async (req, res, next) => {
     const user = await getUserData(rawUser);
     const token = createUserToken(user);
     const emailOptions = createConfirmationEmail(email);
-    sendEmail(emailOptions);
+    await sendEmail(emailOptions);
     return res.json({ token, user });
   }
   catch (err) {
@@ -49,7 +49,7 @@ router.post('/resend-confirmation-email', async (req, res, next) => {
   try {
     const { email } = req.body;
     const emailOptions = createConfirmationEmail(email);
-    sendEmail(emailOptions);
+    await sendEmail(emailOptions);
     return (res.json({ message: 'Sent!' }));
   }
   catch (err) {
