@@ -12,6 +12,7 @@ const { createEmailToken } = require('./tokens');
 async function sendEmail(options) {
   if (!options) return false;
   const { to, subject, text } = options;
+  if (!to || !subject || !text) return false;
   const wasSent = await new Promise((resolve, reject) => {
     nodeoutlook.sendEmail({
       auth: {
