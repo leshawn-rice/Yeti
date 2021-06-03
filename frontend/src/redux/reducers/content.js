@@ -89,7 +89,7 @@ const contentReducer = (state = INITIAL_STATE, action) => {
 
     case RATE_COMMENT:
       let currentPost = null;
-      let newComments = state.currentPost.comments.filter(c => c.id !== action.payload.comment.id);
+      let newComments = state.currentPost ? state.currentPost.comments.filter(c => c.id !== action.payload.comment.id) : [];
       if (state.currentPost && state.currentPost.id === action.payload.comment.post_id) {
         let newComment = null;
         for (let comment of state.currentPost.comments) {

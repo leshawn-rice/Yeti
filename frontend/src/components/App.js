@@ -29,9 +29,9 @@ const App = () => {
   }, [dispatch, token, user.username]);
 
 
-  if (!Array.isArray(errors)) {
-    dispatch(clearErrors());
-  }
+  // if (!Array.isArray(errors)) {
+  //   dispatch(clearErrors());
+  // }
 
   return (
     <BrowserRouter>
@@ -45,9 +45,10 @@ const App = () => {
             status={400}
           />
         ) : null}
-        {errorThrown ? (
-          errors.map(err => <Alert key={err.message} message={err.message} status={err.status} />)
-        ) : null
+        {errorThrown ?
+          Array.isArray(errors) ? (
+            errors.map(err => <Alert key={err.message} message={err.message} status={err.status} />)
+          ) : <Alert key={errors.message} message={errors.message} status={errors.status} /> : null
         }
         <Router />
       </div>

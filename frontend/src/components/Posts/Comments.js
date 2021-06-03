@@ -1,7 +1,7 @@
 // External Dependencies
 import React from 'react';
 // Components
-import Comment from './Comment';
+import ContentItem from './ContentItem';
 import NotFound from '../NotFound';
 // Styles
 import '../../styles/Comments.css';
@@ -16,7 +16,7 @@ const Comments = ({ comments, allowDelete }) => {
   return (
     <div className="Comments">
       {comments.map(comment => (
-        <Comment key={`comment-${comment.id}`} comment={comment} allowDelete={allowDelete} />
+        <ContentItem key={`comment-${comment.id}`} contentItem={comment} type='comment' allowDelete={allowDelete} />
       ))}
     </div>
   )

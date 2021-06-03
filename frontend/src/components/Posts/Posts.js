@@ -1,7 +1,7 @@
 // External Dependencies
 import React from 'react';
 // Components
-import Post from './Post';
+import ContentItem from './ContentItem';
 import NotFound from '../NotFound';
 // Styles
 import '../../styles/Posts.css';
@@ -15,7 +15,12 @@ const Posts = ({ posts, allowDelete }) => {
   return (
     <div className="Posts">
       {posts.map(post => (
-        <Post key={`post-${post.id}`} post={post} showComment={true} allowDelete={allowDelete} />
+        <ContentItem
+          key={`post-${post.id}`}
+          contentItem={post}
+          type='post'
+          showComment={true}
+          allowDelete={allowDelete} />
       ))}
     </div>
   )

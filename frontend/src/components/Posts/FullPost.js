@@ -7,7 +7,7 @@ import { getFullPostApi } from '../../redux/actionCreators';
 // Components
 import Loading from '../Loading';
 import NotFound from '../NotFound';
-import Post from './Post';
+import ContentItem from './ContentItem';
 import CreateComment from './CreateComment';
 import Comments from './Comments';
 // Styles
@@ -43,7 +43,7 @@ const FullPost = () => {
   return (
     <div className="FullPost">
       <div className="FullPost-Post">
-        <Post post={post} />
+        <ContentItem type='post' contentItem={post} />
       </div>
       <div className="FullPost-Comments">
         <CreateComment postId={post.id} addToPost={addComment} />
