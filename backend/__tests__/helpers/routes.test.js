@@ -1,4 +1,9 @@
-const { getUserData } = require('../../helpers/routes');
+const {
+  getUserData,
+  handleCommentDownrate,
+  handlePostDownrate,
+  handlePostUprate,
+  handleCommentUprate } = require('../../helpers/routes');
 const db = require('../../db');
 
 afterAll(() => {
