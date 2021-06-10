@@ -1,6 +1,3 @@
--- \echo 'Seed test db with test data?'
--- \prompt 'Return for yes or control-C to cancel > ' foo
-
 \c yeti_test
 
 INSERT INTO Users
