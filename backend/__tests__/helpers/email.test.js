@@ -20,26 +20,3 @@ describe('createConfirmationEmail', () => {
     }
   });
 });
-
-// describe('sendEmail', () => {
-//   test('works: valid options', async () => {
-//     console.log = jest.fn();
-//     const options = { to: 'test@test.com', subject: 'Test Email', text: 'This is a test email' };
-//     const didSend = await sendEmail(options);
-//     expect(didSend).toBe(true);
-//     expect(console.log).toHaveBeenCalled();
-//   });
-
-//   test('fails: missing options', async () => {
-//     console.log = jest.fn();
-//     const options = {};
-//     const didSend = await sendEmail(options);
-//     expect(didSend).toBe(false);
-//     expect(console.log).toHaveBeenCalled();
-//   });
-
-//   test('fails: no options passed', async () => {
-//     const didSend = await sendEmail();
-//     expect(didSend).toBe(false);
-//   })
-// });
