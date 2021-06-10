@@ -1,11 +1,21 @@
 language: node_js
 node_js:
   - 15
+  
 script:
-    - cd frontend
-    - npm install
-    - npm run test
-    - npm run build
-    - cd ../backend
-    - npm install
-    - npm run test
+  - cd frontend
+  - npm install
+  - npm run test
+  - npm run build
+  - cd ../backend
+  - npm install
+  - npm run test
+
+services:
+  - postgresql
+before_script:
+  - cd backend
+  - psql -c 'create database "yeti_test";' -U postgres
+  - psql < yeti.sql
+  - psql < yeti-test-data.sql
+  - cd ..
