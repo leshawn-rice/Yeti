@@ -24,10 +24,6 @@ const FullPost = () => {
     dispatch(getFullPostApi(token, id));
   }, [dispatch, id, token]);
 
-  const addComment = (comment) => {
-    post.comments.push(comment)
-  }
-
   if (isLoading) {
     return (
       <Loading />
@@ -40,14 +36,18 @@ const FullPost = () => {
     )
   }
 
+  // sort newest comments on top
+
+  const comments = post.comments.sort((a, b) => b.id - a.id);
+
   return (
     <div className="FullPost">
       <div className="FullPost-Post">
         <ContentItem type='post' contentItem={post} />
       </div>
       <div className="FullPost-Comments">
-        <CreateComment postId={post.id} addToPost={addComment} />
-        <Comments comments={post.comments} />
+        <CreateComment postId={post.id} />
+        <Comments comments={comments} />
       </div>
     </div>
   )

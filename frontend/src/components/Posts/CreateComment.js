@@ -1,7 +1,6 @@
 // External Dependencies
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { v4 as uuid } from 'uuid';
 // Internal Dependencies
 import { createCommentApi } from '../../redux/actionCreators';
 // Components
@@ -10,7 +9,7 @@ import Form from '../Forms/Form';
 import '../../styles/CreateComment.css';
 
 
-const CreateComment = ({ postId, addToPost }) => {
+const CreateComment = ({ postId }) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.userReducer.user);
   const token = useSelector(state => state.userReducer.token);
@@ -35,10 +34,11 @@ const CreateComment = ({ postId, addToPost }) => {
   const handleSubmit = (formData) => {
     formData.postId = postId;
     dispatch(createCommentApi(token, user.username, formData));
+    // kind of a hack to get the comment on the page, just refresh
+    setTimeout(() => {
+      window.location.reload();
+    }, 10);
     if (!formData.comment) return;
-    const id = uuid();
-    const data = { id, user_id: user.id, post_id: postId, comment: formData.comment, rating: 0 };
-    addToPost(data);
   }
 
   return (

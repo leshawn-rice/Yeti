@@ -13,9 +13,11 @@ const Comments = ({ comments, allowDelete }) => {
     )
   }
 
+  const filtered = comments.filter((comment) => comment !== null);
+
   return (
     <div className="Comments">
-      {comments.map(comment => (
+      {filtered.map(comment => (
         <ContentItem key={`comment-${comment.id}`} contentItem={comment} type='comment' allowDelete={allowDelete} />
       ))}
     </div>

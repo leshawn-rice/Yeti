@@ -4,19 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 // Internal Dependencies
 import YetiApi from '../../api';
-import {
-  showErrors,
-  upratePostApi,
-  downratePostApi,
-  uprateCommentApi,
-  downrateCommentApi,
-  deletePostApi,
-  deleteCommentApi,
-  savePostApi,
-  saveCommentApi,
-  unsavePostApi,
-  unsaveCommentApi
-} from '../../redux/actionCreators';
+import { showErrors } from '../../redux/actionCreators';
 // Components
 import Options from './Options';
 import Loading from '../Loading';
@@ -92,6 +80,8 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isList }) =>
   useEffect(() => {
     let isMounted = true;
 
+    if (!isMounted) return;
+
     const getRatingColor = () => {
       switch (content.rating) {
         case content.rating < 0:
@@ -138,68 +128,6 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isList }) =>
   let isUprated = false;
   let isDownrated = false;
   let isSaved = false;
-
-
-  const uprate = () => {
-    if (type === 'post') {
-      dispatch(upratePostApi(token, user.id, content.id));
-    }
-    else if (type === 'comment') {
-      dispatch(uprateCommentApi(token, user.id, content.id));
-    }
-
-    let diff;
-    if (isUprated) diff = -1;
-    if (isDownrated) diff = 2;
-    if (!isUprated && !isDownrated) diff = 1;
-    const newContent = { ...content, rating: content.rating + diff };
-    setContent(content => newContent);
-  }
-
-  const downrate = () => {
-    if (type === 'post') {
-      dispatch(downratePostApi(token, user.id, content.id));
-    }
-    else if (type === 'comment') {
-      dispatch(downrateCommentApi(token, user.id, content.id));
-    }
-
-    let diff;
-    if (isUprated) diff = -2;
-    if (isDownrated) diff = 1;
-    if (!isUprated && !isDownrated) diff = -1;
-    const newContent = { ...content, rating: content.rating + diff };
-    setContent(content => newContent);
-  }
-
-  const save = () => {
-    if (type === 'post') {
-      if (user.saved.posts.find(post => post.post_id === content.id) !== undefined) {
-        dispatch(unsavePostApi(token, user.username, content.id, user.id));
-      }
-      else {
-        dispatch(savePostApi(token, user.username, content.id, user.id));
-      }
-    }
-    if (type === 'comment') {
-      if (user.saved.comments.find(comment => comment.comment_id === content.id) !== undefined) {
-        dispatch(unsaveCommentApi(token, user.username, content.id, user.id));
-      }
-      else {
-        dispatch(saveCommentApi(token, user.username, content.id, user.id));
-      }
-    }
-  }
-
-  const deleteItem = () => {
-    if (type === 'post') {
-      dispatch(deletePostApi(token, user.username, content.id));
-    }
-    if (type === 'comment') {
-      dispatch(deleteCommentApi(token, user.username, content.id));
-    }
-  }
-
 
   const checkRatedPost = () => {
     const ratedPost = user.ratings.posts.find(post => post.post_id === content.id);
@@ -270,15 +198,15 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isList }) =>
       <Options
         ratingColor={ratingColor}
         content={content}
+        setContent={setContent}
         isUprated={isUprated}
         isDownrated={isDownrated}
         isSaved={isSaved}
-        uprate={uprate}
-        downrate={downrate}
-        save={save}
-        deleteItem={deleteItem}
         showComment={showComment}
         allowDelete={allowDelete}
+        type={type}
+        token={token}
+        user={user}
       />
     </div>
   )

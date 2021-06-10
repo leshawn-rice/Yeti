@@ -34,7 +34,7 @@ class Comment {
       [id]
     );
 
-    if (!result.rows.length) throw new NotFoundError('Post Not Found');
+    if (!result.rows.length) throw new NotFoundError('Comment Not Found');
     return result.rows[0];
   }
 

@@ -242,7 +242,6 @@ const savePostApi = (token, username, id, user_id) => {
       const { post } = await YetiApi.savePost(token, username, id, user_id);
       dispatch(savePost(post));
       dispatch(endApiAction());
-      dispatch(showErrors([{ message: 'Post Saved!', status: 201 }]));
     }
     catch (errs) {
       dispatch(handleApiErrors(errs));
@@ -257,7 +256,6 @@ const unsavePostApi = (token, username, id, user_id) => {
       await YetiApi.unsavePost(token, username, id, user_id);
       dispatch(unsavePost(id));
       dispatch(endApiAction());
-      dispatch(showErrors([{ message: 'Post Unsaved!', status: 202 }]));
     }
     catch (errs) {
       dispatch(handleApiErrors(errs));
@@ -329,7 +327,6 @@ const saveCommentApi = (token, username, id, user_id) => {
       const { comment } = await YetiApi.saveComment(token, username, id, user_id);
       dispatch(saveComment(comment));
       dispatch(endApiAction());
-      dispatch(showErrors([{ message: 'Comment Saved!', status: 201 }]));
     }
     catch (errs) {
       dispatch(handleApiErrors(errs));
@@ -344,7 +341,6 @@ const unsaveCommentApi = (token, username, id, user_id) => {
       await YetiApi.unsaveComment(token, username, id, user_id);
       dispatch(unsaveComment(id));
       dispatch(endApiAction());
-      dispatch(showErrors([{ message: 'Comment Unsaved!', status: 202 }]));
     }
     catch (errs) {
       dispatch(handleApiErrors(errs));
