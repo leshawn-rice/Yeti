@@ -7,6 +7,12 @@ import Contact from './Contact';
 import Delete from './Delete';
 import Verify from './Verify';
 
+/**
+ * SettingsContent Component
+ * 
+ * Displays the content on the settings page, depending on the value contained by the current prop
+ */
+
 const SettingsContent = ({ current }) => {
   const CONTENT_MAP = {
     'Account': <Account />,

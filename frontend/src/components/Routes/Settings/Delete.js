@@ -6,6 +6,12 @@ import ConfirmDelete from './ConfirmDelete';
 // Styles
 import '../../../styles/Delete.css';
 
+/**
+ * Delete Component
+ * 
+ * Displays a text blurb explaining what account deletion does, with a button that opens the ConfirmDelete component on click 
+ */
+
 const Delete = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 

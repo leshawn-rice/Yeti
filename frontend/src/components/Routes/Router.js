@@ -8,6 +8,12 @@ import ConfirmEmail from './ConfirmEmail';
 import Profile from './Profile/Profile';
 import FullPost from '../Posts/FullPost';
 
+/**
+ * Router Component
+ * 
+ * Maps all the routes to their corresponding component
+ */
+
 const Router = () => {
   return (
     <Switch>

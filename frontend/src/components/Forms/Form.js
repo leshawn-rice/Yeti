@@ -5,6 +5,15 @@ import { Link } from 'react-router-dom';
 import Input from "./Input";
 import MessageArea from "./MessageArea";
 
+/**
+ * Form Component
+ * 
+ * General Component for all forms in the app.
+ * 
+ * Takes in inputs, messageAreas (textarea fields), initial data, button labels, and a submit function
+ * and displays them on the page with the appropriate component
+ */
+
 const Form = ({ inputs = [], messageAreas = [], INITIAL_DATA = {}, buttonLabel = null, extraButton = {}, extraButtonOnClick, submit }) => {
   const [formData, setFormData] = useState(INITIAL_DATA);
 

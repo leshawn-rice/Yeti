@@ -8,6 +8,11 @@ import Form from '../Forms/Form';
 // Styles
 import '../../styles/CreatePost.css';
 
+/**
+ * CreatePost Component
+ * 
+ * Displays a Form component with a single messageArea field to create a new post
+ */
 
 const CreatePost = () => {
   const dispatch = useDispatch();

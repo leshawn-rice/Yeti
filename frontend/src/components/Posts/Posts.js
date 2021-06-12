@@ -6,6 +6,13 @@ import NotFound from '../NotFound';
 // Styles
 import '../../styles/Posts.css';
 
+/**
+ * Comments Component
+ * 
+ * Returns a list of ContentItem Components for each post in
+ * the posts prop
+ */
+
 const Posts = ({ posts, allowDelete }) => {
   if (!posts.length) {
     return (

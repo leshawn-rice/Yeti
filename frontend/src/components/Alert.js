@@ -3,6 +3,12 @@ import React, { useEffect, useState } from 'react';
 // Styles
 import '../styles/Alert.css';
 
+/**
+ * Alert Component
+ * 
+ * Given a message and a status, displays an alert of an appropriate color with the given message
+ */
+
 const Alert = ({ message = '', status = 200 }) => {
   const [type, setType] = useState('Error');
 

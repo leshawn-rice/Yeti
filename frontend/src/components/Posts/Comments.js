@@ -6,6 +6,13 @@ import NotFound from '../NotFound';
 // Styles
 import '../../styles/Comments.css';
 
+/**
+ * Comments Component
+ * 
+ * Filters null values out of comments and returns a list of ContentItem Components for each comment in
+ * the comments prop
+ */
+
 const Comments = ({ comments, allowDelete }) => {
   if (!comments.length) {
     return (

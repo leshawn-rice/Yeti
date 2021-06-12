@@ -9,6 +9,12 @@ import ProfileDownrated from './ProfileDownrated';
 // Styles
 import '../../../styles/Profile.css';
 
+/**
+ * ProfileContent Component
+ * 
+ * General Component to display the content of the profile depending on the active prop
+ */
+
 const ProfileContent = ({ active }) => {
 
   const contentOptions = {

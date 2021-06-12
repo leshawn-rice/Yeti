@@ -6,6 +6,9 @@ import Modal from '../../Modal';
 import '../../../styles/Account.css';
 import PasswordChange from './PasswordChange';
 
+/**
+ * AccountPassword Component allows the user to change their password, opens the PasswordChange Component on clicking the button
+ */
 
 const AccountPassword = () => {
   const [passwordModal, setPasswordModal] = useState(false);

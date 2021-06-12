@@ -11,6 +11,13 @@ import Loading from '../../Loading';
 // Styles
 import '../../../styles/Settings.css'
 
+/**
+ * Settings Component
+ * 
+ * Settings page, displays the sidebar and relevant settings content, allowing users to make
+ * changes to their account as needed
+ */
+
 const Settings = () => {
   const user = useSelector(state => state.userReducer.user);
   const loading = useSelector(state => state.loadingReducer.isLoading);
@@ -58,6 +65,10 @@ const Settings = () => {
   if (loading) {
     return <Loading />
   }
+
+  /**
+   * Sets the active setting to the setting that was clicked
+   */
 
   const setActiveSetting = (evt) => {
     const target = evt.target

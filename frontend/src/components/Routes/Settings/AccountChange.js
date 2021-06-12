@@ -6,6 +6,12 @@ import Form from '../../Forms/Form';
 // Styles
 import '../../../styles/AccountChange.css';
 
+/**
+ * AccountChange Component
+ * 
+ * General Component with a modal and a form that allows users to update their account
+ */
+
 const AccountChange = ({ setModal, inputs, INITIAL_DATA, buttonLabel, submit }) => {
   const user = useSelector(state => state.userReducer.user);
   const token = useSelector(state => state.userReducer.token);

@@ -1,5 +1,11 @@
 import React from 'react';
 
+/**
+ * Input Component
+ * 
+ * Displays an input element of the given type, with the given props as attributes on the element
+ */
+
 const Input = ({ type, name, id, label, placeholder, isDisabled, required, value, handleChange }) => {
   return (
     <div className="Input">

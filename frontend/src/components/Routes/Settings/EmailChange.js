@@ -3,8 +3,14 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // Internal Dependencies
 import { updateEmailApi } from '../../../redux/actionCreators';
-import AccountChange from './AccountChange';
 // Components
+import AccountChange from './AccountChange';
+
+/**
+ * EmailChange Component
+ * 
+ * Displays an AccountChange Component with the inputs current email & new email
+ */
 
 
 const EmailChange = ({ setModal }) => {

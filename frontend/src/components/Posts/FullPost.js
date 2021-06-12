@@ -13,6 +13,12 @@ import Comments from './Comments';
 // Styles
 import '../../styles/FullPost.css';
 
+/**
+ * FullPost Component
+ * 
+ * Displays the full post, including any comments it has
+ */
+
 const FullPost = () => {
   const { id } = useParams();
   const token = useSelector(state => state.userReducer.token);

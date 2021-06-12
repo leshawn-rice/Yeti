@@ -8,6 +8,12 @@ import Form from '../Forms/Form';
 // Styles
 import '../../styles/CreateComment.css';
 
+/**
+ * CreateCommment Component
+ * 
+ * Displays a Form component with a single messageArea field to create a new comment
+ */
+
 
 const CreateComment = ({ postId }) => {
   const dispatch = useDispatch();

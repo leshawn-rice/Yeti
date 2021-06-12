@@ -5,6 +5,14 @@ import { registerUserApi, showErrors, clearErrors } from '../../../redux/actionC
 // Components
 import Auth from './Auth';
 
+/**
+ * Signup Component
+ * 
+ * Displays an Auth Component with the input fields email, password, & confirm password
+ * 
+ * Signs the user up on form submit
+ */
+
 const Signup = () => {
   const dispatch = useDispatch();
 

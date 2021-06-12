@@ -11,6 +11,14 @@ import Loading from '../Loading';
 // Styles
 import '../../styles/ContentItem.css';
 
+/**
+ * ContentItem Component
+ * 
+ * Most important, and biggest component of the app
+ * 
+ * Gets data about the content item (post/comment), and displays it, updating if any changes are made
+ */
+
 const ContentItem = ({ contentItem, type, showComment, allowDelete, isList }) => {
   const [ratingColor, setRatingColor] = useState('rgb(58,58,58)');
   const [content, setContent] = useState({});
@@ -23,6 +31,10 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isList }) =>
   const dispatch = useDispatch();
   const history = useHistory();
 
+  /**
+   * Gets the owner of the content item given the content id
+   */
+
   const getOwner = useCallback(
     async (id) => {
       try {
@@ -33,6 +45,10 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isList }) =>
         dispatch(showErrors(errs));
       }
     }, [dispatch]);
+
+  /**
+   * Gets the full post information and sets content to the appropriate values
+   */
 
   const getPost = useCallback(
     async () => {
@@ -53,6 +69,9 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isList }) =>
       }
     }, [dispatch, contentItem.id, getOwner, owner, token]);
 
+  /**
+   * Gets the full comment information and sets content to the appropriate values
+   */
 
   const getComment = useCallback(
     async () => {
@@ -75,12 +94,14 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isList }) =>
     }, [dispatch, contentItem.id, getOwner, owner, token]);
 
 
-  // memory leak for some reason, can't figure out why
-
   useEffect(() => {
     let isMounted = true;
 
     if (!isMounted) return;
+
+    /**
+     * sets the rating color to the appropriate color based on the content item's rating
+     */
 
     const getRatingColor = () => {
       switch (content.rating) {
@@ -129,6 +150,10 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isList }) =>
   let isDownrated = false;
   let isSaved = false;
 
+  /**
+   * Checks if the content item is a rated post in the user's rated items
+   */
+
   const checkRatedPost = () => {
     const ratedPost = user.ratings.posts.find(post => post.post_id === content.id);
     if (ratedPost && ratedPost.myRating !== undefined) {
@@ -141,6 +166,10 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isList }) =>
     }
   }
 
+  /**
+   * Checks if the content item is a rated comment in the user's rated items
+   */
+
   const checkRatedComment = () => {
     const ratedComment = user.ratings.comments.find(comment => comment.comment_id === content.id);
     if (ratedComment && ratedComment.rating !== 0) {
@@ -149,15 +178,27 @@ const ContentItem = ({ contentItem, type, showComment, allowDelete, isList }) =>
     }
   }
 
+  /**
+   * Checks if the content item is a saved post in the user's saved items
+   */
+
   const checkSavedPost = () => {
     const savedPost = user.saved.posts.find(postSaved => postSaved.post_id === content.id);
     if (savedPost) isSaved = true;
   }
 
+  /**
+   * Checks if the content item is a saved comment in the user's saved items
+   */
+
   const checkSavedComment = () => {
     const savedComment = user.saved.comments.find(commentSaved => commentSaved.comment_id === content.id);
     if (savedComment) isSaved = true;
   }
+
+  /**
+   * Called when the user clicks on the username of a content item, redirects to that content
+   */
 
   const goToItem = () => {
     if (type === 'post') {

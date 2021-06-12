@@ -10,6 +10,14 @@ import Loading from '../../Loading';
 // Styles
 import '../../../styles/Auth.css';
 
+/**
+ * Auth Component
+ * 
+ * Used for all authentication forms
+ * 
+ * Displays a Form component with the given props
+ */
+
 const Auth = ({ inputs = [], INITIAL_DATA = {}, buttonLabel = '', extraButton = {}, handleSubmit }) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.userReducer.user);

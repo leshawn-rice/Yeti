@@ -4,6 +4,13 @@ import { useSelector } from 'react-redux';
 // Components
 import ContentItem from '../../Posts/ContentItem';
 
+/**
+ * ProfileDownrated Component
+ * 
+ * Displays posts/comments that the user has downrated
+ */
+
+
 const ProfileDownrated = () => {
   const user = useSelector(state => state.userReducer.user);
 

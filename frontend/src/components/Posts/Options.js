@@ -20,6 +20,12 @@ import {
 // Styles
 import '../../styles/ContentItem.css';
 
+/**
+ * Options Component
+ * 
+ * Displays the uprate, downrate, save, delete, and comment section of each ContentItem component
+ */
+
 const Options = ({ ratingColor, content, setContent, isUprated, isDownrated, isSaved, showComment, allowDelete, type, token, user }) => {
 
   const dispatch = useDispatch();
@@ -27,6 +33,11 @@ const Options = ({ ratingColor, content, setContent, isUprated, isDownrated, isS
   const uprateColor = isUprated ? 'green' : 'rgb(58,58,58)';
   const downrateColor = isDownrated ? 'red' : 'rgb(58,58,58)';
   const savedColor = isSaved ? 'rgb(90, 90, 230)' : 'rgb(58,58,58)';
+
+  /**
+   * dispatches the appropriate action creator based on the content type, 
+   * uprating the content, and adjusting its rating
+   */
 
   const uprate = () => {
     if (type === 'post') {
@@ -44,6 +55,11 @@ const Options = ({ ratingColor, content, setContent, isUprated, isDownrated, isS
     setContent(content => newContent);
   }
 
+  /**
+   * dispatches the appropriate action creator based on the content type, 
+   * downrating the content, and adjusting its rating
+   */
+
   const downrate = () => {
     if (type === 'post') {
       dispatch(downratePostApi(token, user.id, content.id));
@@ -59,6 +75,11 @@ const Options = ({ ratingColor, content, setContent, isUprated, isDownrated, isS
     const newContent = { ...content, rating: content.rating + diff };
     setContent(content => newContent);
   }
+
+  /**
+   * dispatches the appropriate action creator based on the content type, 
+   * saving the content, and adjusting the user in state
+   */
 
   const save = () => {
     if (type === 'post') {
@@ -78,6 +99,11 @@ const Options = ({ ratingColor, content, setContent, isUprated, isDownrated, isS
       }
     }
   }
+
+  /**
+   * dispatches the appropriate action creator based on the content type, 
+   * deleting the content, and removing it from state
+   */
 
   const deleteItem = () => {
     if (type === 'post') {

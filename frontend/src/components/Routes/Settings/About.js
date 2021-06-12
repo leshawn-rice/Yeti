@@ -3,6 +3,12 @@ import React from 'react';
 // Styles
 import '../../../styles/About.css';
 
+/**
+ * About Component
+ * 
+ * Displays the about us page for the app. Contains information about the apps committment to safety and privacy
+ */
+
 const About = ({ setActiveSetting }) => {
 
   const toggleContact = () => {

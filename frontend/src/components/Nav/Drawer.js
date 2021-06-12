@@ -2,6 +2,14 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import '../../styles/Drawer.css';
 
+/**
+ * Drawer Component
+ * 
+ * Only for mobile, opens up drawer with a slide animation from the left side of the screen.
+ * 
+ * Is the navigation menu for mobile
+ */
+
 const Drawer = ({ open, onClose, links = [] }) => {
   if (open) {
     return (

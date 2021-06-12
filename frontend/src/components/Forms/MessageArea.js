@@ -1,5 +1,11 @@
 import React from 'react';
 
+/**
+ * MessageArea Component
+ * 
+ * Displays a textarea element with the given props as attributes
+ */
+
 const MessageArea = ({ id, name, label, placeholder, value, disabled, handleChange }) => {
   return (
     <div className="MessageArea">

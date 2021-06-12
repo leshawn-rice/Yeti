@@ -4,6 +4,12 @@ import { useSelector } from 'react-redux';
 // Components
 import ContentItem from '../../Posts/ContentItem';
 
+/**
+ * ProfileUprated Component
+ * 
+ * Displays posts/comments that the user has uprated
+ */
+
 
 const ProfileUprated = () => {
   const user = useSelector(state => state.userReducer.user);

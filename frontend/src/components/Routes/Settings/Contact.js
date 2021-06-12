@@ -10,6 +10,12 @@ import Alert from '../../Alert';
 // Styles
 import '../../../styles/Contact.css';
 
+/**
+ * Contact Component
+ * 
+ * Displays a Form Component with the input fields email, subject, and  body, and sends the email to the server email address on submit
+ */
+
 const Contact = () => {
   const [contactMessage, setContactMessage] = useState(null);
   const dispatch = useDispatch();

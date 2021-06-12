@@ -11,6 +11,12 @@ import Drawer from './Drawer';
 // Styles
 import '../../styles/Navbar.css';
 
+/**
+ * Navbar Component
+ * 
+ * Dynamically displays appropriate navbar for desktop/mobile
+ */
+
 const Navbar = () => {
   const [mobileView, setMobileView] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -28,8 +34,6 @@ const Navbar = () => {
     links.push({ name: 'Login', url: '/login', icon: faSignInAlt });
     links.push({ name: 'Sign Up', url: '/sign-up', icon: faUserPlus });
   }
-
-  // ADD EVT LISTENER TO REMOVE NAVBAR ON SCROLL
 
   useEffect(() => {
     const setResponsiveness = () => {

@@ -6,6 +6,14 @@ import { loginUserApi, clearErrors } from '../../../redux/actionCreators';
 // Components
 import Auth from './Auth';
 
+/**
+ * Login Component
+ * 
+ * Displays an Auth Component with the input fields email & password
+ * 
+ * logs the user in on form submit
+ */
+
 const Login = () => {
   const dispatch = useDispatch();
 

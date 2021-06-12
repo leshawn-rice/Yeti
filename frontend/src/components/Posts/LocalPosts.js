@@ -14,6 +14,12 @@ import NotFound from '../NotFound';
 // Styles
 import '../../styles/LocalPosts.css';
 
+/**
+ * LocalPosts Component
+ * 
+ * Finds, and displays all posts within the radius set by the user
+ */
+
 const LocalPosts = () => {
   const location = useSelector(state => state.locationReducer.location);
   const isLoading = useSelector(state => state.loadingReducer.isLoading);
@@ -39,9 +45,13 @@ const LocalPosts = () => {
 
   }, [dispatch, distance, location]);
 
+  // Sets isSettingsOpen to true when calles
+
   const openSettings = () => {
     setIsSettingsOpen(true);
   }
+
+  // Handles the submission of post filter form
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -49,6 +59,8 @@ const LocalPosts = () => {
     setDistance(value);
     setIsSettingsOpen(false);
   }
+
+  // Updates the text next to the range for the post range filter to the appropriate value
 
   const updateRangeValue = (evt) => {
     const { value } = evt.target;

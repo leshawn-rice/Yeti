@@ -7,6 +7,10 @@ import EmailChange from './EmailChange';
 // Styles
 import '../../../styles/Account.css';
 
+/**
+ * AccountEmail Component allows the user to change their password, opens the EmailChange Component on clicking the button
+ */
+
 const AccountEmail = () => {
   const [emailModal, setEmailModal] = useState(false);
 

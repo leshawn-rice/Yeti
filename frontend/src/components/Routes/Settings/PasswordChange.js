@@ -6,6 +6,12 @@ import { showErrors, updatePasswordApi } from '../../../redux/actionCreators';
 // Components
 import AccountChange from './AccountChange';
 
+/**
+ * PasswordChange Component
+ * 
+ * Displays an AccountChange Component with the inputs current password, new password, and confirm password
+ */
+
 const PasswordChange = ({ setModal }) => {
   const dispatch = useDispatch();
 

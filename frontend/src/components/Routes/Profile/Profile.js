@@ -7,6 +7,11 @@ import ProfileContent from './ProfileContent';
 // Styles
 import '../../../styles/Profile.css';
 
+/**
+ * Profile Component
+ * 
+ * Shows the users post/comments, as well as any posts/comments the user has uprated,downrated, or saved
+ */
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState(null);
@@ -16,6 +21,10 @@ const Profile = () => {
   useEffect(() => {
     const tablist = document.querySelector('.Profile-Tablist');
     setActiveTab('Posts');
+
+    /**
+     * Sets the active tab to the clicked tab
+     */
 
     const toggleActive = (evt) => {
       const target = evt.target;

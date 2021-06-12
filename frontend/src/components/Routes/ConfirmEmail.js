@@ -9,6 +9,14 @@ import YetiApi from '../../api';
 import '../../styles/ConfirmEmail.css';
 import Alert from '../Alert';
 
+/**
+ * ConfirmEmail Component
+ * 
+ * Only used when user is confirming their email for the first time
+ * 
+ * Displays a button to confirm the user's email and calls the confirmEmail method of the YetiApi class when clicked
+ */
+
 const ConfirmEmail = () => {
   const user = useSelector(state => state.userReducer.user);
   const errors = useSelector(state => state.errorReducer.errors);

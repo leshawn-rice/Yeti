@@ -11,6 +11,14 @@ import Router from './Routes/Router';
 import '../styles/App.css';
 import Alert from './Alert';
 
+/**
+ * The main Component for the app
+ * 
+ * Gets the user's location everytime the component mounts or is refreshed. 
+ * 
+ * Contains all other components, and displays any errors.
+ */
+
 const App = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.userReducer.user);
@@ -27,11 +35,6 @@ const App = () => {
     // Refresh the user anytime the app mounts
     if (user.username) dispatch(refreshUserApi(token, user.username));
   }, [dispatch, token, user.username]);
-
-
-  // if (!Array.isArray(errors)) {
-  //   dispatch(clearErrors());
-  // }
 
   return (
     <BrowserRouter>

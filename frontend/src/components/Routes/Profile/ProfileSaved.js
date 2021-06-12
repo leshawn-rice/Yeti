@@ -4,6 +4,13 @@ import { useSelector } from 'react-redux';
 // Components
 import ContentItem from '../../Posts/ContentItem';
 
+/**
+ * ProfileSaved Component
+ * 
+ * Displays posts/comments that the user has saved
+ */
+
+
 const ProfileSaved = () => {
   const user = useSelector(state => state.userReducer.user);
 

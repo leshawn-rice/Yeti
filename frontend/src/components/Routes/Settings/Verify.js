@@ -4,6 +4,12 @@ import YetiApi from '../../../api';
 // Styles
 import '../../../styles/Verify.css';
 
+/**
+ * Verify Component
+ * 
+ * Displays links to the user to change their email or send another confirmation link
+ */
+
 const Verify = () => {
   const user = useSelector(state => state.userReducer.user);
 
