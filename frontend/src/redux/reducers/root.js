@@ -6,7 +6,7 @@ import loadingReducer from './load';
 import contentReducer from './content';
 
 /**
- * The root reducer combines all the other reducers (films, planets, people) 
+ * The root reducer combines all the other reducers (user, error, location, loading, content) 
  * into a single reducer using the combineReducers function from the redux library
  */
 

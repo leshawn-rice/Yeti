@@ -1,7 +1,18 @@
+
+/**
+ * 
+ * @param {float} oldScrollPos 
+ * @param {HTMLElement} div 
+ * @param {float} scrollDownPos 
+ * @param {float} scrollUpPos 
+ * 
+ * handles scrolling behavior, and sets the given div's style to the scrollDownPos/scrollUpPos 
+ * depending on whether the user scrolled up or down
+ * 
+ */
+
 const handleScroll = (oldScrollPos, div, scrollDownPos, scrollUpPos) => {
   let newScrollPos = window.pageYOffset;
-
-  // on ios, this causes the navbar to disappear then reappear due to the bouncy scrolling
 
   if (!div) return;
 
@@ -23,6 +34,11 @@ const handleScroll = (oldScrollPos, div, scrollDownPos, scrollUpPos) => {
   }
   return newScrollPos;
 }
+
+/**
+ * 
+ * checks if the bottom of the page has been reached and returns the result
+ */
 
 const checkBottom = () => {
   if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {

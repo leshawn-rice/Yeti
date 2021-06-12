@@ -18,14 +18,24 @@ const INITIAL_STATE = {
   token: null,
 };
 
+/**
+ * 
+ * @param {object} state 
+ * @param {object} action 
+ *
+ * handles the user in state 
+ */
+
 const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    // set the user & token to the data in the payload
     case REFRESH:
       return {
         ...state,
         user: action.payload.user,
         token: action.payload.token
       }
+    // set the user & token to the data in the payload if a payload is passed, or null values otherwise
     case LOGIN_USER:
       if (action.payload) return {
         ...state,
@@ -37,18 +47,21 @@ const userReducer = (state = INITIAL_STATE, action) => {
         user: {},
         token: null
       }
+    // set the user to an empty object and token to null
     case LOGOUT_USER:
       return {
         ...state,
         user: {},
         token: null
       }
+    // set the user and token to the values in the payload
     case UPDATE_USER:
       return {
         ...state,
         user: action.payload.user,
         token: action.payload.token
       }
+    // set the user's posts property to a new array that contains the old values, and the object in the payload
     case ADD_USER_POST:
       return {
         ...state,
@@ -60,6 +73,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
           ]
         }
       }
+    // set the user's comments property to a new array that contains the old values, and the object in the payload
     case ADD_USER_COMMENT:
       return {
         ...state,
@@ -71,6 +85,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
           ]
         }
       }
+    // set the user's saved.posts property to a new array that contains the old values, and the object in the payload
     case SAVE_POST:
       return {
         ...state,
@@ -85,6 +100,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
           }
         }
       }
+    // set the user's saved.posts property to a new array that contains the old values, and remove the object in the payload
     case UNSAVE_POST:
       const newSavedPosts = state.user.saved.posts.filter(post => post.post_id !== action.payload).filter(Boolean);
       return {
@@ -97,6 +113,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
           }
         }
       }
+    // set the user's saved.comments property to a new array that contains the old values, and the object in the payload
     case SAVE_COMMENT:
       return {
         ...state,
@@ -111,6 +128,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
           }
         }
       }
+    // set the user's saved.comments property to a new array that contains the old values, and remove the object in the payload
     case UNSAVE_COMMENT:
       const newSavedComments = state.user.saved.comments.filter(comment => comment.comment_id !== action.payload).filter(Boolean);
       return {
