@@ -10,6 +10,7 @@ const { createEmailToken } = require('./tokens');
  */
 
 async function sendEmail(options) {
+  console.log(SERVER_EMAIL)
   if (!options) return false;
   const { to, subject, text } = options;
   const wasSent = await new Promise((resolve, reject) => {
