@@ -5,9 +5,16 @@ const { BCRYPT_WORK_FACTOR } = require('../config');
 const db = require('../db');
 const { generateUsername } = require('../helpers/user');
 // Errors
-const { NotFoundError, BadRequestError } = require('../expressError');
+const { NotFoundError, BadRequestError, UnauthorizedError } = require('../expressError');
 
 class User {
+
+  /**
+   * 
+   * @param {string} username
+   * @returns the comment with the given username,
+   * throws an error if no such user exists or no username was passed
+   */
 
   static async getByUsername(username) {
     if (!username) throw new BadRequestError('No Username');
@@ -23,6 +30,16 @@ class User {
     return user.rows[0];
   }
 
+  /**
+   * 
+   * @param {string} email 
+   * @param {string} password 
+   * 
+   * verifies that there exists a user in the database with the given email, and checks the given password 
+   * against the one that user has in the database. if this succeeds, returns the user, otherwise throws an
+   * error
+   */
+
   static async authenticate(email, password) {
     if (!email || !password) throw new BadRequestError();
 
@@ -33,7 +50,7 @@ class User {
       [email]
     );
 
-    if (!user.rows.length) throw new NotFoundError('Invalid Email/Password');
+    if (!user.rows.length) throw new BadRequestError('Invalid Email/Password');
 
     const hashedPassword = user.rows[0].password;
 
@@ -43,9 +60,18 @@ class User {
       return userToReturn;
     }
     else {
-      throw new BadRequestError('Invalid Email/Password!');
+      throw new UnauthorizedError('Invalid Email/Password!');
     }
   }
+
+  /**
+   * 
+   * @param {string} email 
+   * @param {string} password 
+   * 
+   * Creates a new user with the given email & password, and a random username w/ default rating & confirmed values
+   * if the email is already taken or no email/password were passed, throws an error
+   */
 
   static async register(email, password) {
     if (!email || !password) throw new BadRequestError('Email/Password Required!');
@@ -77,6 +103,14 @@ class User {
 
     return user.rows[0];
   }
+
+  /**
+   * 
+   * @param {string} username 
+   * @param {string} email 
+   * 
+   * changes the user with the given username's email to the given email
+   */
 
   static async changeEmail(username, email) {
     if (!username || !email) throw new BadRequestError('Invalid Data!');
@@ -110,6 +144,17 @@ class User {
     return result.rows[0];
   }
 
+  /**
+   * 
+   * @param {string} username 
+   * @param {string} oldPassword 
+   * @param {string} newPassword 
+   * 
+   * checks the old password against the password of the user with the given username, 
+   * if they match, then updates the user's password to a hash of the new password. Otherwise throws
+   * an error
+   */
+
   static async changePassword(username, oldPassword, newPassword) {
     if (!username || !oldPassword || !newPassword) throw new BadRequestError('Invalid Data!');
 
@@ -141,6 +186,13 @@ class User {
 
   }
 
+  /**
+   * 
+   * @param {object} payload 
+   * given a payload (decoded token that contains the user's email)
+   * updates the user with the given email to confirmed status. Otherwise throws an error
+   */
+
   static async confirmEmail(payload) {
     if (!payload || !payload.email) throw new BadRequestError('Invalid Token!');
 
@@ -157,6 +209,13 @@ class User {
     return user.rows[0];
   }
 
+  /**
+   * 
+   * @param {int} id 
+   * @returns the user with the given id,
+   * throws an error if no such comment exists or no id was passed
+   */
+
   static async getById(id) {
     if (!id) throw new BadRequestError();
 
@@ -171,6 +230,15 @@ class User {
 
     return user.rows[0];
   }
+
+  /**
+  * 
+  * @param {int} id
+  * 
+  * given the id of a user, if the user exists, increments the user's rating by 1, and returns the
+  * updated user, otherwise throws a NotFoundError
+  * 
+  */
 
   static async uprate(id) {
     if (!id) throw new BadRequestError();
@@ -195,6 +263,15 @@ class User {
     return result.rows[0];
   }
 
+  /**
+  * 
+  * @param {int} id
+  * 
+  * given the id of a user, if the user exists, decrements the user's rating by 1, and returns the
+  * updated user, otherwise throws a NotFoundError
+  * 
+  */
+
   static async downrate(id) {
     if (!id) throw new BadRequestError();
 
@@ -217,6 +294,13 @@ class User {
 
     return result.rows[0];
   }
+
+  /**
+   * 
+   * @param {int} id 
+   * deletes the user with the given ID from the db and returns a message
+   * 'user deleted'
+   */
 
   static async delete(username) {
     if (!username) throw new BadRequestError();

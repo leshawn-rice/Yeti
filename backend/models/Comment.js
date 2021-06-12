@@ -98,6 +98,15 @@ class Comment {
     return result.rows;
   }
 
+  /**
+   * 
+   * @param {int} id
+   * 
+   * given the id of a comment, if the comment exists, increments the comment's rating by 1, and returns the
+   * updated comment, otherwise throws a NotFoundError
+   * 
+   */
+
   static async uprate(id) {
     if (!id) throw new BadRequestError();
 
@@ -123,6 +132,15 @@ class Comment {
     return newComment.rows[0];
   }
 
+  /**
+ * 
+ * @param {int} id
+ * 
+ * given the id of a comment, if the comment exists, decrements the comment's rating by 1, and returns the
+ * updated comment, otherwise throws a NotFoundError
+ * 
+ */
+
   static async downrate(id) {
     if (!id) throw new BadRequestError();
 
@@ -147,6 +165,19 @@ class Comment {
 
     return newComment.rows[0];
   }
+
+  /**
+   * 
+   * @param {string} username 
+   * @param {string} comment 
+   * @param {int} post_id 
+   * 
+   * given a username, a comment body, and a post id, checks if the user with the given username exists,
+   * checks if the post with the given post_id exists, and if so creates a new comment with the comment
+   * column containing the value held in the "comment" parameter.
+   * 
+   * @returns the new comment or throws an error if invalid data was passed
+   */
 
   static async create(username, comment, post_id) {
     if (!username) throw new UnauthorizedError('You need to be logged in to comment!');
@@ -185,6 +216,13 @@ class Comment {
 
     return result.rows[0];
   }
+
+  /**
+   * 
+   * @param {int} id 
+   * deletes the comment with the given ID from the db and returns a message
+   * 'comment deleted'
+   */
 
   static async delete(id) {
     if (!id) throw new BadRequestError();

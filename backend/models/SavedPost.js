@@ -33,6 +33,14 @@ class SavedPost {
     return result.rows;
   }
 
+  /**
+   * 
+   * @param {int} user_id 
+   * @param {int} post_id 
+   * deletes the saved_post entry with the given IDs from the db and returns null
+   */
+
+
   static async delete(user_id, post_id) {
     if (!user_id || !post_id) throw new BadRequestError();
 
@@ -44,6 +52,15 @@ class SavedPost {
 
     return result.rows[0];
   }
+
+  /**
+   * 
+   * @param {int} user_id 
+   * @param {int} post_id 
+   * checks if the user/post with the given IDs exist, and if so checks if a duplicate entry already exists,
+   * if it doesn't creates a new saved_post entry with the given user_id & post_id.
+   * if any of the checks fail, throws an error
+   */
 
   static async save(user_id, post_id) {
     if (!user_id || !post_id) throw new BadRequestError();
@@ -75,8 +92,6 @@ class SavedPost {
 
     if (duplicateResult.rows.length) return duplicateResult.rows[0];
 
-    console.log(duplicateResult.rows);
-
     const result = await db.query(
       `INSERT INTO Saved_Posts
       (user_id, post_id)
@@ -85,8 +100,6 @@ class SavedPost {
       RETURNING id, user_id, post_id`,
       [user_id, post_id]
     );
-
-    console.log(result.rows);
 
     return result.rows[0];
   }

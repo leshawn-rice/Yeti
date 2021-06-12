@@ -33,9 +33,15 @@ class SavedComment {
     return result.rows;
   }
 
+  /**
+   * 
+   * @param {int} user_id 
+   * @param {int} comment_id 
+   * deletes the saved_comment entry with the given IDs from the db and returns null
+   */
+
   static async delete(user_id, comment_id) {
     if (!user_id || !comment_id) throw new BadRequestError();
-
 
     const result = await db.query(
       `DELETE FROM Saved_Comments
@@ -45,6 +51,15 @@ class SavedComment {
 
     return result.rows[0];
   }
+
+  /**
+   * 
+   * @param {int} user_id 
+   * @param {int} comment_id 
+   * checks if the user/comment with the given IDs exist, and if so checks if a duplicate entry already exists,
+   * if it doesn't creates a new saved_comment entry with the given user_id & comment_id.
+   * if any of the checks fail, throws an error
+   */
 
   static async save(user_id, comment_id) {
     if (!user_id || !comment_id) throw new BadRequestError();

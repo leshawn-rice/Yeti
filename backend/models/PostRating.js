@@ -99,6 +99,15 @@ class PostRating {
     return result.rows;
   }
 
+  /**
+ * 
+ * @param {int} user_id 
+ * @param {int} post_id 
+ * 
+ * given a user id and comment id, creates a new post_ratings row with the parameters as values for 
+ * the corresponding columns, and a rating of 1. if the user_id or post_id are invalid, throws an error
+ */
+
   static async uprate(user_id, post_id) {
     if (!user_id || !post_id) throw new BadRequestError();
 
@@ -154,6 +163,15 @@ class PostRating {
       return { rating: { id: 0, user_id, post_id, rating: 0 }, wasUprated, wasDownrated }
     }
   }
+
+  /**
+* 
+* @param {int} user_id 
+* @param {int} post_id 
+* 
+* given a user id and comment id, creates a new post_ratings row with the parameters as values for 
+* the corresponding columns, and a rating of -1. if the user_id or post_id are invalid, throws an error
+*/
 
   static async downrate(user_id, post_id) {
     if (!user_id || !post_id) throw new BadRequestError();

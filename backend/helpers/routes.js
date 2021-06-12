@@ -6,6 +6,16 @@ const CommentRating = require('../models/CommentRating');
 const SavedPost = require('../models/SavedPost');
 const SavedComment = require('../models/SavedComment');
 
+/**
+ * 
+ * @param {int} postId 
+ * @param {int} userId 
+ * 
+ * handles the logic behind uprating a post (add 2 votes if was downrated by user, add 1 if no rate, add -2 votes 
+ * if was uprated by the user )
+ * 
+ * @returns an object with the updated post, and the rating row from the SQL database
+ */
 
 const handlePostUprate = async (postId, userId) => {
   const { rating, wasUprated, wasDownrated } = await PostRating.uprate(userId, postId);
@@ -27,6 +37,17 @@ const handlePostUprate = async (postId, userId) => {
   }
   return { post, rating };
 }
+
+/**
+ * 
+ * @param {int} postId 
+ * @param {int} userId 
+ * 
+ * handles the logic behind downrating a post (add 2 votes if was downrated by user, add -1 if no rate, add -2 
+ * votes if was uprated by the user )
+ * 
+ * @returns an object with the updated post, and the rating row from the SQL database
+ */
 
 const handlePostDownrate = async (postId, userId) => {
   const { rating, wasUprated, wasDownrated } = await PostRating.downrate(userId, postId);
@@ -50,6 +71,17 @@ const handlePostDownrate = async (postId, userId) => {
   return { post, rating };
 }
 
+/**
+ * 
+ * @param {int} commentId 
+ * @param {int} userId 
+ * 
+ * handles the logic behind uprating a comment (add 2 votes if was downrated by user, add 1 if no rate, add -2 
+ * votes if was uprated by the user )
+ * 
+ * @returns an object with the updated comment, and the rating row from the SQL database
+ */
+
 const handleCommentUprate = async (commentId, userId) => {
   const { rating, wasUprated, wasDownrated } = await CommentRating.uprate(userId, commentId);
   let comment;
@@ -70,6 +102,17 @@ const handleCommentUprate = async (commentId, userId) => {
   }
   return { comment, rating }
 }
+
+/**
+ * 
+ * @param {int} commentId 
+ * @param {int} userId 
+ * 
+ * handles the logic behind downrating a comment (add 2 votes if was downrated by user, add -1 if no rate, add -2 
+ * votes if was uprated by the user )
+ * 
+ * @returns an object with the updated comment, and the rating row from the SQL database
+ */
 
 const handleCommentDownrate = async (commentId, userId) => {
   const { rating, wasUprated, wasDownrated } = await CommentRating.downrate(userId, commentId);

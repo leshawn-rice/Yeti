@@ -110,6 +110,15 @@ class Post {
     return result.rows;
   }
 
+  /**
+   * 
+   * @param {int} id
+   * 
+   * given the id of a post, if the post exists, increments the post's rating by 1, and returns the
+   * updated post, otherwise throws a NotFoundError
+   * 
+   */
+
   static async uprate(id) {
     if (!id) throw new BadRequestError();
 
@@ -135,6 +144,15 @@ class Post {
     return newPost.rows[0];
   }
 
+  /**
+* 
+* @param {int} id
+* 
+* given the id of a post, if the post exists, decrements the post's rating by 1, and returns the
+* updated post, otherwise throws a NotFoundError
+* 
+*/
+
   static async downrate(id) {
     if (!id) throw new BadRequestError();
 
@@ -159,6 +177,19 @@ class Post {
 
     return newPost.rows[0];
   }
+
+  /**
+   * 
+   * @param {string} username 
+   * @param {string} body 
+   * @param {object} location 
+   * 
+   * given a username, a post body, and a location, checks if the user with the given username exists,
+   * and if so creates a new post with the body
+   * column containing the value held in the "body" parameter.
+   * 
+   * @returns the new post or throws an error if invalid data was passed
+   */
 
   static async create(username, body, location) {
     if (!body) throw new BadRequestError('Post cannot be blank!');
@@ -189,6 +220,13 @@ class Post {
 
     return post.rows[0];
   }
+
+  /**
+  * 
+  * @param {int} id 
+  * deletes the post with the given ID from the db and returns a message
+  * 'post deleted'
+  */
 
   static async delete(id) {
     if (!id) throw new BadRequestError();

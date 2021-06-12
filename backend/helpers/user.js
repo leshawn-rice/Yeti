@@ -16,6 +16,7 @@ function readFile(path) {
  * @returns a random element in the given array
  */
 function getRandomChoice(arr) {
+  if (!Array.isArray(arr)) return undefined;
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
@@ -39,8 +40,11 @@ const capitalizeString = (str) => {
  */
 
 function checkIfUsernameTaken(username, usernames) {
+  if (typeof username !== 'string') return undefined;
+  if (!Array.isArray(usernames)) return undefined;
+  if (!username || !usernames || !usernames.length) return undefined;
   for (let user of usernames) {
-    if (user.username === username) return true;
+    if (user.username == username) return true;
   }
   return false;
 }
@@ -69,4 +73,4 @@ function generateUsername(usernames) {
   return username;
 }
 
-module.exports = { generateUsername }
+module.exports = { generateUsername, getRandomChoice, capitalizeString, checkIfUsernameTaken }
