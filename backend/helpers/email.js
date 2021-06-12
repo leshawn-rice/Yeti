@@ -46,8 +46,7 @@ function createConfirmationEmail(email) {
   if (!email || typeof (email) !== 'string') return undefined;
   const subject = 'Yeti Email Confirmation';
   const token = createEmailToken(email);
-  const text = `Confirm your email here: https://goyeti.app/confirm/${token}\n
-  Or here: localhost:3000/confirm/${token}`;
+  const text = `Confirm your email here: https://goyeti.app/confirm/${token}`;
   const options = { to: email, subject, text }
   return options;
 }
