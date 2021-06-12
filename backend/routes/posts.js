@@ -1,12 +1,19 @@
 const express = require('express');
 const Post = require('../models/Post');
 const Comment = require('../models/Comment');
-const { ensureCorrectUser, ensureLoggedIn } = require('../middleware/auth');
-const User = require('../models/User');
-const PostRating = require('../models/PostRating');
+const { ensureCorrectUser } = require('../middleware/auth');
 const { handlePostDownrate, handlePostUprate } = require('../helpers/routes');
 const SavedPost = require('../models/SavedPost');
 const router = express.Router();
+
+/** GET /posts =>  { posts: [post, post, post ... ] }
+ * 
+ *  Gets all the posts in the database
+ *
+ *  Post is { id, body, rating, latitude, longitude, user_id }
+ *
+ * Authorization required: none
+ */
 
 router.get('/', async (req, res, next) => {
   try {
@@ -18,6 +25,15 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+/** GET /posts/find {latitude, longitude, distance} =>  { posts: [post, post, post ... ] }
+ * 
+ *  Gets all the posts within the given distance of the given lat/long coordinates
+ *
+ *  Post is { id, body, rating, latitude, longitude, user_id }
+ *
+ * Authorization required: none
+ */
+
 router.get('/find', async (req, res, next) => {
   try {
     const { latitude, longitude, distance } = req.query;
@@ -28,6 +44,15 @@ router.get('/find', async (req, res, next) => {
     return next(err);
   }
 });
+
+/** GET /posts/:id =>  { post }
+ * 
+ *  Gets the post with the given id
+ *
+ *  Post is { id, body, rating, latitude, longitude, user_id }
+ *
+ *  Authorization required: none
+ */
 
 router.get('/:id', async (req, res, next) => {
   try {
@@ -41,15 +66,33 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
+/** GET /posts/:id =>  { posts: [post, post, post ...] }
+ * 
+ *  Gets the posts by the user with the given id
+ *
+ *  Post is { id, body, rating, latitude, longitude, user_id }
+ *
+ *  Authorization required: none
+ */
+
 router.get('/user/:id', async (req, res, next) => {
   try {
-    const post = await Post.getByUserId(req.params.id);
-    return res.json({ post });
+    const posts = await Post.getByUserId(req.params.id);
+    return res.json({ posts });
   }
   catch (err) {
     return next(err);
   }
 });
+
+/** POST /posts/:username {body, location} => post
+ *  
+ * Creates a new post with the given body and location for the user with the username in the path
+ * 
+ * Post is { id, body, rating, latitude, longitude, user_id }
+ *
+ * Authorization required: correct user
+ */
 
 router.post('/:username', ensureCorrectUser, async (req, res, next) => {
   try {
@@ -63,6 +106,16 @@ router.post('/:username', ensureCorrectUser, async (req, res, next) => {
   }
 });
 
+/** POST /posts/:id/uprate =>  { post, rating }
+ * 
+ *  Uprates a post
+ *
+ *  Post is { id, body, rating, latitude, longitude, user_id }
+ *  Rating is {id, user_id, post_id, rating}
+ *
+ *  Authorization required: none
+ */
+
 router.post('/:id/uprate', async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
@@ -74,6 +127,16 @@ router.post('/:id/uprate', async (req, res, next) => {
     return next(err);
   }
 });
+
+/** POST /posts/:id/downrate =>  { post, rating }
+ * 
+ *  Downrates a post
+ *
+ *  Post is { id, body, rating, latitude, longitude, user_id }
+ *  Rating is {id, user_id, post_id, rating}
+ *
+ *  Authorization required: none
+ */
 
 router.post('/:id/downrate', async (req, res, next) => {
   try {
@@ -87,6 +150,15 @@ router.post('/:id/downrate', async (req, res, next) => {
   }
 });
 
+/** POST /posts/:username/:id/save =>  { post }
+ * 
+ *  Saves a post
+ *
+ *  Post is { id, body, rating, latitude, longitude, user_id }
+ *
+ *  Authorization required: correct user
+ */
+
 router.post('/:username/:id/save', ensureCorrectUser, async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -99,6 +171,15 @@ router.post('/:username/:id/save', ensureCorrectUser, async (req, res, next) => 
   }
 });
 
+/** DELETE /posts/:username/:id/unsave =>  { post }
+ * 
+ *  Unsaves a post
+ *
+ *  Post is { id, body, rating, latitude, longitude, user_id }
+ *
+ *  Authorization required: correct user
+ */
+
 router.delete('/:username/:id/unsave', ensureCorrectUser, async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -110,6 +191,13 @@ router.delete('/:username/:id/unsave', ensureCorrectUser, async (req, res, next)
     return next(err);
   }
 });
+
+/** DELETE /posts/:username/:id =>  { message }
+ * 
+ *  Deletes a post
+ *
+ *  Authorization required: correct user
+ */
 
 router.delete('/:username/:id', ensureCorrectUser, async (req, res, next) => {
   try {

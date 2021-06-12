@@ -5,6 +5,13 @@ const { handleCommentDownrate, handleCommentUprate } = require('../helpers/route
 const SavedComment = require('../models/SavedComment');
 const router = express.Router();
 
+/** GET /comments/:id =>  { comment }
+ *
+ *  Comment is { id, comment, rating, user_id, post_id }
+ *
+ * Authorization required: logged in
+ */
+
 router.get('/:id', ensureLoggedIn, async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -15,6 +22,15 @@ router.get('/:id', ensureLoggedIn, async (req, res, next) => {
     return next(err);
   }
 });
+
+/** POST /comments/:username =>  { comment }
+ * 
+ *  Creates a new comment
+ *
+ *  Comment is { id, comment, rating, user_id, post_id }
+ *
+ * Authorization required: correct user
+ */
 
 router.post('/:username', ensureCorrectUser, async (req, res, next) => {
   try {
@@ -28,6 +44,16 @@ router.post('/:username', ensureCorrectUser, async (req, res, next) => {
   }
 });
 
+/** POST /comments/:id/uprate =>  { comment, rating }
+ * 
+ * Uprates a comment
+ *
+ *  Comment is { id, comment, rating, user_id, post_id }
+ *  Rating is {id, user_id, comment_id, rating}
+ *
+ * Authorization required: none
+ */
+
 router.post('/:id/uprate', async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
@@ -39,6 +65,16 @@ router.post('/:id/uprate', async (req, res, next) => {
     return next(err);
   }
 });
+
+/** POST /comments/:id/downrate =>  { comment, rating }
+ * 
+ *  Downrates a comment
+ *
+ *  Comment is { id, comment, rating, user_id, post_id }
+ *  Rating is {id, user_id, comment_id, rating}
+ *
+ *  Authorization required: none
+ */
 
 router.post('/:id/downrate', async (req, res, next) => {
   try {
@@ -52,6 +88,15 @@ router.post('/:id/downrate', async (req, res, next) => {
   }
 });
 
+/** POST /comments/:username/:id/save =>  { comment }
+ * 
+ *  Saves a comment
+ *
+ *  Comment is { id, comment, rating, user_id, post_id }
+ *
+ *  Authorization required: correct user
+ */
+
 router.post('/:username/:id/save', ensureCorrectUser, async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -64,6 +109,15 @@ router.post('/:username/:id/save', ensureCorrectUser, async (req, res, next) => 
   }
 });
 
+/** DELETE /comments/:username/:id/unsave =>  { comment }
+ * 
+ *  Unsaves a comment
+ *
+ *  Comment is { id, comment, rating, user_id, post_id }
+ *
+ *  Authorization required: correct user
+ */
+
 router.delete('/:username/:id/unsave', ensureCorrectUser, async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -75,6 +129,13 @@ router.delete('/:username/:id/unsave', ensureCorrectUser, async (req, res, next)
     return next(err);
   }
 });
+
+/** DELETE /comments/:username/:id =>  { message }
+ * 
+ *  Deletes a comment
+ *
+ *  Authorization required: correct user
+ */
 
 router.delete('/:username/:id', ensureCorrectUser, async (req, res, next) => {
   try {

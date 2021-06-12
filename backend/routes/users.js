@@ -9,6 +9,15 @@ const { getUserData } = require('../helpers/routes');
 const { createUserToken } = require('../helpers/tokens');
 const router = express.Router();
 
+/** GET /users/:id =>  { user }
+ * 
+ *  Gets the user with the given id
+ *
+ *  User is { id, username, email, rating, confirmed }
+ *
+ *  Authorization required: none
+ */
+
 router.get('/:id', async (req, res, next) => {
   try {
     const user = await User.getById(req.params.id);
@@ -18,6 +27,13 @@ router.get('/:id', async (req, res, next) => {
     return next(err);
   }
 });
+
+/** POST /users/contact {email, subject, body} => {message: 'Your email has been sent'} 
+ * 
+ * Sends an email to the server email from the given email, with the given subject/body
+ * 
+ * Authorization required: none
+*/
 
 router.post('/contact', async (req, res, next) => {
   try {
@@ -31,6 +47,14 @@ router.post('/contact', async (req, res, next) => {
     return next(err);
   }
 });
+
+/** PATCH /users/:username/change-email {username, email} => {token, user}
+ * 
+ * Changes the user with the given username's email to the email that was passed
+ * 
+ * Authorization required: correct user
+ * 
+ */
 
 router.patch('/:username/change-email', ensureCorrectUser, async (req, res, next) => {
   try {
@@ -46,6 +70,14 @@ router.patch('/:username/change-email', ensureCorrectUser, async (req, res, next
   }
 });
 
+/** PATCH /users/:username/change-password {username, oldPassword, newPassword} => {token, user}
+ * 
+ * Changes the user with the given username's password to the newPassword that was passed
+ * 
+ * Authorization required: correct user
+ * 
+ */
+
 router.patch('/:username/change-password', ensureCorrectUser, async (req, res, next) => {
   try {
     const username = req.params.username;
@@ -59,6 +91,13 @@ router.patch('/:username/change-password', ensureCorrectUser, async (req, res, n
     return next(err);
   }
 });
+
+/** DELETE /users/:username=>  { message }
+ * 
+ *  Deletes a user
+ *
+ *  Authorization required: correct user
+ */
 
 router.delete('/:username', ensureCorrectUser, async (req, res, next) => {
   try {
