@@ -8,10 +8,15 @@ const EARTH_RADIUS = 3958.8;
 
 const SECRET_KEY = process.env.SECRET_KEY || "secret-dev";
 const PORT = +process.env.PORT || 3001;
-const SERVER_EMAIL = {
-  email: process.env.EMAIL || 'test@test.com',
-  password: process.env.EMAIL_PASSWORD || 'testpassword'
+const EMAIL_CONFIG = {
+  key: process.env.TRUSTIFI_KEY,
+  secret: process.env.TRUSTIFI_SECRET,
+  url: process.env.TRUSTIFI_URL
 }
+// const SERVER_EMAIL = {
+//   email: process.env.EMAIL || 'test@test.com',
+//   password: process.env.EMAIL_PASSWORD || 'testpassword'
+// }
 // Use dev database, testing database, or via env var, production database
 function getDatabaseUri() {
   return (process.env.NODE_ENV === "test")
@@ -32,5 +37,5 @@ module.exports = {
   PORT,
   BCRYPT_WORK_FACTOR,
   getDatabaseUri,
-  SERVER_EMAIL
+  EMAIL_CONFIG
 };

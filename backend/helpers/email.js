@@ -1,6 +1,6 @@
-const nodeoutlook = require('nodejs-nodemailer-outlook');
-const { SERVER_EMAIL } = require('../config');
-const { createEmailToken } = require('./tokens');
+const axios = require('axios');
+const { EMAIL_CONFIG } = require('../config');
+const { createEmailToken } = require('./tokens')
 
 /**
  * 
@@ -10,30 +10,49 @@ const { createEmailToken } = require('./tokens');
  */
 
 async function sendEmail(options) {
-  console.log(SERVER_EMAIL)
   if (!options) return false;
   const { to, subject, text } = options;
-  const wasSent = await new Promise((resolve, reject) => {
-    nodeoutlook.sendEmail({
-      auth: {
-        user: SERVER_EMAIL.email,
-        pass: SERVER_EMAIL.password
-      },
-      from: SERVER_EMAIL.email,
-      to: to,
-      subject: subject,
-      text: text,
-      onError: (error) => {
-        console.log(error);
-        resolve(false);
-      },
-      onSuccess: (info) => {
-        console.log('Email sent: ' + info.response);
-        resolve(true);
+  const data = JSON.stringify({
+    'recipients': [
+      {
+        'email': `${to}`
       }
-    });
+    ],
+    'lists': [],
+    'contacts': [],
+    'attachments': [],
+    'title': `${subject}`,
+    'html': `${text}`,
+    'methods': {
+      'postmark': false,
+      'secureSend': false,
+      'encryptContent': false,
+      'secureReply': false
+    }
   });
-  return wasSent;
+
+  const config = {
+    method: 'post',
+    url: `${EMAIL_CONFIG.url}/api/i/v1/email`,
+    headers: {
+      'x-trustifi-key': `${EMAIL_CONFIG.key}`,
+      'x-trustifi-secret': `${EMAIL_CONFIG.secret}`,
+      'Content-Type': 'application/json'
+    },
+    data: data
+  };
+
+  let res;
+
+  try {
+    res = await axios(config);
+    console.log(JSON.stringify(res.data));
+  }
+  catch (err) {
+    res = err;
+    console.log(err);
+  }
+  return res;
 }
 
 /**
