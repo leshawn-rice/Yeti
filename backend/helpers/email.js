@@ -12,15 +12,14 @@ const { createEmailToken } = require('./tokens')
 async function sendEmail(options) {
   if (!options) return false;
   const { to, subject, text } = options;
+
+  // Setup the data for the actual email
   const data = JSON.stringify({
     'recipients': [
       {
         'email': `${to}`
       }
     ],
-    'lists': [],
-    'contacts': [],
-    'attachments': [],
     'title': `${subject}`,
     'html': `${text}`,
     'methods': {
@@ -41,12 +40,11 @@ async function sendEmail(options) {
     },
     data: data
   };
-
   let res;
 
   try {
     res = await axios(config);
-    console.log(JSON.stringify(res.data));
+    console.log(res.data.meta[0].message);
   }
   catch (err) {
     res = err;
@@ -66,7 +64,7 @@ function createConfirmationEmail(email) {
   if (!email || typeof (email) !== 'string') return undefined;
   const subject = 'Yeti Email Confirmation';
   const token = createEmailToken(email);
-  const text = `Confirm your email here: https://goyeti.app/confirm/${token}`;
+  const text = `Confirm your email here:\n https://goyeti.app/confirm/${token}`;
   const options = { to: email, subject, text }
   return options;
 }
